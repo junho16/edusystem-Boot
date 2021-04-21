@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edusystem.mapper.TeachtaskMapper">
+  <resultMap id="BaseResultMap" type="com.edusystem.entity.Teachtask">
+    <id column="teachtask_id" jdbcType="VARCHAR" property="teachtaskId" />
+    <result column="profession_id" jdbcType="VARCHAR" property="professionId" />
+    <result column="profession_name" jdbcType="VARCHAR" property="professionName" />
+    <result column="course_id" jdbcType="VARCHAR" property="courseId" />
+    <result column="teacher_id" jdbcType="VARCHAR" property="teacherId" />
+    <result column="class_id" jdbcType="VARCHAR" property="classId" />
+    <result column="teachtask_maxNum" jdbcType="INTEGER" property="teachtaskMaxnum" />
+    <result column="teachtask_selNum" jdbcType="INTEGER" property="teachtaskSelnum" />
+    <result column="teachtask_gradeLimit" jdbcType="VARCHAR" property="teachtaskGradelimit" />
+    <result column="teachtask_academicYear" jdbcType="INTEGER" property="teachtaskAcademicyear" />
+    <result column="teachtask_academicTerm" jdbcType="INTEGER" property="teachtaskAcademicterm" />
+    <result column="teachtask_startTime" jdbcType="INTEGER" property="teachtaskStarttime" />
+    <result column="teachtask_endTime" jdbcType="INTEGER" property="teachtaskEndtime" />
+    <result column="teachtask_isEveryWeek" jdbcType="INTEGER" property="teachtaskIseveryweek" />
+    <result column="teachtask_numLimit" jdbcType="INTEGER" property="teachtaskNumlimit" />
+    <result column="teachtask_priority" jdbcType="INTEGER" property="teachtaskPriority" />
+    <result column="teachtask_isRank" jdbcType="INTEGER" property="teachtaskIsrank" />
+    <result column="teachtask_remaerk" jdbcType="VARCHAR" property="teachtaskRemaerk" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    teachtask_id, profession_id, profession_name, course_id, teacher_id, class_id, teachtask_maxNum, 
+    teachtask_selNum, teachtask_gradeLimit, teachtask_academicYear, teachtask_academicTerm, 
+    teachtask_startTime, teachtask_endTime, teachtask_isEveryWeek, teachtask_numLimit, 
+    teachtask_priority, teachtask_isRank, teachtask_remaerk
+  </sql>
+  <select id="selectByExample" parameterType="com.edusystem.entity.TeachtaskExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from teachtask
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from teachtask
+    where teachtask_id = #{teachtaskId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from teachtask
+    where teachtask_id = #{teachtaskId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.edusystem.entity.TeachtaskExample">
+    delete from teachtask
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.edusystem.entity.Teachtask">
+    insert into teachtask (teachtask_id, profession_id, profession_name, 
+      course_id, teacher_id, class_id, 
+      teachtask_maxNum, teachtask_selNum, teachtask_gradeLimit, 
+      teachtask_academicYear, teachtask_academicTerm, 
+      teachtask_startTime, teachtask_endTime, teachtask_isEveryWeek, 
+      teachtask_numLimit, teachtask_priority, teachtask_isRank, 
+      teachtask_remaerk)
+    values (#{teachtaskId,jdbcType=VARCHAR}, #{professionId,jdbcType=VARCHAR}, #{professionName,jdbcType=VARCHAR}, 
+      #{courseId,jdbcType=VARCHAR}, #{teacherId,jdbcType=VARCHAR}, #{classId,jdbcType=VARCHAR}, 
+      #{teachtaskMaxnum,jdbcType=INTEGER}, #{teachtaskSelnum,jdbcType=INTEGER}, #{teachtaskGradelimit,jdbcType=VARCHAR}, 
+      #{teachtaskAcademicyear,jdbcType=INTEGER}, #{teachtaskAcademicterm,jdbcType=INTEGER}, 
+      #{teachtaskStarttime,jdbcType=INTEGER}, #{teachtaskEndtime,jdbcType=INTEGER}, #{teachtaskIseveryweek,jdbcType=INTEGER}, 
+      #{teachtaskNumlimit,jdbcType=INTEGER}, #{teachtaskPriority,jdbcType=INTEGER}, #{teachtaskIsrank,jdbcType=INTEGER}, 
+      #{teachtaskRemaerk,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.edusystem.entity.Teachtask">
+    insert into teachtask
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="teachtaskId != null">
+        teachtask_id,
+      </if>
+      <if test="professionId != null">
+        profession_id,
+      </if>
+      <if test="professionName != null">
+        profession_name,
+      </if>
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="teacherId != null">
+        teacher_id,
+      </if>
+      <if test="classId != null">
+        class_id,
+      </if>
+      <if test="teachtaskMaxnum != null">
+        teachtask_maxNum,
+      </if>
+      <if test="teachtaskSelnum != null">
+        teachtask_selNum,
+      </if>
+      <if test="teachtaskGradelimit != null">
+        teachtask_gradeLimit,
+      </if>
+      <if test="teachtaskAcademicyear != null">
+        teachtask_academicYear,
+      </if>
+      <if test="teachtaskAcademicterm != null">
+        teachtask_academicTerm,
+      </if>
+      <if test="teachtaskStarttime != null">
+        teachtask_startTime,
+      </if>
+      <if test="teachtaskEndtime != null">
+        teachtask_endTime,
+      </if>
+      <if test="teachtaskIseveryweek != null">
+        teachtask_isEveryWeek,
+      </if>
+      <if test="teachtaskNumlimit != null">
+        teachtask_numLimit,
+      </if>
+      <if test="teachtaskPriority != null">
+        teachtask_priority,
+      </if>
+      <if test="teachtaskIsrank != null">
+        teachtask_isRank,
+      </if>
+      <if test="teachtaskRemaerk != null">
+        teachtask_remaerk,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="teachtaskId != null">
+        #{teachtaskId,jdbcType=VARCHAR},
+      </if>
+      <if test="professionId != null">
+        #{professionId,jdbcType=VARCHAR},
+      </if>
+      <if test="professionName != null">
+        #{professionName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherId != null">
+        #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null">
+        #{classId,jdbcType=VARCHAR},
+      </if>
+      <if test="teachtaskMaxnum != null">
+        #{teachtaskMaxnum,jdbcType=INTEGER},
+      </if>
+      <if test="teachtaskSelnum != null">
+        #{teachtaskSelnum,jdbcType=INTEGER},
+      </if>
+      <if test="teachtaskGradelimit != null">
+        #{teachtaskGradelimit,jdbcType=VARCHAR},
+      </if>
+      <if test="teachtaskAcademicyear != null">
+        #{teachtaskAcademicyear,jdbcType=INTEGER},
+      </if>
+      <if test="teachtaskAcademicterm != null">
+        #{teachtaskAcademicterm,jdbcType=INTEGER},
+      </if>
+      <if test="teachtaskStarttime != null">
+        #{teachtaskStarttime,jdbcType=INTEGER},
+      </if>
+      <if test="teachtaskEndtime != null">
+        #{teachtaskEndtime,jdbcType=INTEGER},
+      </if>
+      <if test="teachtaskIseveryweek != null">
+        #{teachtaskIseveryweek,jdbcType=INTEGER},
+      </if>
+      <if test="teachtaskNumlimit != null">
+        #{teachtaskNumlimit,jdbcType=INTEGER},
+      </if>
+      <if test="teachtaskPriority != null">
+        #{teachtaskPriority,jdbcType=INTEGER},
+      </if>
+      <if test="teachtaskIsrank != null">
+        #{teachtaskIsrank,jdbcType=INTEGER},
+      </if>
+      <if test="teachtaskRemaerk != null">
+        #{teachtaskRemaerk,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.edusystem.entity.TeachtaskExample" resultType="java.lang.Long">
+    select count(*) from teachtask
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update teachtask
+    <set>
+      <if test="record.teachtaskId != null">
+        teachtask_id = #{record.teachtaskId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.professionId != null">
+        profession_id = #{record.professionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.professionName != null">
+        profession_name = #{record.professionName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseId != null">
+        course_id = #{record.courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherId != null">
+        teacher_id = #{record.teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classId != null">
+        class_id = #{record.classId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teachtaskMaxnum != null">
+        teachtask_maxNum = #{record.teachtaskMaxnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.teachtaskSelnum != null">
+        teachtask_selNum = #{record.teachtaskSelnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.teachtaskGradelimit != null">
+        teachtask_gradeLimit = #{record.teachtaskGradelimit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teachtaskAcademicyear != null">
+        teachtask_academicYear = #{record.teachtaskAcademicyear,jdbcType=INTEGER},
+      </if>
+      <if test="record.teachtaskAcademicterm != null">
+        teachtask_academicTerm = #{record.teachtaskAcademicterm,jdbcType=INTEGER},
+      </if>
+      <if test="record.teachtaskStarttime != null">
+        teachtask_startTime = #{record.teachtaskStarttime,jdbcType=INTEGER},
+      </if>
+      <if test="record.teachtaskEndtime != null">
+        teachtask_endTime = #{record.teachtaskEndtime,jdbcType=INTEGER},
+      </if>
+      <if test="record.teachtaskIseveryweek != null">
+        teachtask_isEveryWeek = #{record.teachtaskIseveryweek,jdbcType=INTEGER},
+      </if>
+      <if test="record.teachtaskNumlimit != null">
+        teachtask_numLimit = #{record.teachtaskNumlimit,jdbcType=INTEGER},
+      </if>
+      <if test="record.teachtaskPriority != null">
+        teachtask_priority = #{record.teachtaskPriority,jdbcType=INTEGER},
+      </if>
+      <if test="record.teachtaskIsrank != null">
+        teachtask_isRank = #{record.teachtaskIsrank,jdbcType=INTEGER},
+      </if>
+      <if test="record.teachtaskRemaerk != null">
+        teachtask_remaerk = #{record.teachtaskRemaerk,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update teachtask
+    set teachtask_id = #{record.teachtaskId,jdbcType=VARCHAR},
+      profession_id = #{record.professionId,jdbcType=VARCHAR},
+      profession_name = #{record.professionName,jdbcType=VARCHAR},
+      course_id = #{record.courseId,jdbcType=VARCHAR},
+      teacher_id = #{record.teacherId,jdbcType=VARCHAR},
+      class_id = #{record.classId,jdbcType=VARCHAR},
+      teachtask_maxNum = #{record.teachtaskMaxnum,jdbcType=INTEGER},
+      teachtask_selNum = #{record.teachtaskSelnum,jdbcType=INTEGER},
+      teachtask_gradeLimit = #{record.teachtaskGradelimit,jdbcType=VARCHAR},
+      teachtask_academicYear = #{record.teachtaskAcademicyear,jdbcType=INTEGER},
+      teachtask_academicTerm = #{record.teachtaskAcademicterm,jdbcType=INTEGER},
+      teachtask_startTime = #{record.teachtaskStarttime,jdbcType=INTEGER},
+      teachtask_endTime = #{record.teachtaskEndtime,jdbcType=INTEGER},
+      teachtask_isEveryWeek = #{record.teachtaskIseveryweek,jdbcType=INTEGER},
+      teachtask_numLimit = #{record.teachtaskNumlimit,jdbcType=INTEGER},
+      teachtask_priority = #{record.teachtaskPriority,jdbcType=INTEGER},
+      teachtask_isRank = #{record.teachtaskIsrank,jdbcType=INTEGER},
+      teachtask_remaerk = #{record.teachtaskRemaerk,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.edusystem.entity.Teachtask">
+    update teachtask
+    <set>
+      <if test="professionId != null">
+        profession_id = #{professionId,jdbcType=VARCHAR},
+      </if>
+      <if test="professionName != null">
+        profession_name = #{professionName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherId != null">
+        teacher_id = #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null">
+        class_id = #{classId,jdbcType=VARCHAR},
+      </if>
+      <if test="teachtaskMaxnum != null">
+        teachtask_maxNum = #{teachtaskMaxnum,jdbcType=INTEGER},
+      </if>
+      <if test="teachtaskSelnum != null">
+        teachtask_selNum = #{teachtaskSelnum,jdbcType=INTEGER},
+      </if>
+      <if test="teachtaskGradelimit != null">
+        teachtask_gradeLimit = #{teachtaskGradelimit,jdbcType=VARCHAR},
+      </if>
+      <if test="teachtaskAcademicyear != null">
+        teachtask_academicYear = #{teachtaskAcademicyear,jdbcType=INTEGER},
+      </if>
+      <if test="teachtaskAcademicterm != null">
+        teachtask_academicTerm = #{teachtaskAcademicterm,jdbcType=INTEGER},
+      </if>
+      <if test="teachtaskStarttime != null">
+        teachtask_startTime = #{teachtaskStarttime,jdbcType=INTEGER},
+      </if>
+      <if test="teachtaskEndtime != null">
+        teachtask_endTime = #{teachtaskEndtime,jdbcType=INTEGER},
+      </if>
+      <if test="teachtaskIseveryweek != null">
+        teachtask_isEveryWeek = #{teachtaskIseveryweek,jdbcType=INTEGER},
+      </if>
+      <if test="teachtaskNumlimit != null">
+        teachtask_numLimit = #{teachtaskNumlimit,jdbcType=INTEGER},
+      </if>
+      <if test="teachtaskPriority != null">
+        teachtask_priority = #{teachtaskPriority,jdbcType=INTEGER},
+      </if>
+      <if test="teachtaskIsrank != null">
+        teachtask_isRank = #{teachtaskIsrank,jdbcType=INTEGER},
+      </if>
+      <if test="teachtaskRemaerk != null">
+        teachtask_remaerk = #{teachtaskRemaerk,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where teachtask_id = #{teachtaskId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.edusystem.entity.Teachtask">
+    update teachtask
+    set profession_id = #{professionId,jdbcType=VARCHAR},
+      profession_name = #{professionName,jdbcType=VARCHAR},
+      course_id = #{courseId,jdbcType=VARCHAR},
+      teacher_id = #{teacherId,jdbcType=VARCHAR},
+      class_id = #{classId,jdbcType=VARCHAR},
+      teachtask_maxNum = #{teachtaskMaxnum,jdbcType=INTEGER},
+      teachtask_selNum = #{teachtaskSelnum,jdbcType=INTEGER},
+      teachtask_gradeLimit = #{teachtaskGradelimit,jdbcType=VARCHAR},
+      teachtask_academicYear = #{teachtaskAcademicyear,jdbcType=INTEGER},
+      teachtask_academicTerm = #{teachtaskAcademicterm,jdbcType=INTEGER},
+      teachtask_startTime = #{teachtaskStarttime,jdbcType=INTEGER},
+      teachtask_endTime = #{teachtaskEndtime,jdbcType=INTEGER},
+      teachtask_isEveryWeek = #{teachtaskIseveryweek,jdbcType=INTEGER},
+      teachtask_numLimit = #{teachtaskNumlimit,jdbcType=INTEGER},
+      teachtask_priority = #{teachtaskPriority,jdbcType=INTEGER},
+      teachtask_isRank = #{teachtaskIsrank,jdbcType=INTEGER},
+      teachtask_remaerk = #{teachtaskRemaerk,jdbcType=VARCHAR}
+    where teachtask_id = #{teachtaskId,jdbcType=VARCHAR}
+  </update>
+</mapper>

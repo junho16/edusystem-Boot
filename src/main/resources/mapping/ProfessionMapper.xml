@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edusystem.mapper.ProfessionMapper">
+  <resultMap id="BaseResultMap" type="com.edusystem.entity.Profession">
+    <id column="profession_id" jdbcType="VARCHAR" property="professionId" />
+    <result column="profession_name" jdbcType="VARCHAR" property="professionName" />
+    <result column="profession_createYear" jdbcType="VARCHAR" property="professionCreateyear" />
+    <result column="profession_studyYearNum" jdbcType="INTEGER" property="professionStudyyearnum" />
+    <result column="profession_belongSubject" jdbcType="VARCHAR" property="professionBelongsubject" />
+    <result column="college_id" jdbcType="VARCHAR" property="collegeId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    profession_id, profession_name, profession_createYear, profession_studyYearNum, profession_belongSubject, 
+    college_id
+  </sql>
+  <select id="selectByExample" parameterType="com.edusystem.entity.ProfessionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from profession
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from profession
+    where profession_id = #{professionId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from profession
+    where profession_id = #{professionId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.edusystem.entity.ProfessionExample">
+    delete from profession
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.edusystem.entity.Profession">
+    insert into profession (profession_id, profession_name, profession_createYear, 
+      profession_studyYearNum, profession_belongSubject, 
+      college_id)
+    values (#{professionId,jdbcType=VARCHAR}, #{professionName,jdbcType=VARCHAR}, #{professionCreateyear,jdbcType=VARCHAR}, 
+      #{professionStudyyearnum,jdbcType=INTEGER}, #{professionBelongsubject,jdbcType=VARCHAR}, 
+      #{collegeId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.edusystem.entity.Profession">
+    insert into profession
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="professionId != null">
+        profession_id,
+      </if>
+      <if test="professionName != null">
+        profession_name,
+      </if>
+      <if test="professionCreateyear != null">
+        profession_createYear,
+      </if>
+      <if test="professionStudyyearnum != null">
+        profession_studyYearNum,
+      </if>
+      <if test="professionBelongsubject != null">
+        profession_belongSubject,
+      </if>
+      <if test="collegeId != null">
+        college_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="professionId != null">
+        #{professionId,jdbcType=VARCHAR},
+      </if>
+      <if test="professionName != null">
+        #{professionName,jdbcType=VARCHAR},
+      </if>
+      <if test="professionCreateyear != null">
+        #{professionCreateyear,jdbcType=VARCHAR},
+      </if>
+      <if test="professionStudyyearnum != null">
+        #{professionStudyyearnum,jdbcType=INTEGER},
+      </if>
+      <if test="professionBelongsubject != null">
+        #{professionBelongsubject,jdbcType=VARCHAR},
+      </if>
+      <if test="collegeId != null">
+        #{collegeId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.edusystem.entity.ProfessionExample" resultType="java.lang.Long">
+    select count(*) from profession
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update profession
+    <set>
+      <if test="record.professionId != null">
+        profession_id = #{record.professionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.professionName != null">
+        profession_name = #{record.professionName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.professionCreateyear != null">
+        profession_createYear = #{record.professionCreateyear,jdbcType=VARCHAR},
+      </if>
+      <if test="record.professionStudyyearnum != null">
+        profession_studyYearNum = #{record.professionStudyyearnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.professionBelongsubject != null">
+        profession_belongSubject = #{record.professionBelongsubject,jdbcType=VARCHAR},
+      </if>
+      <if test="record.collegeId != null">
+        college_id = #{record.collegeId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update profession
+    set profession_id = #{record.professionId,jdbcType=VARCHAR},
+      profession_name = #{record.professionName,jdbcType=VARCHAR},
+      profession_createYear = #{record.professionCreateyear,jdbcType=VARCHAR},
+      profession_studyYearNum = #{record.professionStudyyearnum,jdbcType=INTEGER},
+      profession_belongSubject = #{record.professionBelongsubject,jdbcType=VARCHAR},
+      college_id = #{record.collegeId,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.edusystem.entity.Profession">
+    update profession
+    <set>
+      <if test="professionName != null">
+        profession_name = #{professionName,jdbcType=VARCHAR},
+      </if>
+      <if test="professionCreateyear != null">
+        profession_createYear = #{professionCreateyear,jdbcType=VARCHAR},
+      </if>
+      <if test="professionStudyyearnum != null">
+        profession_studyYearNum = #{professionStudyyearnum,jdbcType=INTEGER},
+      </if>
+      <if test="professionBelongsubject != null">
+        profession_belongSubject = #{professionBelongsubject,jdbcType=VARCHAR},
+      </if>
+      <if test="collegeId != null">
+        college_id = #{collegeId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where profession_id = #{professionId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.edusystem.entity.Profession">
+    update profession
+    set profession_name = #{professionName,jdbcType=VARCHAR},
+      profession_createYear = #{professionCreateyear,jdbcType=VARCHAR},
+      profession_studyYearNum = #{professionStudyyearnum,jdbcType=INTEGER},
+      profession_belongSubject = #{professionBelongsubject,jdbcType=VARCHAR},
+      college_id = #{collegeId,jdbcType=VARCHAR}
+    where profession_id = #{professionId,jdbcType=VARCHAR}
+  </update>
+</mapper>

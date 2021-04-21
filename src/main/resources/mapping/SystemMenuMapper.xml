@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edusystem.mapper.SystemMenuMapper">
+  <resultMap id="BaseResultMap" type="com.edusystem.entity.SystemMenu">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="component" jdbcType="VARCHAR" property="component" />
+    <result column="redirect" jdbcType="VARCHAR" property="redirect" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="meta_title" jdbcType="VARCHAR" property="metaTitle" />
+    <result column="meta_icon" jdbcType="VARCHAR" property="metaIcon" />
+    <result column="meta_nocache" jdbcType="INTEGER" property="metaNocache" />
+    <result column="alwaysshow" jdbcType="INTEGER" property="alwaysshow" />
+    <result column="meta_affix" jdbcType="INTEGER" property="metaAffix" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="hidden" jdbcType="INTEGER" property="hidden" />
+    <result column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, path, component, redirect, url, meta_title, meta_icon, meta_nocache, alwaysshow, 
+    meta_affix, type, hidden, pid, sort, status, level, ctime
+  </sql>
+  <select id="selectByExample" parameterType="com.edusystem.entity.SystemMenuExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from system_menu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from system_menu
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from system_menu
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.edusystem.entity.SystemMenuExample">
+    delete from system_menu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.edusystem.entity.SystemMenu">
+    insert into system_menu (id, name, path, 
+      component, redirect, url, 
+      meta_title, meta_icon, meta_nocache, 
+      alwaysshow, meta_affix, type, 
+      hidden, pid, sort, 
+      status, level, ctime
+      )
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
+      #{component,jdbcType=VARCHAR}, #{redirect,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{metaTitle,jdbcType=VARCHAR}, #{metaIcon,jdbcType=VARCHAR}, #{metaNocache,jdbcType=INTEGER}, 
+      #{alwaysshow,jdbcType=INTEGER}, #{metaAffix,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{hidden,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.edusystem.entity.SystemMenu">
+    insert into system_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="path != null">
+        path,
+      </if>
+      <if test="component != null">
+        component,
+      </if>
+      <if test="redirect != null">
+        redirect,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="metaTitle != null">
+        meta_title,
+      </if>
+      <if test="metaIcon != null">
+        meta_icon,
+      </if>
+      <if test="metaNocache != null">
+        meta_nocache,
+      </if>
+      <if test="alwaysshow != null">
+        alwaysshow,
+      </if>
+      <if test="metaAffix != null">
+        meta_affix,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="hidden != null">
+        hidden,
+      </if>
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="ctime != null">
+        ctime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="component != null">
+        #{component,jdbcType=VARCHAR},
+      </if>
+      <if test="redirect != null">
+        #{redirect,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="metaTitle != null">
+        #{metaTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="metaIcon != null">
+        #{metaIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="metaNocache != null">
+        #{metaNocache,jdbcType=INTEGER},
+      </if>
+      <if test="alwaysshow != null">
+        #{alwaysshow,jdbcType=INTEGER},
+      </if>
+      <if test="metaAffix != null">
+        #{metaAffix,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="hidden != null">
+        #{hidden,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null">
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.edusystem.entity.SystemMenuExample" resultType="java.lang.Long">
+    select count(*) from system_menu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update system_menu
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.path != null">
+        path = #{record.path,jdbcType=VARCHAR},
+      </if>
+      <if test="record.component != null">
+        component = #{record.component,jdbcType=VARCHAR},
+      </if>
+      <if test="record.redirect != null">
+        redirect = #{record.redirect,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.metaTitle != null">
+        meta_title = #{record.metaTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.metaIcon != null">
+        meta_icon = #{record.metaIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.metaNocache != null">
+        meta_nocache = #{record.metaNocache,jdbcType=INTEGER},
+      </if>
+      <if test="record.alwaysshow != null">
+        alwaysshow = #{record.alwaysshow,jdbcType=INTEGER},
+      </if>
+      <if test="record.metaAffix != null">
+        meta_affix = #{record.metaAffix,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.hidden != null">
+        hidden = #{record.hidden,jdbcType=INTEGER},
+      </if>
+      <if test="record.pid != null">
+        pid = #{record.pid,jdbcType=INTEGER},
+      </if>
+      <if test="record.sort != null">
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.level != null">
+        level = #{record.level,jdbcType=INTEGER},
+      </if>
+      <if test="record.ctime != null">
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update system_menu
+    set id = #{record.id,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      path = #{record.path,jdbcType=VARCHAR},
+      component = #{record.component,jdbcType=VARCHAR},
+      redirect = #{record.redirect,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      meta_title = #{record.metaTitle,jdbcType=VARCHAR},
+      meta_icon = #{record.metaIcon,jdbcType=VARCHAR},
+      meta_nocache = #{record.metaNocache,jdbcType=INTEGER},
+      alwaysshow = #{record.alwaysshow,jdbcType=INTEGER},
+      meta_affix = #{record.metaAffix,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      hidden = #{record.hidden,jdbcType=INTEGER},
+      pid = #{record.pid,jdbcType=INTEGER},
+      sort = #{record.sort,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      level = #{record.level,jdbcType=INTEGER},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.edusystem.entity.SystemMenu">
+    update system_menu
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        path = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="component != null">
+        component = #{component,jdbcType=VARCHAR},
+      </if>
+      <if test="redirect != null">
+        redirect = #{redirect,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="metaTitle != null">
+        meta_title = #{metaTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="metaIcon != null">
+        meta_icon = #{metaIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="metaNocache != null">
+        meta_nocache = #{metaNocache,jdbcType=INTEGER},
+      </if>
+      <if test="alwaysshow != null">
+        alwaysshow = #{alwaysshow,jdbcType=INTEGER},
+      </if>
+      <if test="metaAffix != null">
+        meta_affix = #{metaAffix,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="hidden != null">
+        hidden = #{hidden,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null">
+        pid = #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null">
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.edusystem.entity.SystemMenu">
+    update system_menu
+    set name = #{name,jdbcType=VARCHAR},
+      path = #{path,jdbcType=VARCHAR},
+      component = #{component,jdbcType=VARCHAR},
+      redirect = #{redirect,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      meta_title = #{metaTitle,jdbcType=VARCHAR},
+      meta_icon = #{metaIcon,jdbcType=VARCHAR},
+      meta_nocache = #{metaNocache,jdbcType=INTEGER},
+      alwaysshow = #{alwaysshow,jdbcType=INTEGER},
+      meta_affix = #{metaAffix,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      hidden = #{hidden,jdbcType=INTEGER},
+      pid = #{pid,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      level = #{level,jdbcType=INTEGER},
+      ctime = #{ctime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

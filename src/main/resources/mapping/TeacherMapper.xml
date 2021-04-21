@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edusystem.mapper.TeacherMapper">
+  <resultMap id="BaseResultMap" type="com.edusystem.entity.Teacher">
+    <id column="teacher_id" jdbcType="VARCHAR" property="teacherId" />
+    <result column="college_id" jdbcType="VARCHAR" property="collegeId" />
+    <result column="teacher_idNumber" jdbcType="VARCHAR" property="teacherIdnumber" />
+    <result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
+    <result column="teacher_gender" jdbcType="VARCHAR" property="teacherGender" />
+    <result column="teacher_age" jdbcType="INTEGER" property="teacherAge" />
+    <result column="teacher_psd" jdbcType="VARCHAR" property="teacherPsd" />
+    <result column="teacher_birthday" jdbcType="DATE" property="teacherBirthday" />
+    <result column="teacher_ethnic" jdbcType="VARCHAR" property="teacherEthnic" />
+    <result column="teacher_education" jdbcType="VARCHAR" property="teacherEducation" />
+    <result column="teacher_graduatedSchool" jdbcType="VARCHAR" property="teacherGraduatedschool" />
+    <result column="teacher_graduatedDate" jdbcType="VARCHAR" property="teacherGraduateddate" />
+    <result column="teacher_workTime" jdbcType="VARCHAR" property="teacherWorktime" />
+    <result column="teacher_degree" jdbcType="VARCHAR" property="teacherDegree" />
+    <result column="teacher_jobTitle" jdbcType="VARCHAR" property="teacherJobtitle" />
+    <result column="department_id" jdbcType="VARCHAR" property="departmentId" />
+    <result column="teacher_hometown" jdbcType="VARCHAR" property="teacherHometown" />
+    <result column="teacher_workAddress" jdbcType="VARCHAR" property="teacherWorkaddress" />
+    <result column="teacher_address" jdbcType="VARCHAR" property="teacherAddress" />
+    <result column="teacher_email" jdbcType="VARCHAR" property="teacherEmail" />
+    <result column="teacher_phone" jdbcType="VARCHAR" property="teacherPhone" />
+    <result column="teacher_xgbz" jdbcType="INTEGER" property="teacherXgbz" />
+    <result column="teacher_pic" jdbcType="VARCHAR" property="teacherPic" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    teacher_id, college_id, teacher_idNumber, teacher_name, teacher_gender, teacher_age, 
+    teacher_psd, teacher_birthday, teacher_ethnic, teacher_education, teacher_graduatedSchool, 
+    teacher_graduatedDate, teacher_workTime, teacher_degree, teacher_jobTitle, department_id, 
+    teacher_hometown, teacher_workAddress, teacher_address, teacher_email, teacher_phone, 
+    teacher_xgbz, teacher_pic
+  </sql>
+  <select id="selectByExample" parameterType="com.edusystem.entity.TeacherExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from teacher
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from teacher
+    where teacher_id = #{teacherId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from teacher
+    where teacher_id = #{teacherId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.edusystem.entity.TeacherExample">
+    delete from teacher
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.edusystem.entity.Teacher">
+    insert into teacher (teacher_id, college_id, teacher_idNumber, 
+      teacher_name, teacher_gender, teacher_age, 
+      teacher_psd, teacher_birthday, teacher_ethnic, 
+      teacher_education, teacher_graduatedSchool, 
+      teacher_graduatedDate, teacher_workTime, 
+      teacher_degree, teacher_jobTitle, department_id, 
+      teacher_hometown, teacher_workAddress, teacher_address, 
+      teacher_email, teacher_phone, teacher_xgbz, 
+      teacher_pic)
+    values (#{teacherId,jdbcType=VARCHAR}, #{collegeId,jdbcType=VARCHAR}, #{teacherIdnumber,jdbcType=VARCHAR}, 
+      #{teacherName,jdbcType=VARCHAR}, #{teacherGender,jdbcType=VARCHAR}, #{teacherAge,jdbcType=INTEGER}, 
+      #{teacherPsd,jdbcType=VARCHAR}, #{teacherBirthday,jdbcType=DATE}, #{teacherEthnic,jdbcType=VARCHAR}, 
+      #{teacherEducation,jdbcType=VARCHAR}, #{teacherGraduatedschool,jdbcType=VARCHAR}, 
+      #{teacherGraduateddate,jdbcType=VARCHAR}, #{teacherWorktime,jdbcType=VARCHAR}, 
+      #{teacherDegree,jdbcType=VARCHAR}, #{teacherJobtitle,jdbcType=VARCHAR}, #{departmentId,jdbcType=VARCHAR}, 
+      #{teacherHometown,jdbcType=VARCHAR}, #{teacherWorkaddress,jdbcType=VARCHAR}, #{teacherAddress,jdbcType=VARCHAR}, 
+      #{teacherEmail,jdbcType=VARCHAR}, #{teacherPhone,jdbcType=VARCHAR}, #{teacherXgbz,jdbcType=INTEGER}, 
+      #{teacherPic,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.edusystem.entity.Teacher">
+    insert into teacher
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="teacherId != null">
+        teacher_id,
+      </if>
+      <if test="collegeId != null">
+        college_id,
+      </if>
+      <if test="teacherIdnumber != null">
+        teacher_idNumber,
+      </if>
+      <if test="teacherName != null">
+        teacher_name,
+      </if>
+      <if test="teacherGender != null">
+        teacher_gender,
+      </if>
+      <if test="teacherAge != null">
+        teacher_age,
+      </if>
+      <if test="teacherPsd != null">
+        teacher_psd,
+      </if>
+      <if test="teacherBirthday != null">
+        teacher_birthday,
+      </if>
+      <if test="teacherEthnic != null">
+        teacher_ethnic,
+      </if>
+      <if test="teacherEducation != null">
+        teacher_education,
+      </if>
+      <if test="teacherGraduatedschool != null">
+        teacher_graduatedSchool,
+      </if>
+      <if test="teacherGraduateddate != null">
+        teacher_graduatedDate,
+      </if>
+      <if test="teacherWorktime != null">
+        teacher_workTime,
+      </if>
+      <if test="teacherDegree != null">
+        teacher_degree,
+      </if>
+      <if test="teacherJobtitle != null">
+        teacher_jobTitle,
+      </if>
+      <if test="departmentId != null">
+        department_id,
+      </if>
+      <if test="teacherHometown != null">
+        teacher_hometown,
+      </if>
+      <if test="teacherWorkaddress != null">
+        teacher_workAddress,
+      </if>
+      <if test="teacherAddress != null">
+        teacher_address,
+      </if>
+      <if test="teacherEmail != null">
+        teacher_email,
+      </if>
+      <if test="teacherPhone != null">
+        teacher_phone,
+      </if>
+      <if test="teacherXgbz != null">
+        teacher_xgbz,
+      </if>
+      <if test="teacherPic != null">
+        teacher_pic,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="teacherId != null">
+        #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="collegeId != null">
+        #{collegeId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherIdnumber != null">
+        #{teacherIdnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherName != null">
+        #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherGender != null">
+        #{teacherGender,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherAge != null">
+        #{teacherAge,jdbcType=INTEGER},
+      </if>
+      <if test="teacherPsd != null">
+        #{teacherPsd,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherBirthday != null">
+        #{teacherBirthday,jdbcType=DATE},
+      </if>
+      <if test="teacherEthnic != null">
+        #{teacherEthnic,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherEducation != null">
+        #{teacherEducation,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherGraduatedschool != null">
+        #{teacherGraduatedschool,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherGraduateddate != null">
+        #{teacherGraduateddate,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherWorktime != null">
+        #{teacherWorktime,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherDegree != null">
+        #{teacherDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherJobtitle != null">
+        #{teacherJobtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null">
+        #{departmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherHometown != null">
+        #{teacherHometown,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherWorkaddress != null">
+        #{teacherWorkaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherAddress != null">
+        #{teacherAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherEmail != null">
+        #{teacherEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherPhone != null">
+        #{teacherPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherXgbz != null">
+        #{teacherXgbz,jdbcType=INTEGER},
+      </if>
+      <if test="teacherPic != null">
+        #{teacherPic,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.edusystem.entity.TeacherExample" resultType="java.lang.Long">
+    select count(*) from teacher
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update teacher
+    <set>
+      <if test="record.teacherId != null">
+        teacher_id = #{record.teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.collegeId != null">
+        college_id = #{record.collegeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherIdnumber != null">
+        teacher_idNumber = #{record.teacherIdnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherName != null">
+        teacher_name = #{record.teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherGender != null">
+        teacher_gender = #{record.teacherGender,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherAge != null">
+        teacher_age = #{record.teacherAge,jdbcType=INTEGER},
+      </if>
+      <if test="record.teacherPsd != null">
+        teacher_psd = #{record.teacherPsd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherBirthday != null">
+        teacher_birthday = #{record.teacherBirthday,jdbcType=DATE},
+      </if>
+      <if test="record.teacherEthnic != null">
+        teacher_ethnic = #{record.teacherEthnic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherEducation != null">
+        teacher_education = #{record.teacherEducation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherGraduatedschool != null">
+        teacher_graduatedSchool = #{record.teacherGraduatedschool,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherGraduateddate != null">
+        teacher_graduatedDate = #{record.teacherGraduateddate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherWorktime != null">
+        teacher_workTime = #{record.teacherWorktime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherDegree != null">
+        teacher_degree = #{record.teacherDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherJobtitle != null">
+        teacher_jobTitle = #{record.teacherJobtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departmentId != null">
+        department_id = #{record.departmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherHometown != null">
+        teacher_hometown = #{record.teacherHometown,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherWorkaddress != null">
+        teacher_workAddress = #{record.teacherWorkaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherAddress != null">
+        teacher_address = #{record.teacherAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherEmail != null">
+        teacher_email = #{record.teacherEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherPhone != null">
+        teacher_phone = #{record.teacherPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherXgbz != null">
+        teacher_xgbz = #{record.teacherXgbz,jdbcType=INTEGER},
+      </if>
+      <if test="record.teacherPic != null">
+        teacher_pic = #{record.teacherPic,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update teacher
+    set teacher_id = #{record.teacherId,jdbcType=VARCHAR},
+      college_id = #{record.collegeId,jdbcType=VARCHAR},
+      teacher_idNumber = #{record.teacherIdnumber,jdbcType=VARCHAR},
+      teacher_name = #{record.teacherName,jdbcType=VARCHAR},
+      teacher_gender = #{record.teacherGender,jdbcType=VARCHAR},
+      teacher_age = #{record.teacherAge,jdbcType=INTEGER},
+      teacher_psd = #{record.teacherPsd,jdbcType=VARCHAR},
+      teacher_birthday = #{record.teacherBirthday,jdbcType=DATE},
+      teacher_ethnic = #{record.teacherEthnic,jdbcType=VARCHAR},
+      teacher_education = #{record.teacherEducation,jdbcType=VARCHAR},
+      teacher_graduatedSchool = #{record.teacherGraduatedschool,jdbcType=VARCHAR},
+      teacher_graduatedDate = #{record.teacherGraduateddate,jdbcType=VARCHAR},
+      teacher_workTime = #{record.teacherWorktime,jdbcType=VARCHAR},
+      teacher_degree = #{record.teacherDegree,jdbcType=VARCHAR},
+      teacher_jobTitle = #{record.teacherJobtitle,jdbcType=VARCHAR},
+      department_id = #{record.departmentId,jdbcType=VARCHAR},
+      teacher_hometown = #{record.teacherHometown,jdbcType=VARCHAR},
+      teacher_workAddress = #{record.teacherWorkaddress,jdbcType=VARCHAR},
+      teacher_address = #{record.teacherAddress,jdbcType=VARCHAR},
+      teacher_email = #{record.teacherEmail,jdbcType=VARCHAR},
+      teacher_phone = #{record.teacherPhone,jdbcType=VARCHAR},
+      teacher_xgbz = #{record.teacherXgbz,jdbcType=INTEGER},
+      teacher_pic = #{record.teacherPic,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.edusystem.entity.Teacher">
+    update teacher
+    <set>
+      <if test="collegeId != null">
+        college_id = #{collegeId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherIdnumber != null">
+        teacher_idNumber = #{teacherIdnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherName != null">
+        teacher_name = #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherGender != null">
+        teacher_gender = #{teacherGender,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherAge != null">
+        teacher_age = #{teacherAge,jdbcType=INTEGER},
+      </if>
+      <if test="teacherPsd != null">
+        teacher_psd = #{teacherPsd,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherBirthday != null">
+        teacher_birthday = #{teacherBirthday,jdbcType=DATE},
+      </if>
+      <if test="teacherEthnic != null">
+        teacher_ethnic = #{teacherEthnic,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherEducation != null">
+        teacher_education = #{teacherEducation,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherGraduatedschool != null">
+        teacher_graduatedSchool = #{teacherGraduatedschool,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherGraduateddate != null">
+        teacher_graduatedDate = #{teacherGraduateddate,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherWorktime != null">
+        teacher_workTime = #{teacherWorktime,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherDegree != null">
+        teacher_degree = #{teacherDegree,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherJobtitle != null">
+        teacher_jobTitle = #{teacherJobtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null">
+        department_id = #{departmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherHometown != null">
+        teacher_hometown = #{teacherHometown,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherWorkaddress != null">
+        teacher_workAddress = #{teacherWorkaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherAddress != null">
+        teacher_address = #{teacherAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherEmail != null">
+        teacher_email = #{teacherEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherPhone != null">
+        teacher_phone = #{teacherPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherXgbz != null">
+        teacher_xgbz = #{teacherXgbz,jdbcType=INTEGER},
+      </if>
+      <if test="teacherPic != null">
+        teacher_pic = #{teacherPic,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where teacher_id = #{teacherId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.edusystem.entity.Teacher">
+    update teacher
+    set college_id = #{collegeId,jdbcType=VARCHAR},
+      teacher_idNumber = #{teacherIdnumber,jdbcType=VARCHAR},
+      teacher_name = #{teacherName,jdbcType=VARCHAR},
+      teacher_gender = #{teacherGender,jdbcType=VARCHAR},
+      teacher_age = #{teacherAge,jdbcType=INTEGER},
+      teacher_psd = #{teacherPsd,jdbcType=VARCHAR},
+      teacher_birthday = #{teacherBirthday,jdbcType=DATE},
+      teacher_ethnic = #{teacherEthnic,jdbcType=VARCHAR},
+      teacher_education = #{teacherEducation,jdbcType=VARCHAR},
+      teacher_graduatedSchool = #{teacherGraduatedschool,jdbcType=VARCHAR},
+      teacher_graduatedDate = #{teacherGraduateddate,jdbcType=VARCHAR},
+      teacher_workTime = #{teacherWorktime,jdbcType=VARCHAR},
+      teacher_degree = #{teacherDegree,jdbcType=VARCHAR},
+      teacher_jobTitle = #{teacherJobtitle,jdbcType=VARCHAR},
+      department_id = #{departmentId,jdbcType=VARCHAR},
+      teacher_hometown = #{teacherHometown,jdbcType=VARCHAR},
+      teacher_workAddress = #{teacherWorkaddress,jdbcType=VARCHAR},
+      teacher_address = #{teacherAddress,jdbcType=VARCHAR},
+      teacher_email = #{teacherEmail,jdbcType=VARCHAR},
+      teacher_phone = #{teacherPhone,jdbcType=VARCHAR},
+      teacher_xgbz = #{teacherXgbz,jdbcType=INTEGER},
+      teacher_pic = #{teacherPic,jdbcType=VARCHAR}
+    where teacher_id = #{teacherId,jdbcType=VARCHAR}
+  </update>
+</mapper>

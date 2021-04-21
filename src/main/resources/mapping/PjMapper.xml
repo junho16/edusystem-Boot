@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edusystem.mapper.PjMapper">
+  <resultMap id="BaseResultMap" type="com.edusystem.entity.Pj">
+    <id column="pj_id" jdbcType="VARCHAR" property="pjId" />
+    <result column="teacher_id" jdbcType="VARCHAR" property="teacherId" />
+    <result column="student_id" jdbcType="VARCHAR" property="studentId" />
+    <result column="teachtask_id" jdbcType="VARCHAR" property="teachtaskId" />
+    <result column="pjx_id" jdbcType="VARCHAR" property="pjxId" />
+    <result column="pjx_name" jdbcType="VARCHAR" property="pjxName" />
+    <result column="pj_res" jdbcType="INTEGER" property="pjRes" />
+    <result column="pj_remark" jdbcType="VARCHAR" property="pjRemark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    pj_id, teacher_id, student_id, teachtask_id, pjx_id, pjx_name, pj_res, pj_remark
+  </sql>
+  <select id="selectByExample" parameterType="com.edusystem.entity.PjExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pj
+    where pj_id = #{pjId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from pj
+    where pj_id = #{pjId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.edusystem.entity.PjExample">
+    delete from pj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.edusystem.entity.Pj">
+    insert into pj (pj_id, teacher_id, student_id, 
+      teachtask_id, pjx_id, pjx_name, 
+      pj_res, pj_remark)
+    values (#{pjId,jdbcType=VARCHAR}, #{teacherId,jdbcType=VARCHAR}, #{studentId,jdbcType=VARCHAR}, 
+      #{teachtaskId,jdbcType=VARCHAR}, #{pjxId,jdbcType=VARCHAR}, #{pjxName,jdbcType=VARCHAR}, 
+      #{pjRes,jdbcType=INTEGER}, #{pjRemark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.edusystem.entity.Pj">
+    insert into pj
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pjId != null">
+        pj_id,
+      </if>
+      <if test="teacherId != null">
+        teacher_id,
+      </if>
+      <if test="studentId != null">
+        student_id,
+      </if>
+      <if test="teachtaskId != null">
+        teachtask_id,
+      </if>
+      <if test="pjxId != null">
+        pjx_id,
+      </if>
+      <if test="pjxName != null">
+        pjx_name,
+      </if>
+      <if test="pjRes != null">
+        pj_res,
+      </if>
+      <if test="pjRemark != null">
+        pj_remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pjId != null">
+        #{pjId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherId != null">
+        #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null">
+        #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="teachtaskId != null">
+        #{teachtaskId,jdbcType=VARCHAR},
+      </if>
+      <if test="pjxId != null">
+        #{pjxId,jdbcType=VARCHAR},
+      </if>
+      <if test="pjxName != null">
+        #{pjxName,jdbcType=VARCHAR},
+      </if>
+      <if test="pjRes != null">
+        #{pjRes,jdbcType=INTEGER},
+      </if>
+      <if test="pjRemark != null">
+        #{pjRemark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.edusystem.entity.PjExample" resultType="java.lang.Long">
+    select count(*) from pj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pj
+    <set>
+      <if test="record.pjId != null">
+        pj_id = #{record.pjId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherId != null">
+        teacher_id = #{record.teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentId != null">
+        student_id = #{record.studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teachtaskId != null">
+        teachtask_id = #{record.teachtaskId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pjxId != null">
+        pjx_id = #{record.pjxId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pjxName != null">
+        pjx_name = #{record.pjxName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pjRes != null">
+        pj_res = #{record.pjRes,jdbcType=INTEGER},
+      </if>
+      <if test="record.pjRemark != null">
+        pj_remark = #{record.pjRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pj
+    set pj_id = #{record.pjId,jdbcType=VARCHAR},
+      teacher_id = #{record.teacherId,jdbcType=VARCHAR},
+      student_id = #{record.studentId,jdbcType=VARCHAR},
+      teachtask_id = #{record.teachtaskId,jdbcType=VARCHAR},
+      pjx_id = #{record.pjxId,jdbcType=VARCHAR},
+      pjx_name = #{record.pjxName,jdbcType=VARCHAR},
+      pj_res = #{record.pjRes,jdbcType=INTEGER},
+      pj_remark = #{record.pjRemark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.edusystem.entity.Pj">
+    update pj
+    <set>
+      <if test="teacherId != null">
+        teacher_id = #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null">
+        student_id = #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="teachtaskId != null">
+        teachtask_id = #{teachtaskId,jdbcType=VARCHAR},
+      </if>
+      <if test="pjxId != null">
+        pjx_id = #{pjxId,jdbcType=VARCHAR},
+      </if>
+      <if test="pjxName != null">
+        pjx_name = #{pjxName,jdbcType=VARCHAR},
+      </if>
+      <if test="pjRes != null">
+        pj_res = #{pjRes,jdbcType=INTEGER},
+      </if>
+      <if test="pjRemark != null">
+        pj_remark = #{pjRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pj_id = #{pjId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.edusystem.entity.Pj">
+    update pj
+    set teacher_id = #{teacherId,jdbcType=VARCHAR},
+      student_id = #{studentId,jdbcType=VARCHAR},
+      teachtask_id = #{teachtaskId,jdbcType=VARCHAR},
+      pjx_id = #{pjxId,jdbcType=VARCHAR},
+      pjx_name = #{pjxName,jdbcType=VARCHAR},
+      pj_res = #{pjRes,jdbcType=INTEGER},
+      pj_remark = #{pjRemark,jdbcType=VARCHAR}
+    where pj_id = #{pjId,jdbcType=VARCHAR}
+  </update>
+</mapper>

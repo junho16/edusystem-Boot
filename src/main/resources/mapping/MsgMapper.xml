@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edusystem.mapper.MsgMapper">
+  <resultMap id="BaseResultMap" type="com.edusystem.entity.Msg">
+    <id column="msg_id" jdbcType="VARCHAR" property="msgId" />
+    <result column="student_id" jdbcType="VARCHAR" property="studentId" />
+    <result column="student_name" jdbcType="VARCHAR" property="studentName" />
+    <result column="msg_title" jdbcType="VARCHAR" property="msgTitle" />
+    <result column="msg_content" jdbcType="VARCHAR" property="msgContent" />
+    <result column="msg_createTime" jdbcType="DATE" property="msgCreatetime" />
+    <result column="msg_isReply" jdbcType="VARCHAR" property="msgIsreply" />
+    <result column="msg_replyContent" jdbcType="VARCHAR" property="msgReplycontent" />
+    <result column="msg_replyTime" jdbcType="DATE" property="msgReplytime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    msg_id, student_id, student_name, msg_title, msg_content, msg_createTime, msg_isReply, 
+    msg_replyContent, msg_replyTime
+  </sql>
+  <select id="selectByExample" parameterType="com.edusystem.entity.MsgExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from msg
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from msg
+    where msg_id = #{msgId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from msg
+    where msg_id = #{msgId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.edusystem.entity.MsgExample">
+    delete from msg
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.edusystem.entity.Msg">
+    insert into msg (msg_id, student_id, student_name, 
+      msg_title, msg_content, msg_createTime, 
+      msg_isReply, msg_replyContent, msg_replyTime
+      )
+    values (#{msgId,jdbcType=VARCHAR}, #{studentId,jdbcType=VARCHAR}, #{studentName,jdbcType=VARCHAR}, 
+      #{msgTitle,jdbcType=VARCHAR}, #{msgContent,jdbcType=VARCHAR}, #{msgCreatetime,jdbcType=DATE}, 
+      #{msgIsreply,jdbcType=VARCHAR}, #{msgReplycontent,jdbcType=VARCHAR}, #{msgReplytime,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.edusystem.entity.Msg">
+    insert into msg
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="msgId != null">
+        msg_id,
+      </if>
+      <if test="studentId != null">
+        student_id,
+      </if>
+      <if test="studentName != null">
+        student_name,
+      </if>
+      <if test="msgTitle != null">
+        msg_title,
+      </if>
+      <if test="msgContent != null">
+        msg_content,
+      </if>
+      <if test="msgCreatetime != null">
+        msg_createTime,
+      </if>
+      <if test="msgIsreply != null">
+        msg_isReply,
+      </if>
+      <if test="msgReplycontent != null">
+        msg_replyContent,
+      </if>
+      <if test="msgReplytime != null">
+        msg_replyTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="msgId != null">
+        #{msgId,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null">
+        #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="studentName != null">
+        #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="msgTitle != null">
+        #{msgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="msgContent != null">
+        #{msgContent,jdbcType=VARCHAR},
+      </if>
+      <if test="msgCreatetime != null">
+        #{msgCreatetime,jdbcType=DATE},
+      </if>
+      <if test="msgIsreply != null">
+        #{msgIsreply,jdbcType=VARCHAR},
+      </if>
+      <if test="msgReplycontent != null">
+        #{msgReplycontent,jdbcType=VARCHAR},
+      </if>
+      <if test="msgReplytime != null">
+        #{msgReplytime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.edusystem.entity.MsgExample" resultType="java.lang.Long">
+    select count(*) from msg
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update msg
+    <set>
+      <if test="record.msgId != null">
+        msg_id = #{record.msgId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentId != null">
+        student_id = #{record.studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentName != null">
+        student_name = #{record.studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.msgTitle != null">
+        msg_title = #{record.msgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.msgContent != null">
+        msg_content = #{record.msgContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.msgCreatetime != null">
+        msg_createTime = #{record.msgCreatetime,jdbcType=DATE},
+      </if>
+      <if test="record.msgIsreply != null">
+        msg_isReply = #{record.msgIsreply,jdbcType=VARCHAR},
+      </if>
+      <if test="record.msgReplycontent != null">
+        msg_replyContent = #{record.msgReplycontent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.msgReplytime != null">
+        msg_replyTime = #{record.msgReplytime,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update msg
+    set msg_id = #{record.msgId,jdbcType=VARCHAR},
+      student_id = #{record.studentId,jdbcType=VARCHAR},
+      student_name = #{record.studentName,jdbcType=VARCHAR},
+      msg_title = #{record.msgTitle,jdbcType=VARCHAR},
+      msg_content = #{record.msgContent,jdbcType=VARCHAR},
+      msg_createTime = #{record.msgCreatetime,jdbcType=DATE},
+      msg_isReply = #{record.msgIsreply,jdbcType=VARCHAR},
+      msg_replyContent = #{record.msgReplycontent,jdbcType=VARCHAR},
+      msg_replyTime = #{record.msgReplytime,jdbcType=DATE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.edusystem.entity.Msg">
+    update msg
+    <set>
+      <if test="studentId != null">
+        student_id = #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="studentName != null">
+        student_name = #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="msgTitle != null">
+        msg_title = #{msgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="msgContent != null">
+        msg_content = #{msgContent,jdbcType=VARCHAR},
+      </if>
+      <if test="msgCreatetime != null">
+        msg_createTime = #{msgCreatetime,jdbcType=DATE},
+      </if>
+      <if test="msgIsreply != null">
+        msg_isReply = #{msgIsreply,jdbcType=VARCHAR},
+      </if>
+      <if test="msgReplycontent != null">
+        msg_replyContent = #{msgReplycontent,jdbcType=VARCHAR},
+      </if>
+      <if test="msgReplytime != null">
+        msg_replyTime = #{msgReplytime,jdbcType=DATE},
+      </if>
+    </set>
+    where msg_id = #{msgId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.edusystem.entity.Msg">
+    update msg
+    set student_id = #{studentId,jdbcType=VARCHAR},
+      student_name = #{studentName,jdbcType=VARCHAR},
+      msg_title = #{msgTitle,jdbcType=VARCHAR},
+      msg_content = #{msgContent,jdbcType=VARCHAR},
+      msg_createTime = #{msgCreatetime,jdbcType=DATE},
+      msg_isReply = #{msgIsreply,jdbcType=VARCHAR},
+      msg_replyContent = #{msgReplycontent,jdbcType=VARCHAR},
+      msg_replyTime = #{msgReplytime,jdbcType=DATE}
+    where msg_id = #{msgId,jdbcType=VARCHAR}
+  </update>
+</mapper>

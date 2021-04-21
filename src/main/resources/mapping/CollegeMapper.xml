@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edusystem.mapper.CollegeMapper">
+  <resultMap id="BaseResultMap" type="com.edusystem.entity.College">
+    <id column="college_id" jdbcType="VARCHAR" property="collegeId" />
+    <result column="college_name" jdbcType="VARCHAR" property="collegeName" />
+    <result column="college_principal" jdbcType="VARCHAR" property="collegePrincipal" />
+    <result column="college_workernum" jdbcType="INTEGER" property="collegeWorkernum" />
+    <result column="college_studentnum" jdbcType="INTEGER" property="collegeStudentnum" />
+    <result column="college_phone" jdbcType="VARCHAR" property="collegePhone" />
+    <result column="college_address" jdbcType="VARCHAR" property="collegeAddress" />
+    <result column="college_buildingaddress" jdbcType="VARCHAR" property="collegeBuildingaddress" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    college_id, college_name, college_principal, college_workernum, college_studentnum, 
+    college_phone, college_address, college_buildingaddress
+  </sql>
+  <select id="selectByExample" parameterType="com.edusystem.entity.CollegeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from college
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from college
+    where college_id = #{collegeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from college
+    where college_id = #{collegeId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.edusystem.entity.CollegeExample">
+    delete from college
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.edusystem.entity.College">
+    insert into college (college_id, college_name, college_principal, 
+      college_workernum, college_studentnum, college_phone, 
+      college_address, college_buildingaddress)
+    values (#{collegeId,jdbcType=VARCHAR}, #{collegeName,jdbcType=VARCHAR}, #{collegePrincipal,jdbcType=VARCHAR}, 
+      #{collegeWorkernum,jdbcType=INTEGER}, #{collegeStudentnum,jdbcType=INTEGER}, #{collegePhone,jdbcType=VARCHAR}, 
+      #{collegeAddress,jdbcType=VARCHAR}, #{collegeBuildingaddress,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.edusystem.entity.College">
+    insert into college
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="collegeId != null">
+        college_id,
+      </if>
+      <if test="collegeName != null">
+        college_name,
+      </if>
+      <if test="collegePrincipal != null">
+        college_principal,
+      </if>
+      <if test="collegeWorkernum != null">
+        college_workernum,
+      </if>
+      <if test="collegeStudentnum != null">
+        college_studentnum,
+      </if>
+      <if test="collegePhone != null">
+        college_phone,
+      </if>
+      <if test="collegeAddress != null">
+        college_address,
+      </if>
+      <if test="collegeBuildingaddress != null">
+        college_buildingaddress,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="collegeId != null">
+        #{collegeId,jdbcType=VARCHAR},
+      </if>
+      <if test="collegeName != null">
+        #{collegeName,jdbcType=VARCHAR},
+      </if>
+      <if test="collegePrincipal != null">
+        #{collegePrincipal,jdbcType=VARCHAR},
+      </if>
+      <if test="collegeWorkernum != null">
+        #{collegeWorkernum,jdbcType=INTEGER},
+      </if>
+      <if test="collegeStudentnum != null">
+        #{collegeStudentnum,jdbcType=INTEGER},
+      </if>
+      <if test="collegePhone != null">
+        #{collegePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="collegeAddress != null">
+        #{collegeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="collegeBuildingaddress != null">
+        #{collegeBuildingaddress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.edusystem.entity.CollegeExample" resultType="java.lang.Long">
+    select count(*) from college
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update college
+    <set>
+      <if test="record.collegeId != null">
+        college_id = #{record.collegeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.collegeName != null">
+        college_name = #{record.collegeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.collegePrincipal != null">
+        college_principal = #{record.collegePrincipal,jdbcType=VARCHAR},
+      </if>
+      <if test="record.collegeWorkernum != null">
+        college_workernum = #{record.collegeWorkernum,jdbcType=INTEGER},
+      </if>
+      <if test="record.collegeStudentnum != null">
+        college_studentnum = #{record.collegeStudentnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.collegePhone != null">
+        college_phone = #{record.collegePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.collegeAddress != null">
+        college_address = #{record.collegeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.collegeBuildingaddress != null">
+        college_buildingaddress = #{record.collegeBuildingaddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update college
+    set college_id = #{record.collegeId,jdbcType=VARCHAR},
+      college_name = #{record.collegeName,jdbcType=VARCHAR},
+      college_principal = #{record.collegePrincipal,jdbcType=VARCHAR},
+      college_workernum = #{record.collegeWorkernum,jdbcType=INTEGER},
+      college_studentnum = #{record.collegeStudentnum,jdbcType=INTEGER},
+      college_phone = #{record.collegePhone,jdbcType=VARCHAR},
+      college_address = #{record.collegeAddress,jdbcType=VARCHAR},
+      college_buildingaddress = #{record.collegeBuildingaddress,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.edusystem.entity.College">
+    update college
+    <set>
+      <if test="collegeName != null">
+        college_name = #{collegeName,jdbcType=VARCHAR},
+      </if>
+      <if test="collegePrincipal != null">
+        college_principal = #{collegePrincipal,jdbcType=VARCHAR},
+      </if>
+      <if test="collegeWorkernum != null">
+        college_workernum = #{collegeWorkernum,jdbcType=INTEGER},
+      </if>
+      <if test="collegeStudentnum != null">
+        college_studentnum = #{collegeStudentnum,jdbcType=INTEGER},
+      </if>
+      <if test="collegePhone != null">
+        college_phone = #{collegePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="collegeAddress != null">
+        college_address = #{collegeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="collegeBuildingaddress != null">
+        college_buildingaddress = #{collegeBuildingaddress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where college_id = #{collegeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.edusystem.entity.College">
+    update college
+    set college_name = #{collegeName,jdbcType=VARCHAR},
+      college_principal = #{collegePrincipal,jdbcType=VARCHAR},
+      college_workernum = #{collegeWorkernum,jdbcType=INTEGER},
+      college_studentnum = #{collegeStudentnum,jdbcType=INTEGER},
+      college_phone = #{collegePhone,jdbcType=VARCHAR},
+      college_address = #{collegeAddress,jdbcType=VARCHAR},
+      college_buildingaddress = #{collegeBuildingaddress,jdbcType=VARCHAR}
+    where college_id = #{collegeId,jdbcType=VARCHAR}
+  </update>
+</mapper>

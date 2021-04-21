@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edusystem.mapper.SturecordMapper">
+  <resultMap id="BaseResultMap" type="com.edusystem.entity.Sturecord">
+    <id column="student_id" jdbcType="VARCHAR" property="studentId" />
+    <result column="sturecord_polite" jdbcType="VARCHAR" property="sturecordPolite" />
+    <result column="sturecord_rdsj" jdbcType="DATE" property="sturecordRdsj" />
+    <result column="sturecord_graduateDate" jdbcType="DATE" property="sturecordGraduatedate" />
+    <result column="sturecord_graduateNumber" jdbcType="VARCHAR" property="sturecordGraduatenumber" />
+    <result column="sturecord_diplomaNumber" jdbcType="VARCHAR" property="sturecordDiplomanumber" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.edusystem.entity.SturecordWithBLOBs">
+    <result column="sturecord_studyHistory" jdbcType="LONGVARCHAR" property="sturecordStudyhistory" />
+    <result column="sturecord_jtcyqk" jdbcType="LONGVARCHAR" property="sturecordJtcyqk" />
+    <result column="sturecord_changeRecord" jdbcType="LONGVARCHAR" property="sturecordChangerecord" />
+    <result column="sturecord_rewardHistory" jdbcType="LONGVARCHAR" property="sturecordRewardhistory" />
+    <result column="sturecord_punishHistory" jdbcType="LONGVARCHAR" property="sturecordPunishhistory" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    student_id, sturecord_polite, sturecord_rdsj, sturecord_graduateDate, sturecord_graduateNumber, 
+    sturecord_diplomaNumber
+  </sql>
+  <sql id="Blob_Column_List">
+    sturecord_studyHistory, sturecord_jtcyqk, sturecord_changeRecord, sturecord_rewardHistory, 
+    sturecord_punishHistory
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.edusystem.entity.SturecordExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sturecord
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.edusystem.entity.SturecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sturecord
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sturecord
+    where student_id = #{studentId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sturecord
+    where student_id = #{studentId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.edusystem.entity.SturecordExample">
+    delete from sturecord
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.edusystem.entity.SturecordWithBLOBs">
+    insert into sturecord (student_id, sturecord_polite, sturecord_rdsj, 
+      sturecord_graduateDate, sturecord_graduateNumber, 
+      sturecord_diplomaNumber, sturecord_studyHistory, 
+      sturecord_jtcyqk, sturecord_changeRecord, 
+      sturecord_rewardHistory, sturecord_punishHistory
+      )
+    values (#{studentId,jdbcType=VARCHAR}, #{sturecordPolite,jdbcType=VARCHAR}, #{sturecordRdsj,jdbcType=DATE}, 
+      #{sturecordGraduatedate,jdbcType=DATE}, #{sturecordGraduatenumber,jdbcType=VARCHAR}, 
+      #{sturecordDiplomanumber,jdbcType=VARCHAR}, #{sturecordStudyhistory,jdbcType=LONGVARCHAR}, 
+      #{sturecordJtcyqk,jdbcType=LONGVARCHAR}, #{sturecordChangerecord,jdbcType=LONGVARCHAR}, 
+      #{sturecordRewardhistory,jdbcType=LONGVARCHAR}, #{sturecordPunishhistory,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.edusystem.entity.SturecordWithBLOBs">
+    insert into sturecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="studentId != null">
+        student_id,
+      </if>
+      <if test="sturecordPolite != null">
+        sturecord_polite,
+      </if>
+      <if test="sturecordRdsj != null">
+        sturecord_rdsj,
+      </if>
+      <if test="sturecordGraduatedate != null">
+        sturecord_graduateDate,
+      </if>
+      <if test="sturecordGraduatenumber != null">
+        sturecord_graduateNumber,
+      </if>
+      <if test="sturecordDiplomanumber != null">
+        sturecord_diplomaNumber,
+      </if>
+      <if test="sturecordStudyhistory != null">
+        sturecord_studyHistory,
+      </if>
+      <if test="sturecordJtcyqk != null">
+        sturecord_jtcyqk,
+      </if>
+      <if test="sturecordChangerecord != null">
+        sturecord_changeRecord,
+      </if>
+      <if test="sturecordRewardhistory != null">
+        sturecord_rewardHistory,
+      </if>
+      <if test="sturecordPunishhistory != null">
+        sturecord_punishHistory,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="studentId != null">
+        #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="sturecordPolite != null">
+        #{sturecordPolite,jdbcType=VARCHAR},
+      </if>
+      <if test="sturecordRdsj != null">
+        #{sturecordRdsj,jdbcType=DATE},
+      </if>
+      <if test="sturecordGraduatedate != null">
+        #{sturecordGraduatedate,jdbcType=DATE},
+      </if>
+      <if test="sturecordGraduatenumber != null">
+        #{sturecordGraduatenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sturecordDiplomanumber != null">
+        #{sturecordDiplomanumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sturecordStudyhistory != null">
+        #{sturecordStudyhistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sturecordJtcyqk != null">
+        #{sturecordJtcyqk,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sturecordChangerecord != null">
+        #{sturecordChangerecord,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sturecordRewardhistory != null">
+        #{sturecordRewardhistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sturecordPunishhistory != null">
+        #{sturecordPunishhistory,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.edusystem.entity.SturecordExample" resultType="java.lang.Long">
+    select count(*) from sturecord
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sturecord
+    <set>
+      <if test="record.studentId != null">
+        student_id = #{record.studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sturecordPolite != null">
+        sturecord_polite = #{record.sturecordPolite,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sturecordRdsj != null">
+        sturecord_rdsj = #{record.sturecordRdsj,jdbcType=DATE},
+      </if>
+      <if test="record.sturecordGraduatedate != null">
+        sturecord_graduateDate = #{record.sturecordGraduatedate,jdbcType=DATE},
+      </if>
+      <if test="record.sturecordGraduatenumber != null">
+        sturecord_graduateNumber = #{record.sturecordGraduatenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sturecordDiplomanumber != null">
+        sturecord_diplomaNumber = #{record.sturecordDiplomanumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sturecordStudyhistory != null">
+        sturecord_studyHistory = #{record.sturecordStudyhistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.sturecordJtcyqk != null">
+        sturecord_jtcyqk = #{record.sturecordJtcyqk,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.sturecordChangerecord != null">
+        sturecord_changeRecord = #{record.sturecordChangerecord,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.sturecordRewardhistory != null">
+        sturecord_rewardHistory = #{record.sturecordRewardhistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.sturecordPunishhistory != null">
+        sturecord_punishHistory = #{record.sturecordPunishhistory,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update sturecord
+    set student_id = #{record.studentId,jdbcType=VARCHAR},
+      sturecord_polite = #{record.sturecordPolite,jdbcType=VARCHAR},
+      sturecord_rdsj = #{record.sturecordRdsj,jdbcType=DATE},
+      sturecord_graduateDate = #{record.sturecordGraduatedate,jdbcType=DATE},
+      sturecord_graduateNumber = #{record.sturecordGraduatenumber,jdbcType=VARCHAR},
+      sturecord_diplomaNumber = #{record.sturecordDiplomanumber,jdbcType=VARCHAR},
+      sturecord_studyHistory = #{record.sturecordStudyhistory,jdbcType=LONGVARCHAR},
+      sturecord_jtcyqk = #{record.sturecordJtcyqk,jdbcType=LONGVARCHAR},
+      sturecord_changeRecord = #{record.sturecordChangerecord,jdbcType=LONGVARCHAR},
+      sturecord_rewardHistory = #{record.sturecordRewardhistory,jdbcType=LONGVARCHAR},
+      sturecord_punishHistory = #{record.sturecordPunishhistory,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sturecord
+    set student_id = #{record.studentId,jdbcType=VARCHAR},
+      sturecord_polite = #{record.sturecordPolite,jdbcType=VARCHAR},
+      sturecord_rdsj = #{record.sturecordRdsj,jdbcType=DATE},
+      sturecord_graduateDate = #{record.sturecordGraduatedate,jdbcType=DATE},
+      sturecord_graduateNumber = #{record.sturecordGraduatenumber,jdbcType=VARCHAR},
+      sturecord_diplomaNumber = #{record.sturecordDiplomanumber,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.edusystem.entity.SturecordWithBLOBs">
+    update sturecord
+    <set>
+      <if test="sturecordPolite != null">
+        sturecord_polite = #{sturecordPolite,jdbcType=VARCHAR},
+      </if>
+      <if test="sturecordRdsj != null">
+        sturecord_rdsj = #{sturecordRdsj,jdbcType=DATE},
+      </if>
+      <if test="sturecordGraduatedate != null">
+        sturecord_graduateDate = #{sturecordGraduatedate,jdbcType=DATE},
+      </if>
+      <if test="sturecordGraduatenumber != null">
+        sturecord_graduateNumber = #{sturecordGraduatenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sturecordDiplomanumber != null">
+        sturecord_diplomaNumber = #{sturecordDiplomanumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sturecordStudyhistory != null">
+        sturecord_studyHistory = #{sturecordStudyhistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sturecordJtcyqk != null">
+        sturecord_jtcyqk = #{sturecordJtcyqk,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sturecordChangerecord != null">
+        sturecord_changeRecord = #{sturecordChangerecord,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sturecordRewardhistory != null">
+        sturecord_rewardHistory = #{sturecordRewardhistory,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="sturecordPunishhistory != null">
+        sturecord_punishHistory = #{sturecordPunishhistory,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where student_id = #{studentId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.edusystem.entity.SturecordWithBLOBs">
+    update sturecord
+    set sturecord_polite = #{sturecordPolite,jdbcType=VARCHAR},
+      sturecord_rdsj = #{sturecordRdsj,jdbcType=DATE},
+      sturecord_graduateDate = #{sturecordGraduatedate,jdbcType=DATE},
+      sturecord_graduateNumber = #{sturecordGraduatenumber,jdbcType=VARCHAR},
+      sturecord_diplomaNumber = #{sturecordDiplomanumber,jdbcType=VARCHAR},
+      sturecord_studyHistory = #{sturecordStudyhistory,jdbcType=LONGVARCHAR},
+      sturecord_jtcyqk = #{sturecordJtcyqk,jdbcType=LONGVARCHAR},
+      sturecord_changeRecord = #{sturecordChangerecord,jdbcType=LONGVARCHAR},
+      sturecord_rewardHistory = #{sturecordRewardhistory,jdbcType=LONGVARCHAR},
+      sturecord_punishHistory = #{sturecordPunishhistory,jdbcType=LONGVARCHAR}
+    where student_id = #{studentId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.edusystem.entity.Sturecord">
+    update sturecord
+    set sturecord_polite = #{sturecordPolite,jdbcType=VARCHAR},
+      sturecord_rdsj = #{sturecordRdsj,jdbcType=DATE},
+      sturecord_graduateDate = #{sturecordGraduatedate,jdbcType=DATE},
+      sturecord_graduateNumber = #{sturecordGraduatenumber,jdbcType=VARCHAR},
+      sturecord_diplomaNumber = #{sturecordDiplomanumber,jdbcType=VARCHAR}
+    where student_id = #{studentId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edusystem.mapper.TrainplanMapper">
+  <resultMap id="BaseResultMap" type="com.edusystem.entity.Trainplan">
+    <id column="trainplan_id" jdbcType="VARCHAR" property="trainplanId" />
+    <result column="college_id" jdbcType="VARCHAR" property="collegeId" />
+    <result column="profession_id" jdbcType="VARCHAR" property="professionId" />
+    <result column="course_id" jdbcType="VARCHAR" property="courseId" />
+    <result column="trainplan_term" jdbcType="INTEGER" property="trainplanTerm" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    trainplan_id, college_id, profession_id, course_id, trainplan_term
+  </sql>
+  <select id="selectByExample" parameterType="com.edusystem.entity.TrainplanExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from trainplan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from trainplan
+    where trainplan_id = #{trainplanId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from trainplan
+    where trainplan_id = #{trainplanId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.edusystem.entity.TrainplanExample">
+    delete from trainplan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.edusystem.entity.Trainplan">
+    insert into trainplan (trainplan_id, college_id, profession_id, 
+      course_id, trainplan_term)
+    values (#{trainplanId,jdbcType=VARCHAR}, #{collegeId,jdbcType=VARCHAR}, #{professionId,jdbcType=VARCHAR}, 
+      #{courseId,jdbcType=VARCHAR}, #{trainplanTerm,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.edusystem.entity.Trainplan">
+    insert into trainplan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="trainplanId != null">
+        trainplan_id,
+      </if>
+      <if test="collegeId != null">
+        college_id,
+      </if>
+      <if test="professionId != null">
+        profession_id,
+      </if>
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="trainplanTerm != null">
+        trainplan_term,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="trainplanId != null">
+        #{trainplanId,jdbcType=VARCHAR},
+      </if>
+      <if test="collegeId != null">
+        #{collegeId,jdbcType=VARCHAR},
+      </if>
+      <if test="professionId != null">
+        #{professionId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="trainplanTerm != null">
+        #{trainplanTerm,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.edusystem.entity.TrainplanExample" resultType="java.lang.Long">
+    select count(*) from trainplan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update trainplan
+    <set>
+      <if test="record.trainplanId != null">
+        trainplan_id = #{record.trainplanId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.collegeId != null">
+        college_id = #{record.collegeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.professionId != null">
+        profession_id = #{record.professionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseId != null">
+        course_id = #{record.courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainplanTerm != null">
+        trainplan_term = #{record.trainplanTerm,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update trainplan
+    set trainplan_id = #{record.trainplanId,jdbcType=VARCHAR},
+      college_id = #{record.collegeId,jdbcType=VARCHAR},
+      profession_id = #{record.professionId,jdbcType=VARCHAR},
+      course_id = #{record.courseId,jdbcType=VARCHAR},
+      trainplan_term = #{record.trainplanTerm,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.edusystem.entity.Trainplan">
+    update trainplan
+    <set>
+      <if test="collegeId != null">
+        college_id = #{collegeId,jdbcType=VARCHAR},
+      </if>
+      <if test="professionId != null">
+        profession_id = #{professionId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="trainplanTerm != null">
+        trainplan_term = #{trainplanTerm,jdbcType=INTEGER},
+      </if>
+    </set>
+    where trainplan_id = #{trainplanId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.edusystem.entity.Trainplan">
+    update trainplan
+    set college_id = #{collegeId,jdbcType=VARCHAR},
+      profession_id = #{professionId,jdbcType=VARCHAR},
+      course_id = #{courseId,jdbcType=VARCHAR},
+      trainplan_term = #{trainplanTerm,jdbcType=INTEGER}
+    where trainplan_id = #{trainplanId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edusystem.mapper.XxkcMapper">
+  <resultMap id="BaseResultMap" type="com.edusystem.entity.Xxkc">
+    <id column="xxkc_id" jdbcType="VARCHAR" property="xxkcId" />
+    <result column="xxkc_name" jdbcType="VARCHAR" property="xxkcName" />
+    <result column="xxkc_kind" jdbcType="VARCHAR" property="xxkcKind" />
+    <result column="xxkc_credit" jdbcType="INTEGER" property="xxkcCredit" />
+    <result column="xxkc_learn_hours" jdbcType="INTEGER" property="xxkcLearnHours" />
+    <result column="xxkc_maxlimit" jdbcType="INTEGER" property="xxkcMaxlimit" />
+    <result column="xxkc_selnum" jdbcType="INTEGER" property="xxkcSelnum" />
+    <result column="xxkc_gradelimit" jdbcType="VARCHAR" property="xxkcGradelimit" />
+    <result column="xxkc_academicYear" jdbcType="INTEGER" property="xxkcAcademicyear" />
+    <result column="xxkc_academicTerm" jdbcType="INTEGER" property="xxkcAcademicterm" />
+    <result column="xxkc_startTime" jdbcType="INTEGER" property="xxkcStarttime" />
+    <result column="xxkc_endTime" jdbcType="INTEGER" property="xxkcEndtime" />
+    <result column="xxkc_numLimit" jdbcType="INTEGER" property="xxkcNumlimit" />
+    <result column="xxkc_isRank" jdbcType="INTEGER" property="xxkcIsrank" />
+    <result column="xxkc_remaerk" jdbcType="VARCHAR" property="xxkcRemaerk" />
+    <result column="xxkc_sourse" jdbcType="VARCHAR" property="xxkcSourse" />
+    <result column="xxkc_kindId" jdbcType="VARCHAR" property="xxkcKindid" />
+    <result column="xxkc_SourseId" jdbcType="VARCHAR" property="xxkcSourseid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    xxkc_id, xxkc_name, xxkc_kind, xxkc_credit, xxkc_learn_hours, xxkc_maxlimit, xxkc_selnum, 
+    xxkc_gradelimit, xxkc_academicYear, xxkc_academicTerm, xxkc_startTime, xxkc_endTime, 
+    xxkc_numLimit, xxkc_isRank, xxkc_remaerk, xxkc_sourse, xxkc_kindId, xxkc_SourseId
+  </sql>
+  <select id="selectByExample" parameterType="com.edusystem.entity.XxkcExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from xxkc
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from xxkc
+    where xxkc_id = #{xxkcId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from xxkc
+    where xxkc_id = #{xxkcId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.edusystem.entity.XxkcExample">
+    delete from xxkc
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.edusystem.entity.Xxkc">
+    insert into xxkc (xxkc_id, xxkc_name, xxkc_kind, 
+      xxkc_credit, xxkc_learn_hours, xxkc_maxlimit, 
+      xxkc_selnum, xxkc_gradelimit, xxkc_academicYear, 
+      xxkc_academicTerm, xxkc_startTime, xxkc_endTime, 
+      xxkc_numLimit, xxkc_isRank, xxkc_remaerk, 
+      xxkc_sourse, xxkc_kindId, xxkc_SourseId
+      )
+    values (#{xxkcId,jdbcType=VARCHAR}, #{xxkcName,jdbcType=VARCHAR}, #{xxkcKind,jdbcType=VARCHAR}, 
+      #{xxkcCredit,jdbcType=INTEGER}, #{xxkcLearnHours,jdbcType=INTEGER}, #{xxkcMaxlimit,jdbcType=INTEGER}, 
+      #{xxkcSelnum,jdbcType=INTEGER}, #{xxkcGradelimit,jdbcType=VARCHAR}, #{xxkcAcademicyear,jdbcType=INTEGER}, 
+      #{xxkcAcademicterm,jdbcType=INTEGER}, #{xxkcStarttime,jdbcType=INTEGER}, #{xxkcEndtime,jdbcType=INTEGER}, 
+      #{xxkcNumlimit,jdbcType=INTEGER}, #{xxkcIsrank,jdbcType=INTEGER}, #{xxkcRemaerk,jdbcType=VARCHAR}, 
+      #{xxkcSourse,jdbcType=VARCHAR}, #{xxkcKindid,jdbcType=VARCHAR}, #{xxkcSourseid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.edusystem.entity.Xxkc">
+    insert into xxkc
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="xxkcId != null">
+        xxkc_id,
+      </if>
+      <if test="xxkcName != null">
+        xxkc_name,
+      </if>
+      <if test="xxkcKind != null">
+        xxkc_kind,
+      </if>
+      <if test="xxkcCredit != null">
+        xxkc_credit,
+      </if>
+      <if test="xxkcLearnHours != null">
+        xxkc_learn_hours,
+      </if>
+      <if test="xxkcMaxlimit != null">
+        xxkc_maxlimit,
+      </if>
+      <if test="xxkcSelnum != null">
+        xxkc_selnum,
+      </if>
+      <if test="xxkcGradelimit != null">
+        xxkc_gradelimit,
+      </if>
+      <if test="xxkcAcademicyear != null">
+        xxkc_academicYear,
+      </if>
+      <if test="xxkcAcademicterm != null">
+        xxkc_academicTerm,
+      </if>
+      <if test="xxkcStarttime != null">
+        xxkc_startTime,
+      </if>
+      <if test="xxkcEndtime != null">
+        xxkc_endTime,
+      </if>
+      <if test="xxkcNumlimit != null">
+        xxkc_numLimit,
+      </if>
+      <if test="xxkcIsrank != null">
+        xxkc_isRank,
+      </if>
+      <if test="xxkcRemaerk != null">
+        xxkc_remaerk,
+      </if>
+      <if test="xxkcSourse != null">
+        xxkc_sourse,
+      </if>
+      <if test="xxkcKindid != null">
+        xxkc_kindId,
+      </if>
+      <if test="xxkcSourseid != null">
+        xxkc_SourseId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="xxkcId != null">
+        #{xxkcId,jdbcType=VARCHAR},
+      </if>
+      <if test="xxkcName != null">
+        #{xxkcName,jdbcType=VARCHAR},
+      </if>
+      <if test="xxkcKind != null">
+        #{xxkcKind,jdbcType=VARCHAR},
+      </if>
+      <if test="xxkcCredit != null">
+        #{xxkcCredit,jdbcType=INTEGER},
+      </if>
+      <if test="xxkcLearnHours != null">
+        #{xxkcLearnHours,jdbcType=INTEGER},
+      </if>
+      <if test="xxkcMaxlimit != null">
+        #{xxkcMaxlimit,jdbcType=INTEGER},
+      </if>
+      <if test="xxkcSelnum != null">
+        #{xxkcSelnum,jdbcType=INTEGER},
+      </if>
+      <if test="xxkcGradelimit != null">
+        #{xxkcGradelimit,jdbcType=VARCHAR},
+      </if>
+      <if test="xxkcAcademicyear != null">
+        #{xxkcAcademicyear,jdbcType=INTEGER},
+      </if>
+      <if test="xxkcAcademicterm != null">
+        #{xxkcAcademicterm,jdbcType=INTEGER},
+      </if>
+      <if test="xxkcStarttime != null">
+        #{xxkcStarttime,jdbcType=INTEGER},
+      </if>
+      <if test="xxkcEndtime != null">
+        #{xxkcEndtime,jdbcType=INTEGER},
+      </if>
+      <if test="xxkcNumlimit != null">
+        #{xxkcNumlimit,jdbcType=INTEGER},
+      </if>
+      <if test="xxkcIsrank != null">
+        #{xxkcIsrank,jdbcType=INTEGER},
+      </if>
+      <if test="xxkcRemaerk != null">
+        #{xxkcRemaerk,jdbcType=VARCHAR},
+      </if>
+      <if test="xxkcSourse != null">
+        #{xxkcSourse,jdbcType=VARCHAR},
+      </if>
+      <if test="xxkcKindid != null">
+        #{xxkcKindid,jdbcType=VARCHAR},
+      </if>
+      <if test="xxkcSourseid != null">
+        #{xxkcSourseid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.edusystem.entity.XxkcExample" resultType="java.lang.Long">
+    select count(*) from xxkc
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update xxkc
+    <set>
+      <if test="record.xxkcId != null">
+        xxkc_id = #{record.xxkcId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xxkcName != null">
+        xxkc_name = #{record.xxkcName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xxkcKind != null">
+        xxkc_kind = #{record.xxkcKind,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xxkcCredit != null">
+        xxkc_credit = #{record.xxkcCredit,jdbcType=INTEGER},
+      </if>
+      <if test="record.xxkcLearnHours != null">
+        xxkc_learn_hours = #{record.xxkcLearnHours,jdbcType=INTEGER},
+      </if>
+      <if test="record.xxkcMaxlimit != null">
+        xxkc_maxlimit = #{record.xxkcMaxlimit,jdbcType=INTEGER},
+      </if>
+      <if test="record.xxkcSelnum != null">
+        xxkc_selnum = #{record.xxkcSelnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.xxkcGradelimit != null">
+        xxkc_gradelimit = #{record.xxkcGradelimit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xxkcAcademicyear != null">
+        xxkc_academicYear = #{record.xxkcAcademicyear,jdbcType=INTEGER},
+      </if>
+      <if test="record.xxkcAcademicterm != null">
+        xxkc_academicTerm = #{record.xxkcAcademicterm,jdbcType=INTEGER},
+      </if>
+      <if test="record.xxkcStarttime != null">
+        xxkc_startTime = #{record.xxkcStarttime,jdbcType=INTEGER},
+      </if>
+      <if test="record.xxkcEndtime != null">
+        xxkc_endTime = #{record.xxkcEndtime,jdbcType=INTEGER},
+      </if>
+      <if test="record.xxkcNumlimit != null">
+        xxkc_numLimit = #{record.xxkcNumlimit,jdbcType=INTEGER},
+      </if>
+      <if test="record.xxkcIsrank != null">
+        xxkc_isRank = #{record.xxkcIsrank,jdbcType=INTEGER},
+      </if>
+      <if test="record.xxkcRemaerk != null">
+        xxkc_remaerk = #{record.xxkcRemaerk,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xxkcSourse != null">
+        xxkc_sourse = #{record.xxkcSourse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xxkcKindid != null">
+        xxkc_kindId = #{record.xxkcKindid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xxkcSourseid != null">
+        xxkc_SourseId = #{record.xxkcSourseid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update xxkc
+    set xxkc_id = #{record.xxkcId,jdbcType=VARCHAR},
+      xxkc_name = #{record.xxkcName,jdbcType=VARCHAR},
+      xxkc_kind = #{record.xxkcKind,jdbcType=VARCHAR},
+      xxkc_credit = #{record.xxkcCredit,jdbcType=INTEGER},
+      xxkc_learn_hours = #{record.xxkcLearnHours,jdbcType=INTEGER},
+      xxkc_maxlimit = #{record.xxkcMaxlimit,jdbcType=INTEGER},
+      xxkc_selnum = #{record.xxkcSelnum,jdbcType=INTEGER},
+      xxkc_gradelimit = #{record.xxkcGradelimit,jdbcType=VARCHAR},
+      xxkc_academicYear = #{record.xxkcAcademicyear,jdbcType=INTEGER},
+      xxkc_academicTerm = #{record.xxkcAcademicterm,jdbcType=INTEGER},
+      xxkc_startTime = #{record.xxkcStarttime,jdbcType=INTEGER},
+      xxkc_endTime = #{record.xxkcEndtime,jdbcType=INTEGER},
+      xxkc_numLimit = #{record.xxkcNumlimit,jdbcType=INTEGER},
+      xxkc_isRank = #{record.xxkcIsrank,jdbcType=INTEGER},
+      xxkc_remaerk = #{record.xxkcRemaerk,jdbcType=VARCHAR},
+      xxkc_sourse = #{record.xxkcSourse,jdbcType=VARCHAR},
+      xxkc_kindId = #{record.xxkcKindid,jdbcType=VARCHAR},
+      xxkc_SourseId = #{record.xxkcSourseid,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.edusystem.entity.Xxkc">
+    update xxkc
+    <set>
+      <if test="xxkcName != null">
+        xxkc_name = #{xxkcName,jdbcType=VARCHAR},
+      </if>
+      <if test="xxkcKind != null">
+        xxkc_kind = #{xxkcKind,jdbcType=VARCHAR},
+      </if>
+      <if test="xxkcCredit != null">
+        xxkc_credit = #{xxkcCredit,jdbcType=INTEGER},
+      </if>
+      <if test="xxkcLearnHours != null">
+        xxkc_learn_hours = #{xxkcLearnHours,jdbcType=INTEGER},
+      </if>
+      <if test="xxkcMaxlimit != null">
+        xxkc_maxlimit = #{xxkcMaxlimit,jdbcType=INTEGER},
+      </if>
+      <if test="xxkcSelnum != null">
+        xxkc_selnum = #{xxkcSelnum,jdbcType=INTEGER},
+      </if>
+      <if test="xxkcGradelimit != null">
+        xxkc_gradelimit = #{xxkcGradelimit,jdbcType=VARCHAR},
+      </if>
+      <if test="xxkcAcademicyear != null">
+        xxkc_academicYear = #{xxkcAcademicyear,jdbcType=INTEGER},
+      </if>
+      <if test="xxkcAcademicterm != null">
+        xxkc_academicTerm = #{xxkcAcademicterm,jdbcType=INTEGER},
+      </if>
+      <if test="xxkcStarttime != null">
+        xxkc_startTime = #{xxkcStarttime,jdbcType=INTEGER},
+      </if>
+      <if test="xxkcEndtime != null">
+        xxkc_endTime = #{xxkcEndtime,jdbcType=INTEGER},
+      </if>
+      <if test="xxkcNumlimit != null">
+        xxkc_numLimit = #{xxkcNumlimit,jdbcType=INTEGER},
+      </if>
+      <if test="xxkcIsrank != null">
+        xxkc_isRank = #{xxkcIsrank,jdbcType=INTEGER},
+      </if>
+      <if test="xxkcRemaerk != null">
+        xxkc_remaerk = #{xxkcRemaerk,jdbcType=VARCHAR},
+      </if>
+      <if test="xxkcSourse != null">
+        xxkc_sourse = #{xxkcSourse,jdbcType=VARCHAR},
+      </if>
+      <if test="xxkcKindid != null">
+        xxkc_kindId = #{xxkcKindid,jdbcType=VARCHAR},
+      </if>
+      <if test="xxkcSourseid != null">
+        xxkc_SourseId = #{xxkcSourseid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where xxkc_id = #{xxkcId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.edusystem.entity.Xxkc">
+    update xxkc
+    set xxkc_name = #{xxkcName,jdbcType=VARCHAR},
+      xxkc_kind = #{xxkcKind,jdbcType=VARCHAR},
+      xxkc_credit = #{xxkcCredit,jdbcType=INTEGER},
+      xxkc_learn_hours = #{xxkcLearnHours,jdbcType=INTEGER},
+      xxkc_maxlimit = #{xxkcMaxlimit,jdbcType=INTEGER},
+      xxkc_selnum = #{xxkcSelnum,jdbcType=INTEGER},
+      xxkc_gradelimit = #{xxkcGradelimit,jdbcType=VARCHAR},
+      xxkc_academicYear = #{xxkcAcademicyear,jdbcType=INTEGER},
+      xxkc_academicTerm = #{xxkcAcademicterm,jdbcType=INTEGER},
+      xxkc_startTime = #{xxkcStarttime,jdbcType=INTEGER},
+      xxkc_endTime = #{xxkcEndtime,jdbcType=INTEGER},
+      xxkc_numLimit = #{xxkcNumlimit,jdbcType=INTEGER},
+      xxkc_isRank = #{xxkcIsrank,jdbcType=INTEGER},
+      xxkc_remaerk = #{xxkcRemaerk,jdbcType=VARCHAR},
+      xxkc_sourse = #{xxkcSourse,jdbcType=VARCHAR},
+      xxkc_kindId = #{xxkcKindid,jdbcType=VARCHAR},
+      xxkc_SourseId = #{xxkcSourseid,jdbcType=VARCHAR}
+    where xxkc_id = #{xxkcId,jdbcType=VARCHAR}
+  </update>
+</mapper>
