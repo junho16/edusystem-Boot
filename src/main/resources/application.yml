@@ -1,6 +1,19 @@
 server:
   port: 9530
+  max-http-header-size: 102400
+# 自定义文件保存路径
+gorit:
+  file:
+    root:
+      path: E:\A_bishe_file_storage\static\data\
 spring:
+  #开启文件上传 此至resource下的static
+  servlet:
+    multipart:
+      enabled: true # 开启文件上传
+      file-size-threshold: 2KB # 文件写入磁盘的阈值
+      max-file-size: 100MB
+      max-request-size: 215MB # 最大请求值大小
   datasource:
     username: root
     password: root

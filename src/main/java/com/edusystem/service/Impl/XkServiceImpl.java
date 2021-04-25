@@ -106,9 +106,10 @@ public class XkServiceImpl implements XkService {
             }else{
                 //校内课程
                 Teachtask kc = teachtaskMapper.selectByPrimaryKey(casStrs[0]);
+                Course course = courseMapper.selectByPrimaryKey(kc.getCourseId());
 
                 teachtask.setTeachtaskId(cas.getTeachtaskId());
-                teachtask.setCourseName(kc.getCourseName());
+                teachtask.setCourseName(course.getCourseName());
                 teachtask.setTeachtaskAcademicyear(kc.getTeachtaskAcademicyear());
 
             }

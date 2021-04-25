@@ -219,4 +219,32 @@ public class Teachtask {
     public void setTeachtaskRemaerk(String teachtaskRemaerk) {
         this.teachtaskRemaerk = teachtaskRemaerk == null ? null : teachtaskRemaerk.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Teachtask{" +
+                "teachtaskId='" + teachtaskId + '\'' +
+                ", professionId='" + professionId + '\'' +
+                ", professionName='" + professionName + '\'' +
+                ", courseId='" + courseId + '\'' +
+                ", courseName='" + courseName + '\'' +
+                ", collegeId='" + collegeId + '\'' +
+                ", collegeName='" + collegeName + '\'' +
+                ", teacherName='" + teacherName + '\'' +
+                ", teacherId='" + teacherId + '\'' +
+                ", classId='" + classId + '\'' +
+                ", teachtaskMaxnum=" + teachtaskMaxnum +
+                ", teachtaskSelnum=" + teachtaskSelnum +
+                ", teachtaskGradelimit='" + teachtaskGradelimit + '\'' +
+                ", teachtaskAcademicyear=" + teachtaskAcademicyear +
+                ", teachtaskAcademicterm=" + teachtaskAcademicterm +
+                ", teachtaskStarttime=" + teachtaskStarttime +
+                ", teachtaskEndtime=" + teachtaskEndtime +
+                ", teachtaskIseveryweek=" + teachtaskIseveryweek +
+                ", teachtaskNumlimit=" + teachtaskNumlimit +
+                ", teachtaskPriority=" + teachtaskPriority +
+                ", teachtaskIsrank=" + teachtaskIsrank +
+                ", teachtaskRemaerk='" + teachtaskRemaerk + '\'' +
+                '}';
+    }
 }

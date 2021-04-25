@@ -10,6 +10,7 @@ import com.edusystem.entity.Response.MyResponse;
 import com.edusystem.util.JWTUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
 
 /**
  * jwt拦截器
@@ -32,10 +34,15 @@ public class JWTInterceptor implements HandlerInterceptor {
  * TODO-这是未解决的问题==》在登录时 获取info时可以获取到头部的信息 但是在其他的请求中却无法get到请求头中的token信息 只能通过参数获取
  * ===》一般的请求String token = request.getHeader("token"); 此获取的是null 、但是info可以获取到
  */
+        //一般是两个请求 一个是option 是不会携带参数的因此放行
+        if (HttpMethod.OPTIONS.toString().equals(request.getMethod())) {
+            log.info("OPTIONS请求，放行");
+            return true;
+        }
 //        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 //        HttpServletRequest requestt = servletRequestAttributes.getRequest();
 //        log.info("当前token为从头部信息”token“中获取 ！！！！！值为==》{}", requestt.getHeader("token"));==》这种方式获取的一直是null；
-
+     
         //获取请求头中的令牌
         String token = request.getHeader("token");
         if(token == null || token.equals("")){
