@@ -1,9 +1,11 @@
 package com.edusystem.Controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.edusystem.entity.College;
 import com.edusystem.entity.Response.MyResponse;
 import com.edusystem.service.TkService;
+import com.edusystem.util.JWTUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +31,7 @@ import java.util.*;
 public class TkController {
 
     @Autowired
-        TkService tkService;
+    TkService tkService;
 
     @Value("${gorit.file.root.path}")
     private String filePath;
@@ -89,19 +91,131 @@ public class TkController {
     @ResponseBody
     public MyResponse createTkRecord(
             HttpServletRequest request,
-            @RequestParam Map data )  {
+            @RequestParam Map data) {
 
 
-        log.info("方法：创建听课记录。当前token为{}",request.getHeader("token"));
+        log.info("方法：创建听课记录。当前token为{}", request.getHeader("token"));
         MyResponse result;
-        HashMap res = tkService.createTkRecord(data,request.getHeader("token"));
+        HashMap res = tkService.createTkRecord(data, request.getHeader("token"));
         String flag = (String) res.get(20000);
-        result = flag!=null?
-                new MyResponse(MyResponse.SUCCESS_CODE,(String) res.get(20000)):
-                new MyResponse(MyResponse.Fail_CODE,(String) res.get(18000));
+        result = flag != null ?
+                new MyResponse(MyResponse.SUCCESS_CODE, (String) res.get(20000)) :
+                new MyResponse(MyResponse.Fail_CODE, (String) res.get(18000));
+        return result;
+    }
+
+    @PostMapping("/update")
+    @ResponseBody
+    public MyResponse updateTkRecord(
+            HttpServletRequest request,
+            @RequestParam Map data) {
+
+
+        log.info("方法：更新听课记录。当前token为{}", request.getHeader("token"));
+        MyResponse result;
+        HashMap res = tkService.updateTkRecord(data, request.getHeader("token"));
+        String flag = (String) res.get(20000);
+        result = flag != null ?
+                new MyResponse(MyResponse.SUCCESS_CODE, (String) res.get(20000)) :
+                new MyResponse(MyResponse.Fail_CODE, (String) res.get(18000));
         return result;
     }
 
 
+    /**
+     * 获取echart数据
+     *
+     * @param request
+     * @param data
+     * @return
+     */
+    @GetMapping("/tkdata")
+    @ResponseBody
+    public MyResponse getTkDataWithChart(
+            HttpServletRequest request,
+            @RequestParam Map data) {
+        log.info("方法：根据教师id获取其听课的echart数据。当前token为{}", request.getHeader("token"));
+        MyResponse result;
+        HashMap res = tkService.getTkDataWithChart(data);
+        String flag = (String) res.get(18000);
+        result = flag == null ?
+                new MyResponse(MyResponse.SUCCESS_CODE, res.get(20000)) :
+                new MyResponse(MyResponse.Fail_CODE, (String) res.get(18000), null);
+        return result;
+    }
 
+    /**
+     * 获取table数据
+     *
+     * @param request
+     * @param data
+     * @return
+     */
+    @GetMapping("/tklist")
+    @ResponseBody
+    public MyResponse getTkDataWithTable(
+            HttpServletRequest request,
+            @RequestParam Map data) {
+        log.info("方法：根据教师id获取其听课的table数据。当前token为{}", request.getHeader("token"));
+        MyResponse result;
+        DecodedJWT verify = JWTUtils.verify(request.getHeader("token"));
+        String username = verify.getClaim("username").asString();
+
+
+        HashMap res = tkService.getTkDataWithTable(data, username);
+        String flag = (String) res.get(18000);
+        result = flag == null ?
+                new MyResponse(MyResponse.SUCCESS_CODE, res.get(20000)) :
+                new MyResponse(MyResponse.Fail_CODE, (String) res.get(18000), null);
+        return result;
+    }
+
+    /**
+     * 获取管理员视角的手风琴数据
+     *
+     * @param request
+     * @param data
+     * @return
+     */
+    @GetMapping("/tklistwithadmin")
+    @ResponseBody
+    public MyResponse getTkDataWithAdmin(
+            HttpServletRequest request,
+            @RequestParam Map data) {
+        log.info("方法：获取管理员视角的手风琴数据。当前token为{}", request.getHeader("token"));
+        MyResponse result;
+
+        HashMap res = tkService.getTkDataWithAdmin(data);
+        String flag = (String) res.get(18000);
+        result = flag == null ?
+                new MyResponse(MyResponse.SUCCESS_CODE, res.get(20000)) :
+                new MyResponse(MyResponse.Fail_CODE, (String) res.get(18000), null);
+        return result;
+    }
+
+    /**
+     * 获取听课详情
+     *
+     * @param request
+     * @param id
+     * @return
+     */
+    @GetMapping("/tkinfo")
+    @ResponseBody
+    public MyResponse fetchTkInfo(
+            HttpServletRequest request,
+            @RequestParam String id) {
+        log.info("方法：根据听课id获取其听课的详情数据。当前token为{}", request.getHeader("token"));
+        MyResponse result;
+        DecodedJWT verify = JWTUtils.verify(request.getHeader("token"));
+        String username = verify.getClaim("username").asString();
+
+
+        HashMap res = tkService.fetchTkInfo(id);
+        String flag = (String) res.get(18000);
+        result = flag == null ?
+                new MyResponse(MyResponse.SUCCESS_CODE, res.get(20000)) :
+                new MyResponse(MyResponse.Fail_CODE, (String) res.get(18000), null);
+        return result;
+    }
 }

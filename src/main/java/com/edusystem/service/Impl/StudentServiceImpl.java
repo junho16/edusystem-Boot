@@ -796,7 +796,7 @@ public class StudentServiceImpl implements StudentService {
      * @return
      */
     @Override
-    public HashMap getKyqxData(String token,String classid) {
+    public HashMap  getKyqxData(String token,String classid) {
 
         HashMap<String , Integer> hashMap = new HashMap();
 

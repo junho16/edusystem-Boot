@@ -1,6 +1,6 @@
 server:
   port: 9530
-  max-http-header-size: 102400
+  max-http-header-size: 10240000
 # 自定义文件保存路径
 gorit:
   file:
