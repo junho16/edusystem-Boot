@@ -25,6 +25,9 @@ public class TeachtaskServiceImpl implements TeachtaskService {
     CollegeMapper collegeMapper;
 
     @Autowired
+    StudentMapper studentMapper;
+
+    @Autowired
     TeachtaskMapper teachtaskMapper;
 
     @Autowired
@@ -408,6 +411,38 @@ public class TeachtaskServiceImpl implements TeachtaskService {
                 }
                 return collegeList;
             }
+            case "student": {
+                //查询出属于哪个学院
+                Student student = studentMapper.selectByPrimaryKey(username);
+                log.info("方法：获取教师列表 。学生{}属于学院id为==》{}的学院",username,student.getCollegeId());
+                if(student.getCollegeId() == null || student.getCollegeId().equals(""))
+                    log.info("方法：获取教师列表 。学生不属于任何学院");
+                else {
+                    College college = collegeMapper.selectByPrimaryKey(student.getCollegeId());
+
+                    //collegeList是说有几个学院 都在这个collegeList列表里 教师是只有一个学院 clollegeMap是列表里的对象
+                    collegeList = new ArrayList();
+                    HashMap clollegeMap = new HashMap();
+                    clollegeMap.put("collegeid" ,  college.getCollegeId() );
+                    clollegeMap.put("collegename" , college.getCollegeName());
+
+                    TeacherExample example = new TeacherExample();
+                    TeacherExample.Criteria criteria = example.createCriteria();
+                    criteria.andCollegeIdEqualTo(college.getCollegeId());
+
+                    List<Teacher> teachers = teacherMapper.selectByExample(example);
+                    if (teachers == null) {
+                        log.info("方法：获取教师列表。未查询到学院下教师信息");
+                        return null;
+                    } else {
+                        clollegeMap.put("teachers", teachers);
+                    }
+                    collegeList.add(clollegeMap);
+
+                }
+                return collegeList;
+            }
+
         }
         return null;
     }

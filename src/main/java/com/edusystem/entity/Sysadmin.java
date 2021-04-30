@@ -6,6 +6,15 @@ public class Sysadmin {
     private String sysadminPsd;
 
     private String collegeId;
+    private String collegeName;
+
+    public String getCollegeName() {
+        return collegeName;
+    }
+
+    public void setCollegeName(String collegeName) {
+        this.collegeName = collegeName;
+    }
 
     public String getSysadminId() {
         return sysadminId;

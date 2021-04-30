@@ -1,5 +1,7 @@
 package com.edusystem.service;
 
+import com.edusystem.dto.UserDto;
+
 import java.util.HashMap;
 
 /**
@@ -8,6 +10,8 @@ import java.util.HashMap;
  */
 public interface UserService {
     public HashMap getUserInfo(String token);
+    public UserDto getUserInfoWithId(String userid);
 
+    public HashMap getAdminList( String userid);
 
 }
