@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.edusystem.entity.College;
 import com.edusystem.entity.Response.MyResponse;
+import com.edusystem.service.Impl.TkServiceImpl;
 import com.edusystem.service.TkService;
 import com.edusystem.util.JWTUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,7 @@ import java.util.*;
 public class TkController {
 
     @Autowired
-    TkService tkService;
+    TkServiceImpl tkService;
 
     @Value("${gorit.file.root.path}")
     private String filePath;

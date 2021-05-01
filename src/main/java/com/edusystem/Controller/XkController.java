@@ -2,6 +2,7 @@ package com.edusystem.Controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.edusystem.entity.Response.MyResponse;
+import com.edusystem.service.Impl.XkServiceImpl;
 import com.edusystem.service.XkService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,10 @@ import java.util.Map;
 public class XkController {
 
     @Autowired
-    XkService xkService;
+    XkServiceImpl xkService;
 
     /**
-     * 选课--选择网课
+     * 选课--选择网课或者 校内素质拓展课程
      * 由于数据库设计的问题-因此在存选课信息的时候 （存teachtaskid）
      * 如果是网课就存==》0-网课课程id
      * 如果是校内课程==》课程id
@@ -35,18 +36,19 @@ public class XkController {
     @ResponseBody
     public MyResponse selXXKC(@RequestParam String data, @RequestParam String token) {
 
-        log.info("方法：学生选课(校内课程)。当前token为{}",token);
-        log.info("方法：学生选课(校内课程)。当前网课课程id为{}",data);
+        log.info("方法：学生选课(网课课程)。当前token为{}",token);
+        log.info("方法：学生选课(网课课程)。当前网课课程id为{}",data);
         MyResponse result;
         HashMap res = xkService.selXXKC(data,token);
         String flag = (String) res.get(20000);
         result = flag!=null?
                 new MyResponse(MyResponse.SUCCESS_CODE,(String) res.get(20000)):
-                new MyResponse(MyResponse.Fail_CODE,(String) res.get(18000));
+                new MyResponse(MyResponse.Fail_CODE,(String) res.get(18000),null);
         return result;
     }
 
     /**
+     * 暂时未使用此方法
      * 选课--选择校内课程
      * 由于数据库设计的问题-因此在存选课信息的时候 （存teachtaskid）
      * 如果是网课就存==》0-网课课程id

@@ -13,8 +13,15 @@ public class Teachtask {
     private String collegeId;
     private String collegeName;
     private String teacherName;
+    private Integer credit;
 
+    public Integer getCredit() {
+        return credit;
+    }
 
+    public void setCredit(Integer credit) {
+        this.credit = credit;
+    }
 
     public String getTeacherName() {
         return teacherName;

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.edusystem.entity.*;
 import com.edusystem.entity.Class;
+import com.edusystem.enums.GetEunm;
 import com.edusystem.mapper.ByqxMapper;
 import com.edusystem.mapper.ClassMapper;
 import com.edusystem.mapper.StudentMapper;
@@ -27,6 +28,8 @@ import java.util.*;
 @Slf4j
 @Service
 public class StudentServiceImpl implements StudentService {
+    @Autowired
+    TipServiceImpl tipService;
 
     @Autowired
     ClassMapper classMapper;
@@ -298,8 +301,12 @@ public class StudentServiceImpl implements StudentService {
         student.setStudentPic( (String) jsonObject.get("studentPic") );
         int ress = studentMapper.insertSelective(student);
 
-        if(ress >= 1)
+        if(ress >= 1){
             res.put(20000,"新增学生信息成功！");
+
+            // 给用户添加通知
+            tipService.createTip( (String) jsonObject.get("studentId") , 1,null);
+        }
         else
             res.put(18000,"新增学生信息失败！服务器内部错误！");
         return res;

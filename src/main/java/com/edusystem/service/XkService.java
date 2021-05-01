@@ -9,10 +9,11 @@ public interface XkService {
 
     public HashMap<Integer, String> createXkInfo(JSONObject jsonObject, String token);
 
+    public HashMap<Integer, String> createXkInfo(String classId , String courseId);
+
     public HashMap<Integer, String> selXXKC(String data, String token);
 
     public HashMap treedata(String token) ;
-
 
     public HashMap tabledata(Map query, String token);
 }

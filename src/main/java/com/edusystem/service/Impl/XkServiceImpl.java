@@ -11,10 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author 花菜
@@ -23,6 +20,8 @@ import java.util.UUID;
 @Service
 @Slf4j
 public class XkServiceImpl implements XkService {
+    @Autowired
+    TipServiceImpl tipService;
 
     @Autowired
     ClsandstuMapper clsandstuMapper;
@@ -39,11 +38,74 @@ public class XkServiceImpl implements XkService {
     @Autowired
     TeacherMapper teacherMapper;
 
+    @Autowired
+    StudentMapper studentMapper;
+
+
     @Override
     public HashMap<Integer, String> createXkInfo(JSONObject jsonObject, String token) {
        return null;
     }
 
+    /**
+     * 选课--校内课程：==》校内课程 也就是那种必修课
+     * 教师开课之后 可以使用此方法给班级里的所有人添加一条校内课程的选课记录
+     * @param classId
+     * @param teachTaskId
+     * @return
+     */
+    @Override
+    public HashMap<Integer, String> createXkInfo(String classId, String teachTaskId) {
+        HashMap<Integer,String> res = new HashMap<>();
+        log.info("方法：选课-校内课程。班级id==》classId：{}", classId);
+        log.info("方法：选课-校内课程。教学任务id==》角色: teachTaskId：{}", teachTaskId);
+
+        //通知-校内必修课程
+        Teachtask t = teachtaskMapper.selectByPrimaryKey(teachTaskId);
+        Course c = courseMapper.selectByPrimaryKey(t.getCourseId());
+        HashMap h = new HashMap();
+        h.put("kcName" , c.getCourseName());
+
+
+        try{
+            StudentExample studentExample = new StudentExample();
+            StudentExample.Criteria studentExampleCriteria = studentExample.createCriteria();
+            studentExampleCriteria.andClassIdEqualTo(classId);
+            List<Student> studentList = studentMapper.selectByExample(studentExample);
+
+            for(Student student : studentList){
+                Clsandstu clsandstu = new Clsandstu();
+                clsandstu.setClsandstuId((UUID.randomUUID().toString().substring(0,8)));
+                clsandstu.setStudentId(student.getStudentId());
+                /**
+                 * 网课-存==》 0-选修课程id
+                 * 校内课程==》teachtaskid
+                 */
+                clsandstu.setTeachtaskId(teachTaskId);
+                clsandstuMapper.insertSelective(clsandstu);
+
+
+                tipService.createTip(student.getStudentId() , 4 ,h);
+
+            }
+            res.put(20000,"新增选择校内课程信息成功！");
+        }catch (Exception e){
+            e.printStackTrace();
+            log.error("新增选择校内课程信息成功");
+            res.put(18000,"新增选择校内课程信息失败！服务器内部错误！");
+            return res;
+        }
+
+        return res;
+
+    }
+
+    /**
+     * 此方法是选修 选修课 =》 包括校内的素质拓展课程 和 校外的网课
+     * @param data
+     * @param token
+     * @return
+     */
     @Override
     public HashMap<Integer, String> selXXKC(String data, String token) {
 
@@ -54,24 +116,74 @@ public class XkServiceImpl implements XkService {
         DecodedJWT verify = JWTUtils.verify(token);
         String username = verify.getClaim("username").asString();
         String loginrole = verify.getClaim("loginrole").asString();
-        log.info("方法：选课-网课。当前请求token为{}",token);
-        log.info("方法：选课-网课。用户信息==》账号: userId=>{}", username);
-        log.info("方法：选课-网课。用户信息==》角色: userrole=>{}", loginrole);
+        log.info("方法：选课-网课、校内素质拓展课程。当前请求token为{}",token);
+        log.info("方法：选课-网课、校内素质拓展课程。用户信息==》账号: userId=>{}", username);
+        log.info("方法：选课-网课、校内素质拓展课程。用户信息==》角色: userrole=>{}", loginrole);
 
 
         clsandstu.setStudentId(username);
 
-        /**
-         * 网课-存==》 0-选修课程id
-         */
-        clsandstu.setTeachtaskId("0-"+ data);
+        Xxkc xxkc = xxkcMapper.selectByPrimaryKey(data);
+        String xxkcName;
+        if(xxkc == null){
+            //说明是校内素质拓展课程
+            Teachtask t = teachtaskMapper.selectByPrimaryKey(data);
+            Course c = courseMapper.selectByPrimaryKey(t.getCourseId());
+            xxkcName = "校内素质拓展课程 "+c.getCourseName();
 
+            ClsandstuExample clsandstuExample = new ClsandstuExample();
+            ClsandstuExample.Criteria criteria = clsandstuExample.createCriteria();
+            criteria.andStudentIdEqualTo(username);
+            criteria.andTeachtaskIdEqualTo(data);
+            List<Clsandstu> list = clsandstuMapper.selectByExample(clsandstuExample);
+            if(!(list == null || list.size() == 0)){
+                //说明已选过此课程
+                res.put(18000,"新增选修校内素质拓展课程信息失败！你已选过此课程！");
+                return res;
+            }
+            /**
+             * 校内素质拓展课程-存==》 校内素质拓展课程id
+             */
+            clsandstu.setTeachtaskId(data);
+        }else {
+            //说明是校外网课
+            Xxkc x = xxkcMapper.selectByPrimaryKey(data);
+            xxkcName = "网课平台为 "+x.getXxkcSourse()+" 的网课 "+x.getXxkcName();
+
+            ClsandstuExample clsandstuExample = new ClsandstuExample();
+            ClsandstuExample.Criteria criteria = clsandstuExample.createCriteria();
+            criteria.andStudentIdEqualTo(username);
+            criteria.andTeachtaskIdEqualTo("0-"+data);
+            List<Clsandstu> list = clsandstuMapper.selectByExample(clsandstuExample);
+            if(!(list == null || list.size() == 0)){
+                //说明已选过此课程
+                res.put(18000,"新增选修网课信息失败！你已选过此课程！");
+                return res;
+            }
+
+            /**
+             * 网课-存==》 0-选修课程id
+             */
+            clsandstu.setTeachtaskId("0-"+ data);
+        }
         int ress = clsandstuMapper.insertSelective(clsandstu);
 
-        if(ress >= 1)
-            res.put(20000,"新增选修网课信息成功！");
+        if(ress >= 1){
+            res.put(20000,"新增学生选修课程信息成功！");
+
+            HashMap h = new HashMap();
+            h.put("xxkcName" , xxkcName);
+            if(xxkc == null){
+                //非网课-校内素质拓展课程
+                tipService.createTip(username , 3 ,h);
+            }else{
+                //网课-校外选修课程
+                tipService.createTip(username , 2 ,h);
+            }
+
+        }
         else
-            res.put(18000,"新增选修网课信息失败！服务器内部错误！");
+            res.put(18000,"新增学生选修课程信息失败！服务器内部错误！");
         return res;
     }
 

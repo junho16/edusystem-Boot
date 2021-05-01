@@ -8,6 +8,11 @@ import java.util.Map;
 
 public interface XxkcService {
     public HashMap fetchXXKCList(int pageNum, int limit, Map query, String token) ;
+
+    public HashMap fetchSZKCList(int pageNum, int limit, Map query, String token) ;
+
+
+
     public boolean updateXXKCInfo(JSONObject data, @RequestParam String token) ;
 
     public HashMap<Integer,String> createXXKCInfo(JSONObject jsonObject, String token) ;

@@ -3,6 +3,7 @@ package com.edusystem.Controller;
 import com.alibaba.fastjson.JSONObject;
 import com.edusystem.entity.College;
 import com.edusystem.entity.Response.MyResponse;
+import com.edusystem.service.Impl.TeachtaskServiceImpl;
 import com.edusystem.service.TeachtaskService;
 import com.edusystem.util.CommonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ import java.util.Map;
 public class TeachtaskController {
 
     @Autowired
-    TeachtaskService teachtaskService;
+    TeachtaskServiceImpl teachtaskService;
 
     @PostMapping("/create")
     @ResponseBody

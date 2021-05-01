@@ -2,6 +2,7 @@ package com.edusystem.Controller;
 
 import com.edusystem.entity.College;
 import com.edusystem.entity.Response.MyResponse;
+import com.edusystem.service.Impl.ProfessionServiceImpl;
 import com.edusystem.service.ProfessionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 public class ProfessionController {
 
     @Autowired
-    ProfessionService professionService;
+    ProfessionServiceImpl professionService;
 
     /**
      * 获取该角色可以查看的专业列表

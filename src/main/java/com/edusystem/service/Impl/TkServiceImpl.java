@@ -31,6 +31,9 @@ import java.util.Map;
 @Slf4j
 public class TkServiceImpl implements TkService {
     @Autowired
+    TipServiceImpl tipService;
+
+    @Autowired
     TkMapper tkMapper;
 
     @Autowired
@@ -43,7 +46,7 @@ public class TkServiceImpl implements TkService {
     CourseMapper courseMapper;
 
     @Override
-    public HashMap createTkRecord(Map datamap, String token) {
+    public HashMap createTkRecord(Map datamap, String token)   {
         HashMap<Integer,String> res = new HashMap<>();
         JSONObject data = JSONObject.parseObject((String) datamap.get("data"));
 
@@ -107,9 +110,19 @@ public class TkServiceImpl implements TkService {
 
         int ress = tkMapper.insertSelective(tk);
 
-        if(ress >= 1)
+        if(ress >= 1){
             res.put(20000,"新增听课记录信息成功！");
-        else
+
+            HashMap h = new HashMap();
+            Teachtask task = teachtaskMapper.selectByPrimaryKey(tk_teachtaskid);
+            Course c = courseMapper.selectByPrimaryKey(task.getCourseId());
+            Teacher t = teacherMapper.selectByPrimaryKey(teachtask.getTeacherId());
+            h.put("tk_courseName" , c.getCourseName());
+            h.put("tk_btkjsName" , t.getTeacherName() );
+            h.put("tk_time" ,  tk_date  );
+            // 教师-你已提交教师教学质量管理的记录
+            tipService.createTip(tk_tkjsid , 5 , h);
+        } else
             res.put(18000,"新增听课记录信息失败！服务器内部错误！");
         return res;
     }
@@ -179,9 +192,19 @@ public class TkServiceImpl implements TkService {
 
         int ress = tkMapper.updateByPrimaryKeyWithBLOBs(tk);
 
-        if(ress >= 1)
+        if(ress >= 1){
             res.put(20000,"更新听课记录信息成功！");
-        else
+
+            HashMap h = new HashMap();
+            Teachtask task = teachtaskMapper.selectByPrimaryKey(tk_teachtaskid);
+            Course c = courseMapper.selectByPrimaryKey(task.getCourseId());
+            Teacher t = teacherMapper.selectByPrimaryKey(teachtask.getTeacherId());
+            h.put("tk_courseName" , c.getCourseName());
+            h.put("tk_btkjsName" , t.getTeacherName() );
+            h.put("tk_time" ,  (tk_date) );
+            // 教师-你已更新教师教学质量管理的记录
+            tipService.createTip(tk_tkjsid , 6 , h);
+        }else
             res.put(18000,"更新听课记录信息失败！服务器内部错误！");
         return res;
     }

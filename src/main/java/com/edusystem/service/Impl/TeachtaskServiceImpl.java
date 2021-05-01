@@ -5,12 +5,15 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.edusystem.entity.*;
 import com.edusystem.mapper.*;
 import com.edusystem.service.TeachtaskService;
+import com.edusystem.service.XkService;
+import com.edusystem.util.DateUtil;
 import com.edusystem.util.JWTUtils;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -20,6 +23,11 @@ import java.util.*;
 @Slf4j
 @Service
 public class TeachtaskServiceImpl implements TeachtaskService {
+    @Autowired
+    TipServiceImpl tipService;
+
+    @Autowired
+    XkService xkService;
 
     @Autowired
     CollegeMapper collegeMapper;
@@ -48,7 +56,8 @@ public class TeachtaskServiceImpl implements TeachtaskService {
         Teachtask teachtask = new Teachtask();
 
         try{
-            teachtask.setTeachtaskId(UUID.randomUUID().toString().substring(0,8));
+            String uuid = UUID.randomUUID().toString().substring(0,8);
+            teachtask.setTeachtaskId(uuid);
 
             if((String) jsonObject.get("professionId") != null && !((String) jsonObject.get("professionId")).equals("")){
                 teachtask.setProfessionId((String) jsonObject.get("professionId"));
@@ -57,11 +66,17 @@ public class TeachtaskServiceImpl implements TeachtaskService {
             }
             if((String) jsonObject.get("classId") != null && !((String) jsonObject.get("classId")).equals("")){
                 teachtask.setClassId((String) jsonObject.get("classId"));
+                //这是后来加的：当开课之后 个这个班级里的所有人加一个选此课程的记录
+                //但是实际上 应该是在管理员同意之后才给各位同学添加选课记录--handleTeachtaskStatus方法里
+                //xkService.createXkInfo((String) jsonObject.get("classId"), uuid);
             }
 
-            teachtask.setTeacherId((String) jsonObject.get("teacherId"));
+            String teacherid = (String) jsonObject.get("teacherId");
+            teachtask.setTeacherId(teacherid);
 
-            teachtask.setCourseId((String) jsonObject.get("courseId"));
+            String courseid = (String) jsonObject.get("courseId");
+            teachtask.setCourseId(courseid);
+
             teachtask.setTeachtaskMaxnum(Integer.parseInt(((String) jsonObject.get("teachtaskMaxnum"))));
 
             teachtask.setTeachtaskSelnum(Integer.parseInt(((String) jsonObject.get("teachtaskSelnum"))));
@@ -82,19 +97,26 @@ public class TeachtaskServiceImpl implements TeachtaskService {
             teachtask.setTeachtaskIsrank(0);
             teachtask.setTeachtaskRemaerk((String) jsonObject.get("teachtaskRemaerk"));
 
+
+            int ress = teachtaskMapper.insertSelective(teachtask);
+            if(ress >= 1){
+                res.put(20000,"申请教学任务成功！");
+
+                //你已提交教授XX课程的申请
+                HashMap h = new HashMap();
+                Course c = courseMapper.selectByPrimaryKey(courseid);
+                h.put("teachtask_courseName" , c.getCourseName());
+                tipService.createTip(teacherid , 7 , h);
+            }else
+                res.put(20000,"申请教学任务失败，未报异常！");
+            return res;
         }catch (Exception e){
             e.printStackTrace();
-            res.put(18000,"申请教学任务失败！数据格式错误！");
+            res.put(18000,"申请教学任务失败！数据格式错误或服务器内部错误！");
             return res;
         }
-        int ress = teachtaskMapper.insertSelective(teachtask);
-
-        if(ress >= 1)
-            res.put(20000,"申请教学任务成功！");
-        else
-            res.put(18000,"申请教学任务失败！服务器内部错误！");
-        return res;
     }
+
     /**
      * 根据角色获取其可视的教学任务列表信息
      * @param pageNum
@@ -454,11 +476,38 @@ public class TeachtaskServiceImpl implements TeachtaskService {
         try{
             teachtask.setTeachtaskId(id);
             teachtask.setTeachtaskIsrank(Integer.parseInt(status));
+            // status置为0是未审核 置为1是已审核（审核通过） 置为2是拒绝
+            // 且需要判断其是否为校内课程（非素质选修课程）
+            if(Integer.parseInt(status) == 1){
+                Teachtask teachtaskTmp = teachtaskMapper.selectByPrimaryKey(id);
+                if(!(teachtaskTmp.getClassId() == null || teachtaskTmp.getClassId().equals(""))){
+                    xkService.createXkInfo(teachtaskTmp.getClassId(), id);
+                }
+            }
             res = teachtaskMapper.updateByPrimaryKeySelective(teachtask);
+
+            if(res >= 1){
+                //你已提交教授XX课程的申请
+                HashMap h = new HashMap();
+                Teachtask task = teachtaskMapper.selectByPrimaryKey(id);
+                Course c = courseMapper.selectByPrimaryKey(task.getCourseId());
+                h.put("teachtask_courseName" , c.getCourseName());
+                if(Integer.parseInt(status) == 1){
+                    tipService.createTip(task.getTeacherId() , 8 , h);
+                }else if(Integer.parseInt(status) == 2){
+                    tipService.createTip(task.getTeacherId() , 9 , h);
+                }
+
+
+                return true;
+            }else
+                return false;
         }catch (Exception e){
             e.printStackTrace();
+            log.error("更改教学任务状态失败！");
+            return false;
         } 
-        return res>=1? true:false;
+
     }
 
 

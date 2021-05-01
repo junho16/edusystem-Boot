@@ -4,18 +4,20 @@ import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.edusystem.entity.*;
 import com.edusystem.enums.GetEunm;
+import com.edusystem.mapper.CollegeMapper;
+import com.edusystem.mapper.CourseMapper;
+import com.edusystem.mapper.TeachtaskMapper;
 import com.edusystem.mapper.XxkcMapper;
 import com.edusystem.service.XxkcService;
 import com.edusystem.util.JWTUtils;
 import com.github.pagehelper.PageHelper;
+import javafx.scene.shape.Circle;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author 花菜
@@ -27,6 +29,15 @@ public class XxkcServiceImpl implements XxkcService {
 
     @Autowired
     XxkcMapper xxkcMapper;
+
+    @Autowired
+    TeachtaskMapper teachtaskMapper;
+
+    @Autowired
+    CollegeMapper collegeMapper;
+
+    @Autowired
+    CourseMapper courseMapper;
 
     @Override
     public HashMap fetchXXKCList(int pageNum, int limit, Map query, String token) {
@@ -121,6 +132,55 @@ public class XxkcServiceImpl implements XxkcService {
         return hashMap;
     }
 
+    /**
+     * 获取校内素质拓展课程 （选修课程）信息
+     * 此方法是查询本学年的 以供给学生进行选课（和校外网课一起选的）
+     * @param pageNum
+     * @param limit
+     * @param query
+     * @param token
+     * @return
+     */
+    @Override
+    public HashMap fetchSZKCList(int pageNum, int limit, Map query, String token) {
+        HashMap hashMap = new HashMap();
+        try{
+            DecodedJWT verify = JWTUtils.verify(token);
+            String username = verify.getClaim("username").asString();
+            String loginrole = verify.getClaim("loginrole").asString();
+
+            log.info("方法：获取校内素质选修课程列表。用户信息==》账号: userId=>{}", username);
+            log.info("方法：获取校内素质选修课程列表。用户信息==》角色: userrole=>{}", loginrole);
+            log.info("方法：获取校内素质选修课程列表。查询第{}页", pageNum);
+            log.info("方法：获取校内素质选修课程列表。查询1页{}项", limit);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+            String year = sdf.format(new Date());
+            log.info("方法：获取校内素质选修课程列表。查询{}-{}学年范围", Integer.parseInt(year)-1  ,  Integer.parseInt(year));
+            //素质拓展课应该是本学年的可以选择
+            TeachtaskExample teachtaskExample = new TeachtaskExample();
+            TeachtaskExample.Criteria criteria = teachtaskExample.createCriteria();
+            criteria.andProfessionIdIsNull();
+            criteria.andClassIdIsNull();
+            criteria.andTeachtaskAcademicyearBetween(Integer.parseInt(year)-1 , Integer.parseInt(year));
+
+            List<Teachtask> teachtaskList = teachtaskMapper.selectByExample(teachtaskExample);
+            for(Teachtask t : teachtaskList){
+                //需要新增其课程名称与课程所属院系
+                Course c = courseMapper.selectByPrimaryKey(t.getCourseId());
+                t.setCollegeName(c.getCollegeName());
+                t.setCourseName(c.getCourseName());
+                t.setCredit(c.getCourseCredit());
+            }
+            hashMap.put("data", teachtaskList);
+            return hashMap;
+        }catch (Exception e){
+            e.printStackTrace();
+            log.error("方法：获取校内素质选修课程列表失败");
+            return null;
+        }
+    }
+
     @Override
     public boolean updateXXKCInfo(JSONObject jsonObject, String token) {
         Xxkc xxkc = new Xxkc();
@@ -208,6 +268,11 @@ public class XxkcServiceImpl implements XxkcService {
         int res = xxkcMapper.deleteByPrimaryKey(id);
         return res>=1?true:false;
     }
+
+
+
+
+
 
 
 

@@ -4,5 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public interface TipService {
-    public HashMap getNoticeList(Map data, String token);
+    public HashMap getTipList(Map data, String username);
+
+    public HashMap updateTipState(String noticeid, int state);
+
+    public HashMap createTip(String userid, int kind  , Map datamap) ;
 }

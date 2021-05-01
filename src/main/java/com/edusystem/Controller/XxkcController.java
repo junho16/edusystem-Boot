@@ -2,6 +2,7 @@ package com.edusystem.Controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.edusystem.entity.Response.MyResponse;
+import com.edusystem.service.Impl.XxkcServiceImpl;
 import com.edusystem.service.XxkcService;
 import com.edusystem.util.CommonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ import java.util.Map;
 public class XxkcController {
 
     @Autowired
-    XxkcService xxkcService;
+    XxkcServiceImpl xxkcService;
 
     @GetMapping("/list")
     @ResponseBody
@@ -51,6 +52,35 @@ public class XxkcController {
             result = new MyResponse(MyResponse.SUCCESS_CODE,"success!",res);
         }else{
             result = new MyResponse(MyResponse.Fail_CODE,"获取选修课程列表。参数错误！或是缺失参数或后台接收参数错误！");
+        }
+        return result;
+    }
+
+
+    @GetMapping("/szkclist")
+    @ResponseBody
+    public MyResponse fetchSZKCList(@RequestParam Map query, @RequestParam String token) {
+
+        String mytoken = ((String) query.get("token"));
+        log.info("方法：获取校内素质选修课程列表。-------------当前请求token为{}",token);
+        log.info("方法：获取校内素质选修课程列表。当前mytoken为{}", mytoken );
+        log.info("方法：获取校内素质选修课程列表。当前query为{}", query );
+        /**
+         * 请求参数==》格式 map有两个值
+         2
+         query={"page":1,"limit":20,"sort":"+id"}
+         token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2d
+         */
+        JSONObject queryObj = JSONObject.parseObject((String) query.get("query"));
+        boolean isHasAll = CommonUtil.hasAllRequired(queryObj,"page,limit");
+        log.info("方法：获取校内素质选修课程列表。当前用户token为{}",token);
+
+        MyResponse result;
+        if(isHasAll){
+            HashMap res = xxkcService.fetchSZKCList((Integer)queryObj.get("page"),(Integer)queryObj.get("limit"),query,mytoken);
+            result = new MyResponse(MyResponse.SUCCESS_CODE,"success!",res);
+        }else{
+            result = new MyResponse(MyResponse.Fail_CODE,"获取校内素质选修课程列表。参数错误！或是缺失参数或后台接收参数错误！");
         }
         return result;
     }

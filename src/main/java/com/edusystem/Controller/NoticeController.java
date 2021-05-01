@@ -6,6 +6,7 @@ package com.edusystem.Controller;
  */
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.edusystem.entity.Response.MyResponse;
+import com.edusystem.service.Impl.NoticeServiceImpl;
 import com.edusystem.service.NoticeService;
 import com.edusystem.util.JWTUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ public class NoticeController {
 
 
     @Autowired
-    NoticeService noticeService;
+    NoticeServiceImpl noticeService;
 
     /**
      * 获取用户自己的收到的留言数据

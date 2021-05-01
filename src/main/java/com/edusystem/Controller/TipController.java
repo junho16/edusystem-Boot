@@ -2,8 +2,11 @@ package com.edusystem.Controller;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.edusystem.entity.Response.MyResponse;
+import com.edusystem.service.Impl.TipServiceImpl;
+import com.edusystem.service.TipService;
 import com.edusystem.util.JWTUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +21,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("tip")
 public class TipController {
-    TipService tipService;
+    @Autowired
+    TipServiceImpl tipService;
+
     /**
      * 获取tip数据
      * @param request
@@ -40,6 +45,27 @@ public class TipController {
         result = flag == null ?
                 new MyResponse(MyResponse.SUCCESS_CODE, res.get(20000)) :
                 new MyResponse(MyResponse.Fail_CODE, (String) res.get(18000), null);
+        return result;
+    }
+
+
+    /**
+     * 修改通知查看状态
+     * @param request
+     * @return
+     */
+    @PostMapping("/state")
+    @ResponseBody
+    public MyResponse updateTipState(
+            HttpServletRequest request,
+            @RequestParam String tipid ,@RequestParam int state) {
+        log.info("方法：修改通知的查看状态。当前token为{}", request.getHeader("token"));
+        MyResponse result;
+        HashMap res = tipService.updateTipState(tipid, state);
+        String flag = (String) res.get(20000);
+        result = flag != null ?
+                new MyResponse(MyResponse.SUCCESS_CODE, (String) res.get(20000)) :
+                new MyResponse(MyResponse.Fail_CODE, (String) res.get(18000));
         return result;
     }
 }

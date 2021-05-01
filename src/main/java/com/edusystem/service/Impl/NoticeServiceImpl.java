@@ -3,8 +3,7 @@ package com.edusystem.service.Impl;
 import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.edusystem.dto.UserDto;
-import com.edusystem.entity.Notice;
-import com.edusystem.entity.NoticeExample;
+import com.edusystem.entity.*;
 import com.edusystem.mapper.NoticeMapper;
 import com.edusystem.service.NoticeService;
 import com.edusystem.service.UserService;
@@ -26,6 +25,9 @@ import java.util.*;
 @Service
 @Slf4j
 public class NoticeServiceImpl implements NoticeService {
+
+    @Autowired
+    TipServiceImpl tipService;
 
     @Autowired
     NoticeMapper noticeMapper;
@@ -205,17 +207,26 @@ public class NoticeServiceImpl implements NoticeService {
         notice.setNoticeTitle((String) data.get("title"));
         notice.setNoticeIsseen(0);
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateNow = df.format(new Date());
         try {
-            notice.setNoticeTime(DateUtil.getDateWithStr(df.format(new Date())));
+            notice.setNoticeTime(DateUtil.getDateWithStr(dateNow));
         } catch (ParseException e) {
             log.error("方法：新建留言记录。获取系统当前时间错误~");
             e.printStackTrace();
         }
         try{
             int ress = noticeMapper.insertSelective(notice);
-            if(ress >= 1)
+            if(ress >= 1){
                 res.put(20000,"新增留言记录信息成功！");
-            else
+
+                HashMap h = new HashMap();
+                UserDto userDto = userService.getUserInfoWithId(verify.getClaim("username").asString());
+                h.put("notice_fromName" , userDto.getUserName());
+                h.put("notice_fromRole" , userDto.getUserRole());
+                h.put("notice_time" ,  (dateNow));
+                // 留言-你在XX时间收到XX发来的留言
+                tipService.createTip((String)data.get("to_user") , 10 , h);
+            }else
                 res.put(18000,"新增留言记录信息失败！服务器内部错误！");
             return res;
         }catch(Exception e){
@@ -246,16 +257,26 @@ public class NoticeServiceImpl implements NoticeService {
         notice.setNoticePid((String)data.get("noticeId"));
         notice.setNoticeIsseen(0);
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateNow = df.format(new Date());
         try {
-            notice.setNoticeTime(DateUtil.getDateWithStr(df.format(new Date())));
+            notice.setNoticeTime(DateUtil.getDateWithStr(dateNow));
         } catch (ParseException e) {
             log.error("方法：创建留言的回复记录。获取系统当前时间错误~");
             e.printStackTrace();
         }
         try{
             int ress = noticeMapper.insertSelective(notice);
-            if(ress >= 1)
+            if(ress >= 1){
                 res.put(20000,"创建留言的回复记录成功！");
+
+                HashMap h = new HashMap();
+                UserDto userDto = userService.getUserInfoWithId(verify.getClaim("username").asString());
+                h.put("notice_fromName" , userDto.getUserName());
+                h.put("notice_fromRole" , userDto.getUserRole());
+                h.put("notice_time" ,  (dateNow));
+                // 留言-你在XX时间收到了XX发来的留言回复
+                tipService.createTip((String)data.get("noticeFromid") , 11 , h);
+            }
             else
                 res.put(18000,"创建留言的回复记录失败！服务器内部错误！");
             return res;
@@ -276,9 +297,21 @@ public class NoticeServiceImpl implements NoticeService {
         notice.setNoticeIsseen(state);
         try{
             int ress = noticeMapper.updateByPrimaryKeySelective(notice);
-            if(ress >= 1)
+            if(ress >= 1){
                 res.put(20000,"修改留言的查看状态成功！");
-            else
+
+                HashMap h = new HashMap();
+                Notice n = noticeMapper.selectByPrimaryKey(noticeid);
+                UserDto userDto = userService.getUserInfoWithId(n.getNoticeFromid());
+                h.put("notice_fromName" , userDto.getUserName());
+                h.put("notice_fromRole" , userDto.getUserRole());
+
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                h.put("notice_time" ,  (df.format(new Date()))) ;
+
+                // 留言-你在XX时间确认收到XX发来的留言
+                tipService.createTip(n.getNoticeToid() , 12 , h);
+            }else
                 res.put(18000,"修改留言的查看状态失败！服务器内部错误！");
             return res;
         }catch(Exception e){
