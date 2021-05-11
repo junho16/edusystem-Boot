@@ -49,13 +49,46 @@ public class ClassPlanController {
         return result;
     }
 
+    @PostMapping("/repk")
+    @ResponseBody
+    public MyResponse repk(
+            HttpServletRequest request,
+            @RequestParam Map data) {
+
+
+        log.info("方法：重新排课。当前token为{}", request.getHeader("token"));
+        MyResponse result;
+        HashMap res = classplanService.repk(data, request.getHeader("token"));
+        result = res.get(20000) != null ?
+                new MyResponse(MyResponse.SUCCESS_CODE, "请求成功" , res.get(20000)) :
+                new MyResponse(MyResponse.Fail_CODE, (String)res.get(18000),null);
+        return result;
+    }
+
+    @PostMapping("/update")
+    @ResponseBody
+    public MyResponse updateClassPlan(
+            HttpServletRequest request,
+            @RequestParam Map data) {
+
+
+        log.info("方法：人工手动换课。当前token为{}", request.getHeader("token"));
+        MyResponse result;
+        HashMap res = classplanService.updateClassPlan(data, request.getHeader("token"));
+        result = res.get(20000) != null ?
+                new MyResponse(MyResponse.SUCCESS_CODE, "请求成功" , res.get(20000)) :
+                new MyResponse(MyResponse.Fail_CODE, (String)res.get(18000),null);
+        return result;
+    }
+
+
     /**
      * 获取指定学年、学期下的课表安排
      * @param request
      * @param data
      * @return
      */
-    @PostMapping("/data")
+    @GetMapping("/data")
     @ResponseBody
     public MyResponse fetchClassPlan(
             HttpServletRequest request,
@@ -66,8 +99,24 @@ public class ClassPlanController {
         MyResponse result;
         HashMap res = classplanService.fetchClassPlan(data, request.getHeader("token"));
         result = res.get(20000) != null ?
-                new MyResponse(MyResponse.SUCCESS_CODE, res.get(20000)) :
-                new MyResponse(MyResponse.Fail_CODE,  res.get(18000));
+                new MyResponse(MyResponse.SUCCESS_CODE, "请求成功" , res.get(20000)) :
+                new MyResponse(MyResponse.Fail_CODE, (String)res.get(18000),null);
+        return result;
+    }
+
+    @GetMapping("/data/role")
+    @ResponseBody
+    public MyResponse fetchClassPlanWithRole(
+            HttpServletRequest request,
+            @RequestParam Map data) {
+
+
+        log.info("方法：获取教师或者学生的视角下的课程编排列表。当前token为{}", request.getHeader("token"));
+        MyResponse result;
+        HashMap res = classplanService.fetchClassPlanWithRole(data, request.getHeader("token"));
+        result = res.get(20000) != null ?
+                new MyResponse(MyResponse.SUCCESS_CODE, "请求成功" , res.get(20000)) :
+                new MyResponse(MyResponse.Fail_CODE, (String)res.get(18000),null);
         return result;
     }
 
