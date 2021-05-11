@@ -48,6 +48,17 @@ public class XXKCDto {
     //新加一个字段来判断是否为校内素质选修课
     private String kcClassid;
 
+    //加一个教学任务id
+    private String kcTeachTaskId;
+
+    public String getKcTeachTaskId() {
+        return kcTeachTaskId;
+    }
+
+    public void setKcTeachTaskId(String kcTeachTaskId) {
+        this.kcTeachTaskId = kcTeachTaskId;
+    }
+
     public String getKcClassid() {
         return kcClassid;
     }

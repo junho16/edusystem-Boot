@@ -323,7 +323,45 @@ public class TipServiceImpl implements TipService {
                     }
                     break;
                 }
+                case 13:{
+                    //留言-你收到一条课程XXX的考勤任务
+                    String notice_courseName = (String) datamap.get("notice_courseName");
+                    String notice_time = (String) datamap.get("notice_time");
 
+                    String content = "你收到了一条课程名为 "+notice_courseName+" 的考勤任务，截止时间为 "+ notice_time +" 请及时完成!";
+                    tip.setTipContent(content);
+                    try {
+                        tipMapper.insertSelective(tip);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        log.error("方法：新建通知记录失败-你收到一条课程XXX的考勤任务");
+                    }
+                    break;
+                }
+                case 14:{
+                    //留言-学生XX 已完成您发布的课程XXX的考勤任务 （任务编号：XXX，时间：XXX）
+                    String kq_task_id = (String) datamap.get("kq_task_id");
+                    String studentName = (String) datamap.get("studentName");
+                    String courseName = (String) datamap.get("courseName");
+                    String kq_Time = (String) datamap.get("kq_Time");
+                    String studentid = (String) datamap.get("studentid");
+
+                    String content = "";
+                    if((boolean)datamap.get("isLater")){
+                        //迟到
+                        content = "学号:"+studentid +" 姓名:"+studentName+" 已完成您在课程 "+ courseName +" 发布的考勤任务。但是其迟到了！ 任务编号:"+ kq_task_id +";完成时间:"+kq_Time+"。";
+                    }else{
+                        content = "学号:"+studentid +" 姓名:"+studentName+" 已完成您在课程 "+ courseName +" 发布的考勤任务。任务编号:"+ kq_task_id +";完成时间:"+kq_Time+"。";
+                    }
+                    tip.setTipContent(content);
+                    try {
+                        tipMapper.insertSelective(tip);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        log.error("方法：新建通知记录失败-学生XX 已完成您发布的课程XXX的考勤任务 （任务编号：XXX，时间：XXX）");
+                    }
+                    break;
+                }
             }
         }catch (Exception e) {
             e.printStackTrace();

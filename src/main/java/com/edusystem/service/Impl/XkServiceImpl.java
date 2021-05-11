@@ -313,6 +313,8 @@ public class XkServiceImpl implements XkService {
                 xxkcDto.setKcMaxlimit(xxkc.getXxkcMaxlimit()+"");
                 xxkcDto.setKcSelnum(xxkc.getXxkcSelnum()+"");
                 xxkcDto.setKcIsrank(xxkc.getXxkcIsrank()+"");
+
+                xxkcDto.setKcTeachTaskId(cas.getTeachtaskId());
                 //  三个字段没有
                 //  kcIseveryweek
                 //  kcTeacher
@@ -361,6 +363,8 @@ public class XkServiceImpl implements XkService {
                 xxkcDto.setKcIseveryweek(kc.getTeachtaskIseveryweek()+"");
 
                 xxkcDto.setKcClassid(kc.getClassId());
+
+                xxkcDto.setKcTeachTaskId(cas.getTeachtaskId());
 
 
             }

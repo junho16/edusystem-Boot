@@ -49,6 +49,16 @@ public class Teacher {
 
     private String teacherPic;
 
+    private String collegeName;
+
+    public String getCollegeName() {
+        return collegeName;
+    }
+
+    public void setCollegeName(String collegeName) {
+        this.collegeName = collegeName;
+    }
+
     public String getTeacherId() {
         return teacherId;
     }
@@ -231,5 +241,14 @@ public class Teacher {
 
     public void setTeacherPic(String teacherPic) {
         this.teacherPic = teacherPic == null ? null : teacherPic.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "teacherId='" + teacherId + '\'' +
+                ", collegeId='" + collegeId + '\'' +
+                ", teacherName='" + teacherName + '\'' +
+                '}';
     }
 }

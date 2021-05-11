@@ -74,6 +74,20 @@ public class TkController {
         return result;
     }
 
+    @GetMapping("/newtklist")
+    @ResponseBody
+    public MyResponse newtklist(
+            HttpServletRequest request ) {
+
+        log.info("方法：创建听课记录。当前token为{}", request.getHeader("token"));
+        MyResponse result;
+        HashMap res = tkService.newtklist(request.getHeader("token"));
+
+        result = res.get(20000) != null ?
+                new MyResponse(MyResponse.SUCCESS_CODE, "获取新的需要听课的教师信息成功" ,  res.get(20000)) :
+                new MyResponse(MyResponse.Fail_CODE ,(String) res.get(18000) , null);
+        return result;
+    }
 
     /**
      * tk_id：XXX

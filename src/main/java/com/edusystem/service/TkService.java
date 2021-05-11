@@ -10,4 +10,5 @@ public interface TkService {
     public HashMap getTkDataWithTable(Map data , String token);
     public HashMap fetchTkInfo(String id);
     public HashMap getTkDataWithAdmin(Map data);
+    public HashMap newtklist(String token);
 }

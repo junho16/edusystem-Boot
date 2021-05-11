@@ -6,9 +6,13 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 //@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 //@EnableTransactionManagement
+
+//开启异步
+@EnableAsync
 @SpringBootApplication
 @MapperScan("com.edusystem.mapper")
 public class EdusystemApplication {

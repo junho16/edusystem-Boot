@@ -3,10 +3,7 @@ package com.edusystem.service.Impl;
 import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.edusystem.entity.*;
-import com.edusystem.mapper.CourseMapper;
-import com.edusystem.mapper.TeacherMapper;
-import com.edusystem.mapper.TeachtaskMapper;
-import com.edusystem.mapper.TkMapper;
+import com.edusystem.mapper.*;
 import com.edusystem.service.TkService;
 import com.edusystem.util.DateUtil;
 import com.edusystem.util.JWTUtils;
@@ -18,10 +15,8 @@ import org.springframework.web.util.HtmlUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author 花菜D
@@ -44,6 +39,130 @@ public class TkServiceImpl implements TkService {
 
     @Autowired
     CourseMapper courseMapper;
+
+    @Autowired
+    CollegeMapper collegeMapper;
+
+    @Autowired
+    MailServiceImpl mailService;
+
+    @Override
+    public HashMap newtklist(String token)   {
+        HashMap<Integer,Object> ress = new HashMap<>();
+        //获取新的需要听课的教师信息--10条以内的 12个月以内的 平均评分最低的教师(7)--以及次数最少的教师(3)
+        Date dNow = new Date();   //当前时间
+        Calendar calendar = Calendar.getInstance(); //得到日历
+        calendar.setTime(dNow);//把当前时间赋给日历
+        calendar.add(Calendar.MONTH, -12);  //设置为前1月
+
+        Date dBefore = calendar.getTime();   //得到前3月的时间
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //设置时间格式
+        try {
+            Date startDate = DateUtil.getDateWithStr(sdf.format(dBefore));
+//            TkExample tkExample = new TkExample();
+//            tkExample.setOrderByClause("`tk_score` ASC");//DESC
+//
+//            TkExample.Criteria tkCia = tkExample.createCriteria();
+//            tkCia.andTkTimeGreaterThanOrEqualTo(startDate);
+//            List<TkWithBLOBs> tkList = tkMapper.selectByExampleWithBLOBs(tkExample);
+//
+//            Set res = new LinkedHashSet();
+//            res.addAll(tkList);//获取1个月内教师的评分从低到高
+
+
+            HashMap<String,Double> scoreMap = new HashMap(); //获取所有教师的排序得分：12个月内听课均分
+            TeacherExample teacherExample = new TeacherExample();
+            TeacherExample.Criteria tCia = teacherExample.createCriteria();
+            tCia.andTeacherIdIsNotNull();
+            List<Teacher> teachers = teacherMapper.selectByExample(teacherExample);
+            for(Teacher t : teachers){
+                TkExample tkExample2 = new TkExample();
+                TkExample.Criteria tkCia2 = tkExample2.createCriteria();
+                tkCia2.andTkBtkjsidEqualTo(t.getTeacherId());
+                tkCia2.andTkTimeGreaterThanOrEqualTo(startDate);
+
+                long count = tkMapper.countByExample(tkExample2);
+
+
+                List<Tk> list = tkMapper.selectByExample(tkExample2);
+                int total = 0;
+                for(Tk tk: list){
+                    total += tk.getTkScore();
+                }
+
+                if( count == 0 )
+                    scoreMap.put(t.getTeacherId(), (double) 0);
+                else
+                    scoreMap.put(t.getTeacherId(), (double) (total/count));
+
+            }
+
+            List<Map.Entry<String,Double>> list = new ArrayList<>(scoreMap.entrySet()); //将map的entryset放入list集合
+            //对list进行排序，并通过Comparator传入自定义的排序规则
+            Collections.sort(list,new Comparator<Map.Entry<String, Double>>() {
+                @Override
+                public int compare(Map.Entry<String, Double> o1, Map.Entry<String, Double> o2) {
+                    return (int) (o1.getValue()-o2.getValue()); //重写排序规则，小于0表示升序，大于0表示降序
+                }
+            });
+
+            //发送邮件 并 返回需听课的教师列表
+            List<Teacher> res = new ArrayList<>();
+            if(list.size() < 10){
+                Iterator<Map.Entry<String, Double>> iter = list.iterator();
+                while(iter.hasNext()){
+                    Map.Entry<String, Double> item = iter.next();
+                    String key = item.getKey();
+
+                    Teacher t = teacherMapper.selectByPrimaryKey(key);
+                    College c = collegeMapper.selectByPrimaryKey(t.getCollegeId());
+                    t.setCollegeName(c.getCollegeName());
+                    res.add(t);
+
+
+
+
+                }
+            }
+            else{
+                int num = 10;
+                Iterator<Map.Entry<String, Double>> iter = list.iterator();
+                while(num != 0){
+                    Map.Entry<String, Double> item = iter.next();
+                    String key = item.getKey();
+
+                    Teacher t = teacherMapper.selectByPrimaryKey(key);
+                    College c = collegeMapper.selectByPrimaryKey(t.getCollegeId());
+                    t.setCollegeName(c.getCollegeName());
+                    res.add(t);
+
+
+
+                    num--;
+                }
+            }
+
+            ress.put(20000,res);
+
+
+            //发邮件-异步处理
+            mailService.sendToTeacherList(res,
+                    "听课通知",
+                    "您最近有一场教学质量管理任务，请提前准备！时间：" + sdf.format(new Date())
+            );
+
+
+            return ress;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            ress.put(18000,"发送邮件失败，请检查需进行教学质量检查的教师的邮箱是否正确~");
+            return ress;
+        }
+
+
+
+    }
 
     @Override
     public HashMap createTkRecord(Map datamap, String token)   {
