@@ -59,6 +59,7 @@ public class TkController {
         // 得到文件保存的位置以及新文件名
         File dest = new File(filePath + newFileName);
         try {
+
             // 上传的文件被保存了
             file.transferTo(dest);
             // 打印日志

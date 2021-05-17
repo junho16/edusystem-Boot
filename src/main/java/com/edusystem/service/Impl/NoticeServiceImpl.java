@@ -107,7 +107,7 @@ public class NoticeServiceImpl implements NoticeService {
             res.put(20000,resData);
         }catch (Exception e){
             e.printStackTrace();
-            res.put(18000,"查询以户可见的留言信息！服务器内部错误！");
+            res.put(18000,"查询用户可见的留言信息失败！服务器内部错误！");
             return res;
         }
         return res;

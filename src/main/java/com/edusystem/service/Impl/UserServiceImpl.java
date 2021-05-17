@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.edusystem.dto.UserDto;
 import com.edusystem.entity.*;
+import com.edusystem.entity.Response.MyResponse;
 import com.edusystem.mapper.*;
 import com.edusystem.service.UserService;
 import com.edusystem.util.DateUtil;
@@ -95,6 +96,52 @@ public class UserServiceImpl implements UserService {
         hashMap.put("name",name);
         return hashMap;
     }
+
+    @Override
+    public HashMap getUserInfoToShow(String token ) {
+
+        HashMap<Integer,Object> res = new HashMap<>();
+
+        try{
+            DecodedJWT verify = JWTUtils.verify(token);
+            String username = verify.getClaim("username").asString();
+            String loginrole = verify.getClaim("loginrole").asString();
+            if(loginrole.equals("student")){
+                Student student = studentMapper.selectByPrimaryKey(username);
+                res.put(20000,student);
+            }else if(loginrole.equals("teacher")){
+                Teacher teacher = teacherMapper.selectByPrimaryKey(username);
+                res.put(20000,teacher);
+            }else if(loginrole.equals("admin")){
+
+            }else if(loginrole.equals("superadmin")){
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            res.put(18000,"获取用户信息失败~，服务器内部错误~");
+        }
+        return res;
+
+
+//        try{
+//            int ress = tipMapper.updateByPrimaryKeySelective(tip);
+//            if(ress >= 1)
+//                res.put(20000,"修改通知的查看状态成功！");
+//            else
+//                res.put(18000,"修改通知的查看状态失败！服务器内部错误！");
+//            return res;
+//        }catch(Exception e){
+//            e.printStackTrace();
+//            log.error("方法：修改通知的查看状态。插入数据错误！");
+//            res.put(18000,"修改通知的查看状态失败！服务器内部错误！");
+//            return res;
+//        }
+    }
+
+
+
+
 
 
     public UserDto getUserInfoWithId(String userid){

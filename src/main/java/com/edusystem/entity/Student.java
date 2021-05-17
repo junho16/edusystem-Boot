@@ -1,5 +1,7 @@
 package com.edusystem.entity;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.util.Date;
 
 public class Student {
@@ -38,6 +40,71 @@ public class Student {
     private Integer studentXgbz;
 
     private String studentPic;
+
+
+    private String score_ps ;
+    private String score_sy ;
+    private String score_qz ;
+    private String score_qm ;
+    private String score_kq ;
+    private String score_kf ;
+    private Boolean show ;
+
+    public String getScore_kq() {
+        return score_kq;
+    }
+
+    public void setScore_kq(String score_kq) {
+        this.score_kq = score_kq;
+    }
+
+    public String getScore_kf() {
+        return score_kf;
+    }
+
+    public void setScore_kf(String score_kf) {
+        this.score_kf = score_kf;
+    }
+
+    public Boolean getShow() {
+        return show;
+    }
+
+    public void setShow(Boolean show) {
+        this.show = show;
+    }
+
+    public String getScore_ps() {
+        return score_ps;
+    }
+
+    public void setScore_ps(String score_ps) {
+        this.score_ps = score_ps;
+    }
+
+    public String getScore_sy() {
+        return score_sy;
+    }
+
+    public void setScore_sy(String score_sy) {
+        this.score_sy = score_sy;
+    }
+
+    public String getScore_qz() {
+        return score_qz;
+    }
+
+    public void setScore_qz(String score_qz) {
+        this.score_qz = score_qz;
+    }
+
+    public String getScore_qm() {
+        return score_qm;
+    }
+
+    public void setScore_qm(String score_qm) {
+        this.score_qm = score_qm;
+    }
 
     public String getStudentId() {
         return studentId;

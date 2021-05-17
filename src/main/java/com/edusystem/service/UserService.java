@@ -13,5 +13,5 @@ public interface UserService {
     public UserDto getUserInfoWithId(String userid);
 
     public HashMap getAdminList( String userid);
-
+    public HashMap getUserInfoToShow(String token );
 }

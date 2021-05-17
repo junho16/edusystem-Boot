@@ -368,12 +368,15 @@ public class XkServiceImpl implements XkService {
 
 
             }
+
             String keyword = (String) queryObj.get("keyword");
             if( !(keyword == null || keyword.equals(""))  ){
                 log.info("方法：获取学生选课数据。查询keyword为{}的网课课程", keyword);
                 if(!xxkcDto.getKcName().contains(keyword))
                     continue;
             }
+
+
 
 
 
@@ -391,12 +394,15 @@ public class XkServiceImpl implements XkService {
                     continue;
             }
 
+
             String teachtaskStarttime = (String) queryObj.get("teachtaskStarttime");
-            if( !(teachtaskStarttime == null || teachtaskStarttime.equals(""))  ){
+            if (!(teachtaskStarttime == null || teachtaskStarttime.equals(""))) {
                 log.info("方法：获取学生选课数据。查询开始周数为{}的网课课程", teachtaskStarttime);
-                if(!xxkcDto.getKcStarttime().equals(teachtaskStarttime))
+                if (!xxkcDto.getKcStarttime().equals(teachtaskStarttime))
                     continue;
             }
+
+
 
             String teachtaskEndtime = (String) queryObj.get("teachtaskEndtime");
             if( !(teachtaskEndtime == null || teachtaskEndtime.equals(""))  ){
@@ -405,10 +411,11 @@ public class XkServiceImpl implements XkService {
                     continue;
             }
 
+
             resArr.add(xxkcDto);
 
         }
-        if (resArr == null) {
+        if (resArr == null ) {
             log.info("方法：获取学生选课数据。未获取学生选课数据列表");
             resHashMap.put(18000,"获取学生选课数据或列表为空！" );
         } else {

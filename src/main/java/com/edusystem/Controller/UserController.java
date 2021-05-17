@@ -49,7 +49,21 @@ public class UserController {
         return response;
     }
 
+    @GetMapping("/user/show/info")
+    @ResponseBody
+    public MyResponse getUserInfoToShow( HttpServletRequest request) {
 
+        log.info("方法：获取用户信息详情。当前token为{}", request.getHeader("token"));
+        MyResponse result;
+        DecodedJWT verify = JWTUtils.verify(request.getHeader("token"));
+        String username = verify.getClaim("username").asString();
+
+        HashMap res = userService.getUserInfoToShow(request.getHeader("token"));
+        result = res.get(20000) != null ?
+                new MyResponse(MyResponse.SUCCESS_CODE, res.get(20000)) :
+                new MyResponse(MyResponse.Fail_CODE, (String) res.get(18000), null);
+        return result;
+    }
 
 
     /**

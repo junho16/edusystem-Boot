@@ -6,6 +6,7 @@ gorit:
   file:
     root:
       path: E:\A_bishe_file_storage\static\data\
+      muban: E:\A_bishe_file_storage\static\data\muban\
 spring:
   #开启文件上传 此至resource下的static
   servlet:

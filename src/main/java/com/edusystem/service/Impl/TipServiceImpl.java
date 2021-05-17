@@ -362,6 +362,23 @@ public class TipServiceImpl implements TipService {
                     }
                     break;
                 }
+                case 15:{
+                    //校长信箱-您已成功完成提问 （提问编号：XXX，主题：XXX，时间：XXX）
+                    String msg_title = (String) datamap.get("msg_title");
+                    String msg_time = (String) datamap.get("msg_time");
+                    String msg_id = (String) datamap.get("msg_id");
+                    String content = "";
+                    content = "您已成功完成提问。主题:"+ msg_title +";编号:"+msg_id+";完成时间:"+msg_time+"。";
+
+                    tip.setTipContent(content);
+                    try {
+                        tipMapper.insertSelective(tip);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        log.error("方法：您已成功完成提问 （提问编号：XXX，时间：XXX）");
+                    }
+                    break;
+                }
             }
         }catch (Exception e) {
             e.printStackTrace();

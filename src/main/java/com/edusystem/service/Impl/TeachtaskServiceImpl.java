@@ -23,6 +23,7 @@ import java.util.*;
 @Slf4j
 @Service
 public class TeachtaskServiceImpl implements TeachtaskService {
+
     @Autowired
     TipServiceImpl tipService;
 
