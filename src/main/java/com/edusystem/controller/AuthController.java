@@ -1,4 +1,4 @@
-package com.edusystem.Controller;
+package com.edusystem.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.edusystem.entity.Response.MyResponse;

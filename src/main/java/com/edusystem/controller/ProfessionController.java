@@ -1,9 +1,8 @@
-package com.edusystem.Controller;
+package com.edusystem.controller;
 
 import com.edusystem.entity.College;
 import com.edusystem.entity.Response.MyResponse;
 import com.edusystem.service.Impl.ProfessionServiceImpl;
-import com.edusystem.service.ProfessionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

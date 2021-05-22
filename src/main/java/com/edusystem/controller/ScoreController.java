@@ -1,20 +1,15 @@
-package com.edusystem.Controller;
+package com.edusystem.controller;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.read.metadata.ReadSheet;
-import com.alibaba.fastjson.JSON;
 import com.edusystem.entity.Response.MyResponse;
-import com.edusystem.entity.Student;
 import com.edusystem.service.Impl.ScoreServiceImpl;
 import com.edusystem.util.ExcelListener.ScoreData;
 import com.edusystem.util.ExcelListener.ScoreListenter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.util.IOUtils;
-import org.apache.tomcat.util.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,10 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

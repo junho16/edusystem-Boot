@@ -1,4 +1,4 @@
-package com.edusystem.Controller;
+package com.edusystem.controller;
 
 import com.edusystem.entity.Response.MyResponse;
 import com.edusystem.service.Impl.KqServiceImpl;

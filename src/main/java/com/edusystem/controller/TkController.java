@@ -1,18 +1,12 @@
-package com.edusystem.Controller;
+package com.edusystem.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.edusystem.entity.College;
 import com.edusystem.entity.Response.MyResponse;
 import com.edusystem.service.Impl.TkServiceImpl;
-import com.edusystem.service.TkService;
 import com.edusystem.util.JWTUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

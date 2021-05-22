@@ -2,7 +2,6 @@ package com.edusystem.service.Impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.edusystem.Controller.TeachtaskController;
 import com.edusystem.dto.ScoreDto;
 import com.edusystem.dto.XXKCDto;
 import com.edusystem.entity.*;
@@ -10,7 +9,6 @@ import com.edusystem.mapper.*;
 import com.edusystem.service.ScoreService;
 import com.edusystem.util.ExcelListener.ScoreData;
 import com.edusystem.util.JWTUtils;
-import javafx.scene.transform.Scale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

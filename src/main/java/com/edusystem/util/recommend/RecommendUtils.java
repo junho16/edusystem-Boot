@@ -39,8 +39,7 @@ public class RecommendUtils {
      * @param userActiveList 用户的购买行为列表
      * @return 组装好的用户的购买行为的map集合
      */
-    public static ConcurrentHashMap<Long, ConcurrentHashMap<Long, Long>> assembleUserBehavior
-    (List<UserActiveDTO> userActiveList) {
+    public static ConcurrentHashMap<Long, ConcurrentHashMap<Long, Long>> assembleUserBehavior(List<UserActiveDTO> userActiveList) {
         ConcurrentHashMap<Long, ConcurrentHashMap<Long, Long>> activeMap = new ConcurrentHashMap<Long, ConcurrentHashMap<Long, Long>>();
         // 遍历查询到的用户点击行为数据
         for (UserActiveDTO userActive : userActiveList) {

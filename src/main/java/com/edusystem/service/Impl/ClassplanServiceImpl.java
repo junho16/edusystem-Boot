@@ -7,6 +7,8 @@ import com.edusystem.entity.Class;
 import com.edusystem.mapper.*;
 import com.edusystem.service.ClassplanService;
 import com.edusystem.util.JWTUtils;
+import com.edusystem.util.ga.MyGa;
+import com.edusystem.util.ga.Schedule;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,9 +104,6 @@ public class ClassplanServiceImpl implements ClassplanService {
             }
         }
 
-
-
-
         ClassroomExample classroomExample = new ClassroomExample();
         ClassroomExample.Criteria classCriteria = classroomExample.createCriteria();
         classCriteria.andClassroomIdIsNotNull();
@@ -113,106 +112,143 @@ public class ClassplanServiceImpl implements ClassplanService {
 
 
 
-        for(int t = 0 ; t < teachtasks.size() ;t++){
-            //针对每一个教学任务 先随机20次 如果20次的随机值都有课程安排 则开始全部遍历
-            int num = 20;
-            boolean needFindAll = true;
-            while (num-- != 0){
-                int day = (int)( 1 + Math.random() * (5 - 1 + 1));
-                int classnum = (int)( 1 + Math.random() * (4 - 1 + 1));
-                int classroomid = (int)( 1 + Math.random() * (classrooms.size()-1 - 0 + 0));
-                ClassplanExample classplanExample = new ClassplanExample();
-                ClassplanExample.Criteria classrplanCriteria = classplanExample.createCriteria();
-                classrplanCriteria.andClassplanYaerEqualTo(year);
-                classrplanCriteria.andClassplanTermEqualTo(term);
+//        for(int t = 0 ; t < teachtasks.size() ;t++){
+//            //针对每一个教学任务 先随机20次 如果20次的随机值都有课程安排 则开始全部遍历
+//            int num = 20;
+//            boolean needFindAll = true;
+//            while (num-- != 0){
+//                int day = (int)( 1 + Math.random() * (5 - 1 + 1));
+//                int classnum = (int)( 1 + Math.random() * (4 - 1 + 1));
+//                int classroomid = (int)( 1 + Math.random() * (classrooms.size()-1 - 0 + 0));
+//                ClassplanExample classplanExample = new ClassplanExample();
+//                ClassplanExample.Criteria classrplanCriteria = classplanExample.createCriteria();
+//                classrplanCriteria.andClassplanYaerEqualTo(year);
+//                classrplanCriteria.andClassplanTermEqualTo(term);
+//
+//                classrplanCriteria.andClassplanDayEqualTo(day);
+//                classrplanCriteria.andClassplanClassnumEqualTo(classnum);
+//                classrplanCriteria.andClassroomIdEqualTo(classrooms.get(classroomid).getClassroomId());
+//
+//                ArrayList<Classplan> tmp = (ArrayList) classplanMapper.selectByExample(classplanExample);
+//
+//                if(tmp.size() >= 1 ) {
+//                    continue;
+//                } else {
+//                    //可以插入一条数据（排一门课）
+//                    //加入一下arrayList
+//                    Classplan classplan = new Classplan();
+//                    classplan.setClassplanId(UUID.randomUUID().toString().substring(0, 8));
+//                    classplan.setTeachtaskId(teachtasks.get(t).getTeachtaskId());
+//                    classplan.setClassroomId(classrooms.get(classroomid).getClassroomId());
+//
+//                    classplan.setClassplanClassnum(classnum);
+//                    classplan.setClassplanDay(day);
+//                    classplan.setClassplanYaer(year);
+//                    classplan.setClassplanTerm(term);
+//
+//
+//                    classplanMapper.insertSelective(classplan);
+//
+//                    arrayList.add(classplan);
+//                    needFindAll = false;
+//                    break;
+//                }
+//            }
+//
+//            if(needFindAll){
+//                boolean flag = false;
+//                for(int i = 1 ; i <= 5 ; i ++ ){
+//                    for(int j = 1 ; j <= 4 ; j++ ){
+//                        for(int c = 0 ; c < classrooms.size() ; c++){
+//                            ClassplanExample classplanExample = new ClassplanExample();
+//                            ClassplanExample.Criteria classrplanCriteria = classplanExample.createCriteria();
+//                            classrplanCriteria.andClassplanYaerEqualTo(year);
+//                            classrplanCriteria.andClassplanTermEqualTo(term);
+//
+//                            classrplanCriteria.andClassplanDayEqualTo(i);
+//                            classrplanCriteria.andClassplanClassnumEqualTo(j);
+//                            classrplanCriteria.andClassroomIdEqualTo(classrooms.get(c).getClassroomId());
+//
+//                            ArrayList<Classplan> tmp = (ArrayList) classplanMapper.selectByExample(classplanExample);
+//
+//                            if(tmp.size() >= 1 ) continue;
+//                            else{
+//                                //可以插入一条数据（排一门课）
+//                                //加入一下arrayList
+//                                Classplan classplan = new Classplan();
+//                                classplan.setClassplanId(UUID.randomUUID().toString().substring(0,8));
+//                                classplan.setTeachtaskId(teachtasks.get(t).getTeachtaskId());
+//                                classplan.setClassroomId(classrooms.get(c).getClassroomId());
+//
+//                                classplan.setClassplanClassnum(j);
+//                                classplan.setClassplanDay(i);
+//                                classplan.setClassplanYaer(year);
+//                                classplan.setClassplanTerm(term);
+//
+//
+//                                classplanMapper.insertSelective(classplan);
+//
+//                                arrayList.add(classplan);
+//                                if(arrayList.size() == teachtasks.size()){
+//                                    // 排够了
+//                                    flag = true;
+//                                    break;
+//                                }
+//                            }
+//                        }
+//                        if(flag) break;
+//                    }
+//                    if(flag) break;
+//                }
+//            }
+//
+//        }
 
-                classrplanCriteria.andClassplanDayEqualTo(day);
-                classrplanCriteria.andClassplanClassnumEqualTo(classnum);
-                classrplanCriteria.andClassroomIdEqualTo(classrooms.get(classroomid).getClassroomId());
-
-                ArrayList<Classplan> tmp = (ArrayList) classplanMapper.selectByExample(classplanExample);
-
-                if(tmp.size() >= 1 ) {
-                    continue;
-                } else {
-                    //可以插入一条数据（排一门课）
-                    //加入一下arrayList
-                    Classplan classplan = new Classplan();
-                    classplan.setClassplanId(UUID.randomUUID().toString().substring(0, 8));
-                    classplan.setTeachtaskId(teachtasks.get(t).getTeachtaskId());
-                    classplan.setClassroomId(classrooms.get(classroomid).getClassroomId());
-
-                    classplan.setClassplanClassnum(classnum);
-                    classplan.setClassplanDay(day);
-                    classplan.setClassplanYaer(year);
-                    classplan.setClassplanTerm(term);
-
-
-                    classplanMapper.insertSelective(classplan);
-
-                    arrayList.add(classplan);
-                    needFindAll = false;
-                    break;
-                }
-            }
-
-            if(needFindAll){
-                boolean flag = false;
-                for(int i = 1 ; i <= 5 ; i ++ ){
-                    for(int j = 1 ; j <= 4 ; j++ ){
-                        for(int c = 0 ; c < classrooms.size() ; c++){
-                            ClassplanExample classplanExample = new ClassplanExample();
-                            ClassplanExample.Criteria classrplanCriteria = classplanExample.createCriteria();
-                            classrplanCriteria.andClassplanYaerEqualTo(year);
-                            classrplanCriteria.andClassplanTermEqualTo(term);
-
-                            classrplanCriteria.andClassplanDayEqualTo(i);
-                            classrplanCriteria.andClassplanClassnumEqualTo(j);
-                            classrplanCriteria.andClassroomIdEqualTo(classrooms.get(c).getClassroomId());
-
-                            ArrayList<Classplan> tmp = (ArrayList) classplanMapper.selectByExample(classplanExample);
-
-                            if(tmp.size() >= 1 ) continue;
-                            else{
-                                //可以插入一条数据（排一门课）
-                                //加入一下arrayList
-                                Classplan classplan = new Classplan();
-                                classplan.setClassplanId(UUID.randomUUID().toString().substring(0,8));
-                                classplan.setTeachtaskId(teachtasks.get(t).getTeachtaskId());
-                                classplan.setClassroomId(classrooms.get(c).getClassroomId());
-
-                                classplan.setClassplanClassnum(j);
-                                classplan.setClassplanDay(i);
-                                classplan.setClassplanYaer(year);
-                                classplan.setClassplanTerm(term);
-
-
-                                classplanMapper.insertSelective(classplan);
-
-                                arrayList.add(classplan);
-                                if(arrayList.size() == teachtasks.size()){
-                                    // 排够了
-                                    flag = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if(flag) break;
-                    }
-                    if(flag) break;
-                }
-            }
-
+        ArrayList<String> classroomidlist = new ArrayList<>();
+        for(Classroom c : classrooms){
+            classroomidlist.add(c.getClassroomId());
+        }
+        ArrayList<Schedule> schedules = new ArrayList<>();
+        for(Teachtask t : teachtasks){
+            schedules.add(new Schedule( t.getTeachtaskId() ));
         }
 
+        MyGa myGa = new MyGa();
+        List<Schedule> resSchedule = myGa.evolution(schedules,classroomidlist);
 
-        if(arrayList.size() == teachtasks.size()){
-            res.put(20000,arrayList);
+        if(resSchedule == null || resSchedule.size()==0){
+            res.put(18000,"排课失败，硬件条件不允许此次排课！");
+            return res;
         }else{
-            res.put(18000,"排课失败，教室已被排满！");
+            try{
+                for(Schedule s: resSchedule){
+                System.out.println(s);
+                    Classplan classplan = new Classplan(
+                            UUID.randomUUID().toString().substring(0,8),
+                            s.getTeachtaskid(),
+                            s.getClassroomid(),
+                            s.getSlot(),
+                            s.getWeekday(),
+                            year,
+                            term
+                    );
+                    classplanMapper.insertSelective(classplan);
+                    arrayList.add(classplan);
+                }
+                res.put(20000,arrayList);
+                return res;
+            }catch (Exception e){
+                e.printStackTrace();
+                res.put(18000,"排课失败，内部错误！");
+                return res;
+            }
         }
-        return res;
 
+//        if(arrayList.size() == teachtasks.size()){
+//            res.put(20000,arrayList);
+//        }else{
+//            res.put(18000,"排课失败，教室已被排满！");
+//        }
     }
 
     @Override
@@ -597,6 +633,7 @@ public class ClassplanServiceImpl implements ClassplanService {
 
 
     }
+
 
 }
 //  版本一： 全部遍历一遍

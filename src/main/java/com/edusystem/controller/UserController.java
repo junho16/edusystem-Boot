@@ -1,4 +1,4 @@
-package com.edusystem.Controller;
+package com.edusystem.controller;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.edusystem.entity.Response.MyResponse;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author 花菜

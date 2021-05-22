@@ -1,4 +1,4 @@
-package com.edusystem.Controller;
+package com.edusystem.controller;
 
 /**
  * @author 花菜
@@ -7,7 +7,6 @@ package com.edusystem.Controller;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.edusystem.entity.Response.MyResponse;
 import com.edusystem.service.Impl.NoticeServiceImpl;
-import com.edusystem.service.NoticeService;
 import com.edusystem.util.JWTUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

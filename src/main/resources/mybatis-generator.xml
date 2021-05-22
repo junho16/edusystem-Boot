@@ -53,7 +53,10 @@
         </javaClientGenerator>
 
         <!-- 指定数据库表  多个表示,可用多个table标签-->
-        <table schema="ClassPlan" tableName="classplan"></table>
+        <table schema="Kctj" tableName="kctj"></table>
+        <table schema="KctjActive" tableName="Kctj_Active"></table>
+        <table schema="KctjSimilarity" tableName="kctj_Similarity"></table>
+<!--        <table schema="ClassPlan" tableName="classplan"></table>-->
 <!--        <table schema="Tip" tableName="tip"></table>-->
 <!--        <table schema="Notice" tableName="notice"></table>-->
 <!--        <table schema="Tk" tableName="tk"></table>-->

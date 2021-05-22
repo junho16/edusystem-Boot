@@ -1,10 +1,9 @@
-package com.edusystem.Controller;
+package com.edusystem.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.edusystem.entity.College;
 import com.edusystem.entity.Response.MyResponse;
 import com.edusystem.service.Impl.TeachtaskServiceImpl;
-import com.edusystem.service.TeachtaskService;
 import com.edusystem.util.CommonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
