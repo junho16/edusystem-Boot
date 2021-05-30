@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edusystem.mapper.KctjMapper">
+  <resultMap id="BaseResultMap" type="com.edusystem.entity.Kctj">
+    <id column="kctj_id" jdbcType="INTEGER" property="kctjId" />
+    <result column="kctj_score" jdbcType="DOUBLE" property="kctjScore" />
+    <result column="kctj_hour" jdbcType="DOUBLE" property="kctjHour" />
+    <result column="kctj_booknum" jdbcType="VARCHAR" property="kctjBooknum" />
+    <result column="kctj_price" jdbcType="DOUBLE" property="kctjPrice" />
+    <result column="kctj_studynum" jdbcType="DOUBLE" property="kctjStudynum" />
+    <result column="kctj_link" jdbcType="VARCHAR" property="kctjLink" />
+    <result column="kctj_hard" jdbcType="VARCHAR" property="kctjHard" />
+    <result column="kctj_title" jdbcType="VARCHAR" property="kctjTitle" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.edusystem.entity.Kctj">
+    <result column="kctj_content" jdbcType="LONGVARCHAR" property="kctjContent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    kctj_id, kctj_score, kctj_hour, kctj_booknum, kctj_price, kctj_studynum, kctj_link, 
+    kctj_hard, kctj_title
+  </sql>
+  <sql id="Blob_Column_List">
+    kctj_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.edusystem.entity.KctjExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from kctj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.edusystem.entity.KctjExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from kctj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from kctj
+    where kctj_id = #{kctjId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from kctj
+    where kctj_id = #{kctjId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.edusystem.entity.KctjExample">
+    delete from kctj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.edusystem.entity.Kctj">
+    insert into kctj (kctj_id, kctj_score, kctj_hour, 
+      kctj_booknum, kctj_price, kctj_studynum, 
+      kctj_link, kctj_hard, kctj_title, 
+      kctj_content)
+    values (#{kctjId,jdbcType=INTEGER}, #{kctjScore,jdbcType=DOUBLE}, #{kctjHour,jdbcType=DOUBLE}, 
+      #{kctjBooknum,jdbcType=VARCHAR}, #{kctjPrice,jdbcType=DOUBLE}, #{kctjStudynum,jdbcType=DOUBLE}, 
+      #{kctjLink,jdbcType=VARCHAR}, #{kctjHard,jdbcType=VARCHAR}, #{kctjTitle,jdbcType=VARCHAR}, 
+      #{kctjContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.edusystem.entity.Kctj">
+    insert into kctj
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="kctjId != null">
+        kctj_id,
+      </if>
+      <if test="kctjScore != null">
+        kctj_score,
+      </if>
+      <if test="kctjHour != null">
+        kctj_hour,
+      </if>
+      <if test="kctjBooknum != null">
+        kctj_booknum,
+      </if>
+      <if test="kctjPrice != null">
+        kctj_price,
+      </if>
+      <if test="kctjStudynum != null">
+        kctj_studynum,
+      </if>
+      <if test="kctjLink != null">
+        kctj_link,
+      </if>
+      <if test="kctjHard != null">
+        kctj_hard,
+      </if>
+      <if test="kctjTitle != null">
+        kctj_title,
+      </if>
+      <if test="kctjContent != null">
+        kctj_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="kctjId != null">
+        #{kctjId,jdbcType=INTEGER},
+      </if>
+      <if test="kctjScore != null">
+        #{kctjScore,jdbcType=DOUBLE},
+      </if>
+      <if test="kctjHour != null">
+        #{kctjHour,jdbcType=DOUBLE},
+      </if>
+      <if test="kctjBooknum != null">
+        #{kctjBooknum,jdbcType=VARCHAR},
+      </if>
+      <if test="kctjPrice != null">
+        #{kctjPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="kctjStudynum != null">
+        #{kctjStudynum,jdbcType=DOUBLE},
+      </if>
+      <if test="kctjLink != null">
+        #{kctjLink,jdbcType=VARCHAR},
+      </if>
+      <if test="kctjHard != null">
+        #{kctjHard,jdbcType=VARCHAR},
+      </if>
+      <if test="kctjTitle != null">
+        #{kctjTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="kctjContent != null">
+        #{kctjContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.edusystem.entity.KctjExample" resultType="java.lang.Long">
+    select count(*) from kctj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update kctj
+    <set>
+      <if test="record.kctjId != null">
+        kctj_id = #{record.kctjId,jdbcType=INTEGER},
+      </if>
+      <if test="record.kctjScore != null">
+        kctj_score = #{record.kctjScore,jdbcType=DOUBLE},
+      </if>
+      <if test="record.kctjHour != null">
+        kctj_hour = #{record.kctjHour,jdbcType=DOUBLE},
+      </if>
+      <if test="record.kctjBooknum != null">
+        kctj_booknum = #{record.kctjBooknum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kctjPrice != null">
+        kctj_price = #{record.kctjPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.kctjStudynum != null">
+        kctj_studynum = #{record.kctjStudynum,jdbcType=DOUBLE},
+      </if>
+      <if test="record.kctjLink != null">
+        kctj_link = #{record.kctjLink,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kctjHard != null">
+        kctj_hard = #{record.kctjHard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kctjTitle != null">
+        kctj_title = #{record.kctjTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kctjContent != null">
+        kctj_content = #{record.kctjContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update kctj
+    set kctj_id = #{record.kctjId,jdbcType=INTEGER},
+      kctj_score = #{record.kctjScore,jdbcType=DOUBLE},
+      kctj_hour = #{record.kctjHour,jdbcType=DOUBLE},
+      kctj_booknum = #{record.kctjBooknum,jdbcType=VARCHAR},
+      kctj_price = #{record.kctjPrice,jdbcType=DOUBLE},
+      kctj_studynum = #{record.kctjStudynum,jdbcType=DOUBLE},
+      kctj_link = #{record.kctjLink,jdbcType=VARCHAR},
+      kctj_hard = #{record.kctjHard,jdbcType=VARCHAR},
+      kctj_title = #{record.kctjTitle,jdbcType=VARCHAR},
+      kctj_content = #{record.kctjContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update kctj
+    set kctj_id = #{record.kctjId,jdbcType=INTEGER},
+      kctj_score = #{record.kctjScore,jdbcType=DOUBLE},
+      kctj_hour = #{record.kctjHour,jdbcType=DOUBLE},
+      kctj_booknum = #{record.kctjBooknum,jdbcType=VARCHAR},
+      kctj_price = #{record.kctjPrice,jdbcType=DOUBLE},
+      kctj_studynum = #{record.kctjStudynum,jdbcType=DOUBLE},
+      kctj_link = #{record.kctjLink,jdbcType=VARCHAR},
+      kctj_hard = #{record.kctjHard,jdbcType=VARCHAR},
+      kctj_title = #{record.kctjTitle,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.edusystem.entity.Kctj">
+    update kctj
+    <set>
+      <if test="kctjScore != null">
+        kctj_score = #{kctjScore,jdbcType=DOUBLE},
+      </if>
+      <if test="kctjHour != null">
+        kctj_hour = #{kctjHour,jdbcType=DOUBLE},
+      </if>
+      <if test="kctjBooknum != null">
+        kctj_booknum = #{kctjBooknum,jdbcType=VARCHAR},
+      </if>
+      <if test="kctjPrice != null">
+        kctj_price = #{kctjPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="kctjStudynum != null">
+        kctj_studynum = #{kctjStudynum,jdbcType=DOUBLE},
+      </if>
+      <if test="kctjLink != null">
+        kctj_link = #{kctjLink,jdbcType=VARCHAR},
+      </if>
+      <if test="kctjHard != null">
+        kctj_hard = #{kctjHard,jdbcType=VARCHAR},
+      </if>
+      <if test="kctjTitle != null">
+        kctj_title = #{kctjTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="kctjContent != null">
+        kctj_content = #{kctjContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where kctj_id = #{kctjId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.edusystem.entity.Kctj">
+    update kctj
+    set kctj_score = #{kctjScore,jdbcType=DOUBLE},
+      kctj_hour = #{kctjHour,jdbcType=DOUBLE},
+      kctj_booknum = #{kctjBooknum,jdbcType=VARCHAR},
+      kctj_price = #{kctjPrice,jdbcType=DOUBLE},
+      kctj_studynum = #{kctjStudynum,jdbcType=DOUBLE},
+      kctj_link = #{kctjLink,jdbcType=VARCHAR},
+      kctj_hard = #{kctjHard,jdbcType=VARCHAR},
+      kctj_title = #{kctjTitle,jdbcType=VARCHAR},
+      kctj_content = #{kctjContent,jdbcType=LONGVARCHAR}
+    where kctj_id = #{kctjId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.edusystem.entity.Kctj">
+    update kctj
+    set kctj_score = #{kctjScore,jdbcType=DOUBLE},
+      kctj_hour = #{kctjHour,jdbcType=DOUBLE},
+      kctj_booknum = #{kctjBooknum,jdbcType=VARCHAR},
+      kctj_price = #{kctjPrice,jdbcType=DOUBLE},
+      kctj_studynum = #{kctjStudynum,jdbcType=DOUBLE},
+      kctj_link = #{kctjLink,jdbcType=VARCHAR},
+      kctj_hard = #{kctjHard,jdbcType=VARCHAR},
+      kctj_title = #{kctjTitle,jdbcType=VARCHAR}
+    where kctj_id = #{kctjId,jdbcType=INTEGER}
+  </update>
+</mapper>

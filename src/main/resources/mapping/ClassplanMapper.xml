@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edusystem.mapper.ClassplanMapper">
+  <resultMap id="BaseResultMap" type="com.edusystem.entity.Classplan">
+    <id column="classplan_id" jdbcType="VARCHAR" property="classplanId" />
+    <result column="teachtask_id" jdbcType="VARCHAR" property="teachtaskId" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+    <result column="classroom_id" jdbcType="VARCHAR" property="classroomId" />
+    <result column="classroom_name" jdbcType="VARCHAR" property="classroomName" />
+    <result column="teacher_id" jdbcType="VARCHAR" property="teacherId" />
+    <result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
+    <result column="classplan_time" jdbcType="VARCHAR" property="classplanTime" />
+    <result column="classplan_classNum" jdbcType="INTEGER" property="classplanClassnum" />
+    <result column="classplan_day" jdbcType="INTEGER" property="classplanDay" />
+    <result column="classplan_week" jdbcType="INTEGER" property="classplanWeek" />
+    <result column="classplan_yaer" jdbcType="INTEGER" property="classplanYaer" />
+    <result column="classplan_term" jdbcType="INTEGER" property="classplanTerm" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    classplan_id, teachtask_id, course_name, classroom_id, classroom_name, teacher_id, 
+    teacher_name, classplan_time, classplan_classNum, classplan_day, classplan_week, 
+    classplan_yaer, classplan_term
+  </sql>
+  <select id="selectByExample" parameterType="com.edusystem.entity.ClassplanExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from classplan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from classplan
+    where classplan_id = #{classplanId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from classplan
+    where classplan_id = #{classplanId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.edusystem.entity.ClassplanExample">
+    delete from classplan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.edusystem.entity.Classplan">
+    insert into classplan (classplan_id, teachtask_id, course_name, 
+      classroom_id, classroom_name, teacher_id, 
+      teacher_name, classplan_time, classplan_classNum, 
+      classplan_day, classplan_week, classplan_yaer, 
+      classplan_term)
+    values (#{classplanId,jdbcType=VARCHAR}, #{teachtaskId,jdbcType=VARCHAR}, #{courseName,jdbcType=VARCHAR}, 
+      #{classroomId,jdbcType=VARCHAR}, #{classroomName,jdbcType=VARCHAR}, #{teacherId,jdbcType=VARCHAR}, 
+      #{teacherName,jdbcType=VARCHAR}, #{classplanTime,jdbcType=VARCHAR}, #{classplanClassnum,jdbcType=INTEGER}, 
+      #{classplanDay,jdbcType=INTEGER}, #{classplanWeek,jdbcType=INTEGER}, #{classplanYaer,jdbcType=INTEGER}, 
+      #{classplanTerm,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.edusystem.entity.Classplan">
+    insert into classplan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="classplanId != null">
+        classplan_id,
+      </if>
+      <if test="teachtaskId != null">
+        teachtask_id,
+      </if>
+      <if test="courseName != null">
+        course_name,
+      </if>
+      <if test="classroomId != null">
+        classroom_id,
+      </if>
+      <if test="classroomName != null">
+        classroom_name,
+      </if>
+      <if test="teacherId != null">
+        teacher_id,
+      </if>
+      <if test="teacherName != null">
+        teacher_name,
+      </if>
+      <if test="classplanTime != null">
+        classplan_time,
+      </if>
+      <if test="classplanClassnum != null">
+        classplan_classNum,
+      </if>
+      <if test="classplanDay != null">
+        classplan_day,
+      </if>
+      <if test="classplanWeek != null">
+        classplan_week,
+      </if>
+      <if test="classplanYaer != null">
+        classplan_yaer,
+      </if>
+      <if test="classplanTerm != null">
+        classplan_term,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="classplanId != null">
+        #{classplanId,jdbcType=VARCHAR},
+      </if>
+      <if test="teachtaskId != null">
+        #{teachtaskId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null">
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomId != null">
+        #{classroomId,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomName != null">
+        #{classroomName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherId != null">
+        #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherName != null">
+        #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="classplanTime != null">
+        #{classplanTime,jdbcType=VARCHAR},
+      </if>
+      <if test="classplanClassnum != null">
+        #{classplanClassnum,jdbcType=INTEGER},
+      </if>
+      <if test="classplanDay != null">
+        #{classplanDay,jdbcType=INTEGER},
+      </if>
+      <if test="classplanWeek != null">
+        #{classplanWeek,jdbcType=INTEGER},
+      </if>
+      <if test="classplanYaer != null">
+        #{classplanYaer,jdbcType=INTEGER},
+      </if>
+      <if test="classplanTerm != null">
+        #{classplanTerm,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.edusystem.entity.ClassplanExample" resultType="java.lang.Long">
+    select count(*) from classplan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update classplan
+    <set>
+      <if test="record.classplanId != null">
+        classplan_id = #{record.classplanId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teachtaskId != null">
+        teachtask_id = #{record.teachtaskId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseName != null">
+        course_name = #{record.courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classroomId != null">
+        classroom_id = #{record.classroomId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classroomName != null">
+        classroom_name = #{record.classroomName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherId != null">
+        teacher_id = #{record.teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacherName != null">
+        teacher_name = #{record.teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classplanTime != null">
+        classplan_time = #{record.classplanTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classplanClassnum != null">
+        classplan_classNum = #{record.classplanClassnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.classplanDay != null">
+        classplan_day = #{record.classplanDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.classplanWeek != null">
+        classplan_week = #{record.classplanWeek,jdbcType=INTEGER},
+      </if>
+      <if test="record.classplanYaer != null">
+        classplan_yaer = #{record.classplanYaer,jdbcType=INTEGER},
+      </if>
+      <if test="record.classplanTerm != null">
+        classplan_term = #{record.classplanTerm,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update classplan
+    set classplan_id = #{record.classplanId,jdbcType=VARCHAR},
+      teachtask_id = #{record.teachtaskId,jdbcType=VARCHAR},
+      course_name = #{record.courseName,jdbcType=VARCHAR},
+      classroom_id = #{record.classroomId,jdbcType=VARCHAR},
+      classroom_name = #{record.classroomName,jdbcType=VARCHAR},
+      teacher_id = #{record.teacherId,jdbcType=VARCHAR},
+      teacher_name = #{record.teacherName,jdbcType=VARCHAR},
+      classplan_time = #{record.classplanTime,jdbcType=VARCHAR},
+      classplan_classNum = #{record.classplanClassnum,jdbcType=INTEGER},
+      classplan_day = #{record.classplanDay,jdbcType=INTEGER},
+      classplan_week = #{record.classplanWeek,jdbcType=INTEGER},
+      classplan_yaer = #{record.classplanYaer,jdbcType=INTEGER},
+      classplan_term = #{record.classplanTerm,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.edusystem.entity.Classplan">
+    update classplan
+    <set>
+      <if test="teachtaskId != null">
+        teachtask_id = #{teachtaskId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null">
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomId != null">
+        classroom_id = #{classroomId,jdbcType=VARCHAR},
+      </if>
+      <if test="classroomName != null">
+        classroom_name = #{classroomName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherId != null">
+        teacher_id = #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherName != null">
+        teacher_name = #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="classplanTime != null">
+        classplan_time = #{classplanTime,jdbcType=VARCHAR},
+      </if>
+      <if test="classplanClassnum != null">
+        classplan_classNum = #{classplanClassnum,jdbcType=INTEGER},
+      </if>
+      <if test="classplanDay != null">
+        classplan_day = #{classplanDay,jdbcType=INTEGER},
+      </if>
+      <if test="classplanWeek != null">
+        classplan_week = #{classplanWeek,jdbcType=INTEGER},
+      </if>
+      <if test="classplanYaer != null">
+        classplan_yaer = #{classplanYaer,jdbcType=INTEGER},
+      </if>
+      <if test="classplanTerm != null">
+        classplan_term = #{classplanTerm,jdbcType=INTEGER},
+      </if>
+    </set>
+    where classplan_id = #{classplanId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.edusystem.entity.Classplan">
+    update classplan
+    set teachtask_id = #{teachtaskId,jdbcType=VARCHAR},
+      course_name = #{courseName,jdbcType=VARCHAR},
+      classroom_id = #{classroomId,jdbcType=VARCHAR},
+      classroom_name = #{classroomName,jdbcType=VARCHAR},
+      teacher_id = #{teacherId,jdbcType=VARCHAR},
+      teacher_name = #{teacherName,jdbcType=VARCHAR},
+      classplan_time = #{classplanTime,jdbcType=VARCHAR},
+      classplan_classNum = #{classplanClassnum,jdbcType=INTEGER},
+      classplan_day = #{classplanDay,jdbcType=INTEGER},
+      classplan_week = #{classplanWeek,jdbcType=INTEGER},
+      classplan_yaer = #{classplanYaer,jdbcType=INTEGER},
+      classplan_term = #{classplanTerm,jdbcType=INTEGER}
+    where classplan_id = #{classplanId,jdbcType=VARCHAR}
+  </update>
+</mapper>

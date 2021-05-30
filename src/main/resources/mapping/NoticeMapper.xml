@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edusystem.mapper.NoticeMapper">
+  <resultMap id="BaseResultMap" type="com.edusystem.entity.Notice">
+    <id column="notice_id" jdbcType="VARCHAR" property="noticeId" />
+    <result column="notice_time" jdbcType="TIMESTAMP" property="noticeTime" />
+    <result column="notice_title" jdbcType="VARCHAR" property="noticeTitle" />
+    <result column="notice_fromId" jdbcType="VARCHAR" property="noticeFromid" />
+    <result column="notice_toId" jdbcType="VARCHAR" property="noticeToid" />
+    <result column="notice_isSeen" jdbcType="INTEGER" property="noticeIsseen" />
+    <result column="notice_kind" jdbcType="VARCHAR" property="noticeKind" />
+    <result column="notice_pid" jdbcType="VARCHAR" property="noticePid" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.edusystem.entity.Notice">
+    <result column="notice_content" jdbcType="LONGVARCHAR" property="noticeContent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    notice_id, notice_time, notice_title, notice_fromId, notice_toId, notice_isSeen, 
+    notice_kind, notice_pid
+  </sql>
+  <sql id="Blob_Column_List">
+    notice_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.edusystem.entity.NoticeExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.edusystem.entity.NoticeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from notice
+    where notice_id = #{noticeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from notice
+    where notice_id = #{noticeId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.edusystem.entity.NoticeExample">
+    delete from notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.edusystem.entity.Notice">
+    insert into notice (notice_id, notice_time, notice_title, 
+      notice_fromId, notice_toId, notice_isSeen, 
+      notice_kind, notice_pid, notice_content
+      )
+    values (#{noticeId,jdbcType=VARCHAR}, #{noticeTime,jdbcType=TIMESTAMP}, #{noticeTitle,jdbcType=VARCHAR}, 
+      #{noticeFromid,jdbcType=VARCHAR}, #{noticeToid,jdbcType=VARCHAR}, #{noticeIsseen,jdbcType=INTEGER}, 
+      #{noticeKind,jdbcType=VARCHAR}, #{noticePid,jdbcType=VARCHAR}, #{noticeContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.edusystem.entity.Notice">
+    insert into notice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="noticeId != null">
+        notice_id,
+      </if>
+      <if test="noticeTime != null">
+        notice_time,
+      </if>
+      <if test="noticeTitle != null">
+        notice_title,
+      </if>
+      <if test="noticeFromid != null">
+        notice_fromId,
+      </if>
+      <if test="noticeToid != null">
+        notice_toId,
+      </if>
+      <if test="noticeIsseen != null">
+        notice_isSeen,
+      </if>
+      <if test="noticeKind != null">
+        notice_kind,
+      </if>
+      <if test="noticePid != null">
+        notice_pid,
+      </if>
+      <if test="noticeContent != null">
+        notice_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="noticeId != null">
+        #{noticeId,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeTime != null">
+        #{noticeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="noticeTitle != null">
+        #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeFromid != null">
+        #{noticeFromid,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeToid != null">
+        #{noticeToid,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeIsseen != null">
+        #{noticeIsseen,jdbcType=INTEGER},
+      </if>
+      <if test="noticeKind != null">
+        #{noticeKind,jdbcType=VARCHAR},
+      </if>
+      <if test="noticePid != null">
+        #{noticePid,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeContent != null">
+        #{noticeContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.edusystem.entity.NoticeExample" resultType="java.lang.Long">
+    select count(*) from notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update notice
+    <set>
+      <if test="record.noticeId != null">
+        notice_id = #{record.noticeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeTime != null">
+        notice_time = #{record.noticeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.noticeTitle != null">
+        notice_title = #{record.noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeFromid != null">
+        notice_fromId = #{record.noticeFromid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeToid != null">
+        notice_toId = #{record.noticeToid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeIsseen != null">
+        notice_isSeen = #{record.noticeIsseen,jdbcType=INTEGER},
+      </if>
+      <if test="record.noticeKind != null">
+        notice_kind = #{record.noticeKind,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticePid != null">
+        notice_pid = #{record.noticePid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeContent != null">
+        notice_content = #{record.noticeContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update notice
+    set notice_id = #{record.noticeId,jdbcType=VARCHAR},
+      notice_time = #{record.noticeTime,jdbcType=TIMESTAMP},
+      notice_title = #{record.noticeTitle,jdbcType=VARCHAR},
+      notice_fromId = #{record.noticeFromid,jdbcType=VARCHAR},
+      notice_toId = #{record.noticeToid,jdbcType=VARCHAR},
+      notice_isSeen = #{record.noticeIsseen,jdbcType=INTEGER},
+      notice_kind = #{record.noticeKind,jdbcType=VARCHAR},
+      notice_pid = #{record.noticePid,jdbcType=VARCHAR},
+      notice_content = #{record.noticeContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update notice
+    set notice_id = #{record.noticeId,jdbcType=VARCHAR},
+      notice_time = #{record.noticeTime,jdbcType=TIMESTAMP},
+      notice_title = #{record.noticeTitle,jdbcType=VARCHAR},
+      notice_fromId = #{record.noticeFromid,jdbcType=VARCHAR},
+      notice_toId = #{record.noticeToid,jdbcType=VARCHAR},
+      notice_isSeen = #{record.noticeIsseen,jdbcType=INTEGER},
+      notice_kind = #{record.noticeKind,jdbcType=VARCHAR},
+      notice_pid = #{record.noticePid,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.edusystem.entity.Notice">
+    update notice
+    <set>
+      <if test="noticeTime != null">
+        notice_time = #{noticeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="noticeTitle != null">
+        notice_title = #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeFromid != null">
+        notice_fromId = #{noticeFromid,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeToid != null">
+        notice_toId = #{noticeToid,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeIsseen != null">
+        notice_isSeen = #{noticeIsseen,jdbcType=INTEGER},
+      </if>
+      <if test="noticeKind != null">
+        notice_kind = #{noticeKind,jdbcType=VARCHAR},
+      </if>
+      <if test="noticePid != null">
+        notice_pid = #{noticePid,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeContent != null">
+        notice_content = #{noticeContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where notice_id = #{noticeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.edusystem.entity.Notice">
+    update notice
+    set notice_time = #{noticeTime,jdbcType=TIMESTAMP},
+      notice_title = #{noticeTitle,jdbcType=VARCHAR},
+      notice_fromId = #{noticeFromid,jdbcType=VARCHAR},
+      notice_toId = #{noticeToid,jdbcType=VARCHAR},
+      notice_isSeen = #{noticeIsseen,jdbcType=INTEGER},
+      notice_kind = #{noticeKind,jdbcType=VARCHAR},
+      notice_pid = #{noticePid,jdbcType=VARCHAR},
+      notice_content = #{noticeContent,jdbcType=LONGVARCHAR}
+    where notice_id = #{noticeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.edusystem.entity.Notice">
+    update notice
+    set notice_time = #{noticeTime,jdbcType=TIMESTAMP},
+      notice_title = #{noticeTitle,jdbcType=VARCHAR},
+      notice_fromId = #{noticeFromid,jdbcType=VARCHAR},
+      notice_toId = #{noticeToid,jdbcType=VARCHAR},
+      notice_isSeen = #{noticeIsseen,jdbcType=INTEGER},
+      notice_kind = #{noticeKind,jdbcType=VARCHAR},
+      notice_pid = #{noticePid,jdbcType=VARCHAR}
+    where notice_id = #{noticeId,jdbcType=VARCHAR}
+  </update>
+</mapper>
