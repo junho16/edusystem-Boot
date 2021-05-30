@@ -53,10 +53,10 @@ public class ProfessionController {
         MyResponse result;
         try{
             ArrayList<College> res = professionService.fetchProfessionList(token);
-            result = new MyResponse(MyResponse.SUCCESS_CODE,"success!",res);
+            result = new MyResponse(MyResponse.SUCCESS_CODE,"请求成功!",res);
         }catch (Exception e){
             log.error("方法：获取专业列表失败。内部错误");
-            result = new MyResponse(MyResponse.Fail_CODE,"方法：获取专业列表失败。内部错误");
+            result = new MyResponse(MyResponse.Fail_CODE,"方法：获取专业列表失败。内部错误","方法：获取专业列表失败。内部错误");
         }
         return result;
     }

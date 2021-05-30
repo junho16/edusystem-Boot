@@ -24,7 +24,7 @@ public class AuthController {
     @ResponseBody
     public MyResponse roleRoutes(@RequestParam String token) {
         JSONArray res = routeService.getRoleRoutes(token);
-        MyResponse result = new MyResponse(MyResponse.SUCCESS_CODE,res);
+        MyResponse result = new MyResponse(MyResponse.SUCCESS_CODE,"请求成功",res);
         return result;
     }
 
@@ -38,7 +38,7 @@ public class AuthController {
     @ResponseBody
     public MyResponse superAdminRoutes() {
         JSONArray res = routeService.getSuperAdminRoutes();
-        MyResponse result = new MyResponse(MyResponse.SUCCESS_CODE,res);
+        MyResponse result = new MyResponse(MyResponse.SUCCESS_CODE,"请求成功",res);
         return result;
     }
 

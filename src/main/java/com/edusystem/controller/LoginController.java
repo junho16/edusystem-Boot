@@ -50,13 +50,13 @@ public class LoginController {
 
                 String token =  "{\"token\":\""+ JWTUtils.getToken(hashMap)+"\"}" ;
                 JSONObject tokenOnject = JSONObject.parseObject(token);
-                result = new MyResponse(MyResponse.SUCCESS_CODE,tokenOnject);
+                result = new MyResponse(MyResponse.SUCCESS_CODE,"请求成功",tokenOnject);
             }else{
-                result = new MyResponse(MyResponse.Fail_CODE,"Account and password are incorrect.","");
+                result = new MyResponse(MyResponse.Fail_CODE,"登录失败，账号密码不匹配！","");
             }
         }else{
             //冗余了 因为前端已经校验过是否为空
-            result = new MyResponse(MyResponse.Fail_CODE,"字段缺失！");
+            result = new MyResponse(MyResponse.Fail_CODE,"字段缺失！","");
         }
         return result;
     }

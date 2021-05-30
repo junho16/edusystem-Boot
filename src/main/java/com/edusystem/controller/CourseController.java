@@ -53,7 +53,7 @@ public class CourseController {
             HashMap res = courseService.getCourseListWithRole((Integer)queryObj.get("page"),(Integer)queryObj.get("limit"),query,mytoken);
             result = new MyResponse(MyResponse.SUCCESS_CODE,"success!",res);
         }else{
-            result = new MyResponse(MyResponse.Fail_CODE,"获取课程列表失败。参数错误！或是缺失参数或后台接收参数错误！");
+            result = new MyResponse(MyResponse.Fail_CODE,"获取课程列表失败。参数错误！或是缺失参数或后台接收参数错误！" ,"获取课程列表失败。参数错误！或是缺失参数或后台接收参数错误！");
         }
         return result;
     }
@@ -67,10 +67,10 @@ public class CourseController {
 
         try{
             ArrayList<College> res = courseService.fetchShowCollegesList(token);
-            result = new MyResponse(MyResponse.SUCCESS_CODE,"success!",res);
+            result = new MyResponse(MyResponse.SUCCESS_CODE,"请求成功!",res);
         }catch (Exception e){
             log.error("方法：获取课程列表-获取角色可查看的学院列表 失败。内部错误");
-            result = new MyResponse(MyResponse.Fail_CODE,"方法：获取课程列表-获取角色可查看的学院列表 失败。内部错误");
+            result = new MyResponse(MyResponse.Fail_CODE,"方法：获取课程列表-获取角色可查看的学院列表 失败。内部错误","方法：获取课程列表-获取角色可查看的学院列表 失败。内部错误");
         }
         return result;
     }

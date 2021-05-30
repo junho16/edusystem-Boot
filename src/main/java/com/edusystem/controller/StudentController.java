@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -84,7 +85,7 @@ public class StudentController {
 //            ArrayList students = studentService.getStudentListWithRole((Integer)queryObj.get("page"),(Integer)queryObj.get("limit"),token);
             result = new MyResponse(MyResponse.SUCCESS_CODE,"success!",res);
         }else{
-            result = new MyResponse(MyResponse.Fail_CODE,"参数错误！可能是缺失参数或后台接收参数错误！");
+            result = new MyResponse(MyResponse.Fail_CODE,"参数错误！可能是缺失参数或后台接收参数错误！","参数错误！可能是缺失参数或后台接收参数错误！");
         }
         return result;
     }
@@ -121,8 +122,8 @@ public class StudentController {
         MyResponse result;
         Boolean res = studentService.updateStudentInfo(stuUpdateData,token);
         result = res?
-                new MyResponse(MyResponse.SUCCESS_CODE,"update student info success!"):
-                new MyResponse(MyResponse.Fail_CODE,"update student info fail!");
+                new MyResponse(MyResponse.SUCCESS_CODE,"update student info success!","update student info success!"):
+                new MyResponse(MyResponse.Fail_CODE,"update student info fail!","update student info success!");
         return result;
     }
 
@@ -158,8 +159,8 @@ public class StudentController {
         HashMap res = studentService.createStudentInfo(stuCreateData,token);
         String flag = (String) res.get(20000);
         result = flag!=null?
-                new MyResponse(MyResponse.SUCCESS_CODE,(String) res.get(20000)):
-                new MyResponse(MyResponse.Fail_CODE,(String) res.get(18000));
+                new MyResponse(MyResponse.SUCCESS_CODE,(String) res.get(20000),(String) res.get(20000)):
+                new MyResponse(MyResponse.Fail_CODE,(String) res.get(18000),(String) res.get(18000));
         return result;
     }
 
@@ -176,8 +177,8 @@ public class StudentController {
         MyResponse result;
         boolean res = studentService.deleteStudentInfo(studentId);
         result = res?
-                new MyResponse(MyResponse.SUCCESS_CODE,"delete student info success!"):
-                new MyResponse(MyResponse.Fail_CODE,"delete student info fail!");
+                new MyResponse(MyResponse.SUCCESS_CODE,"delete student info success!","delete student info success!"):
+                new MyResponse(MyResponse.Fail_CODE,"delete student info fail!","delete student info fail!");
         return result;
     }
 
@@ -211,10 +212,10 @@ public class StudentController {
             if(arrayList != null)
                 result = new MyResponse(MyResponse.SUCCESS_CODE,"success!",arrayList);
             else
-                result = new MyResponse(MyResponse.Fail_CODE,"error, 未查询到考研就业满意度数据");
+                result = new MyResponse(MyResponse.Fail_CODE,"error, 未查询到考研就业满意度数据","error, 未查询到考研就业满意度数据");
         }catch (Exception e){
             log.error("方法：获取考研就业满意度失败。错误为{}",e);
-            result = new MyResponse(MyResponse.Fail_CODE,"获取考研就业满意度失败，出现内部错误！");
+            result = new MyResponse(MyResponse.Fail_CODE,"获取考研就业满意度失败，出现内部错误！","获取考研就业满意度失败，出现内部错误！");
         }
         return result;
     }
@@ -248,10 +249,10 @@ public class StudentController {
             if(arrayList != null)
                 result = new MyResponse(MyResponse.SUCCESS_CODE,"success!",arrayList);
             else
-                result = new MyResponse(MyResponse.Fail_CODE,"error, 未查询到近三年考研就业人数");
+                result = new MyResponse(MyResponse.Fail_CODE,"error, 未查询到近三年考研就业人数","error, 未查询到近三年考研就业人数");
         }catch (Exception e){
             log.error("方法：获取获取近三年考研就业人数失败。错误为{}",e);
-            result = new MyResponse(MyResponse.Fail_CODE,"获取近三年考研就业人数失败，出现内部错误！");
+            result = new MyResponse(MyResponse.Fail_CODE,"获取近三年考研就业人数失败，出现内部错误！","获取近三年考研就业人数失败，出现内部错误！");
         }
         return result;
     }
@@ -281,10 +282,10 @@ public class StudentController {
             if(res != null)
                 result = new MyResponse(MyResponse.SUCCESS_CODE,"success!",res);
             else
-                result = new MyResponse(MyResponse.Fail_CODE,"error, 未查询到考研去向详情");
+                result = new MyResponse(MyResponse.Fail_CODE,"error, 未查询到考研去向详情","error, 未查询到考研去向详情");
         }catch (Exception e){
             log.error("方法：根据班级id获取考研去向详情失败。错误为{}",e);
-            result = new MyResponse(MyResponse.Fail_CODE,"获取考研去向详情失败，出现内部错误！");
+            result = new MyResponse(MyResponse.Fail_CODE,"获取考研去向详情失败，出现内部错误！","获取考研去向详情失败，出现内部错误！");
         }
         return result;
     }
@@ -315,10 +316,10 @@ public class StudentController {
             if(res != null)
                 result = new MyResponse(MyResponse.SUCCESS_CODE,"success!",res);
             else
-                result = new MyResponse(MyResponse.Fail_CODE,"error, 未查询到就业去向详情");
+                result = new MyResponse(MyResponse.Fail_CODE,"error, 未查询到就业去向详情","error, 未查询到就业去向详情");
         }catch (Exception e){
             log.error("方法：根据班级id获取就业去向详情失败。错误为{}",e);
-            result = new MyResponse(MyResponse.Fail_CODE,"获取就业去向详情失败，出现内部错误！");
+            result = new MyResponse(MyResponse.Fail_CODE,"获取就业去向详情失败，出现内部错误！","获取就业去向详情失败，出现内部错误！");
         }
         return result;
     }
@@ -349,13 +350,35 @@ public class StudentController {
             if(res != null)
                 result = new MyResponse(MyResponse.SUCCESS_CODE,"success!",res);
             else
-                result = new MyResponse(MyResponse.Fail_CODE,"error, 未获取当前用户角色可以查看的班级列表详情");
+                result = new MyResponse(MyResponse.Fail_CODE,"error, 未获取当前用户角色可以查看的班级列表详情","error, 未获取当前用户角色可以查看的班级列表详情");
         }catch (Exception e){
             log.error("方法：获取当前用户角色可以查看的班级列表详情失败。错误为{}",e);
-            result = new MyResponse(MyResponse.Fail_CODE,"获取当前用户角色可以查看的班级列表失败，出现内部错误！");
+            result = new MyResponse(MyResponse.Fail_CODE,"获取当前用户角色可以查看的班级列表失败，出现内部错误！","获取当前用户角色可以查看的班级列表失败，出现内部错误！");
         }
         return result;
     }
 
 
+    /**
+     * 找到教师教授的所有班级 并不止是自己做班主任的那个班级
+      * @return
+     */
+    @GetMapping("/classes/foreverytsk")
+    @ResponseBody
+    public MyResponse getClassesForEveryTsk(HttpServletRequest request) {
+        log.info("方法：获取当前用户角色可以查看的班级列表,并不止是自己做班主任的那个班级。当前token为{}", request.getHeader("token"));
+        MyResponse result;
+
+        ArrayList res = studentService.getClassesForEveryTsk(request.getHeader("token"));
+        try{
+            if(res != null)
+                result = new MyResponse(MyResponse.SUCCESS_CODE,"success!",res);
+            else
+                result = new MyResponse(MyResponse.Fail_CODE,"error, 未获取当前用户角色可以查看的班级列表详情","error, 未获取当前用户角色可以查看的班级列表详情");
+        }catch (Exception e){
+            log.error("方法：获取当前用户角色可以查看的班级列表详情失败。错误为{}",e);
+            result = new MyResponse(MyResponse.Fail_CODE,"获取当前用户角色可以查看的班级列表失败，出现内部错误！","获取当前用户角色可以查看的班级列表失败，出现内部错误！");
+        }
+        return result;
+    }
 }

@@ -66,7 +66,7 @@ public class XkController {
         String flag = (String) res.get(20000);
         result = flag!=null?
                 new MyResponse(MyResponse.SUCCESS_CODE,(String) res.get(20000)):
-                new MyResponse(MyResponse.Fail_CODE,(String) res.get(18000));
+                new MyResponse(MyResponse.Fail_CODE,(String) res.get(18000),(String) res.get(18000));
         return result;
     }
 
@@ -85,7 +85,7 @@ public class XkController {
         HashMap res = xkService.treedata(token);
         String flag = (String) res.get(18000);
         result = flag!=null?
-                new MyResponse(MyResponse.Fail_CODE,"fail!",(String) res.get(18000)):
+                new MyResponse(MyResponse.Fail_CODE,(String) res.get(18000),(String) res.get(18000)):
                 new MyResponse(MyResponse.SUCCESS_CODE,"success!", res.get(20000));
 
         return result;
@@ -127,7 +127,7 @@ public class XkController {
             result = new MyResponse(MyResponse.SUCCESS_CODE,"success!",res.get(20000));
         }catch (Exception e){
             e.printStackTrace();
-            result = new MyResponse(MyResponse.Fail_CODE,"获取学生选课数据。参数错误！或是缺失参数或后台接收参数错误！");
+            result = new MyResponse(MyResponse.Fail_CODE,"获取学生选课数据。参数错误！或是缺失参数或后台接收参数错误！","获取学生选课数据。参数错误！或是缺失参数或后台接收参数错误！");
         }
         return result;
     }

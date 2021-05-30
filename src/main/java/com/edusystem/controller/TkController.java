@@ -59,12 +59,12 @@ public class TkController {
             // 打印日志
             log.info("上传成功，当前上传的文件保存在 {}", filePath + newFileName);
             // 自定义返回的统一的 JSON 格式的数据，可以直接返回这个字符串也是可以的。
-            result = new MyResponse(MyResponse.SUCCESS_CODE, "上传文件成功!");
+            result = new MyResponse(MyResponse.SUCCESS_CODE, "上传文件成功!","上传文件成功!");
         } catch (IOException e) {
             log.error(e.toString());
         } catch (Exception e) {
             log.error("方法：获取教师列表。内部错误");
-            result = new MyResponse(MyResponse.Fail_CODE, "上传文件错误！");
+            result = new MyResponse(MyResponse.Fail_CODE, "上传文件错误！","上传文件错误！");
         }
         return result;
     }
@@ -109,8 +109,8 @@ public class TkController {
         HashMap res = tkService.createTkRecord(data, request.getHeader("token"));
         String flag = (String) res.get(20000);
         result = flag != null ?
-                new MyResponse(MyResponse.SUCCESS_CODE, (String) res.get(20000)) :
-                new MyResponse(MyResponse.Fail_CODE, (String) res.get(18000));
+                new MyResponse(MyResponse.SUCCESS_CODE, (String) res.get(20000),(String) res.get(20000)) :
+                new MyResponse(MyResponse.Fail_CODE, (String) res.get(18000),(String) res.get(18000));
         return result;
     }
 
@@ -126,8 +126,8 @@ public class TkController {
         HashMap res = tkService.updateTkRecord(data, request.getHeader("token"));
         String flag = (String) res.get(20000);
         result = flag != null ?
-                new MyResponse(MyResponse.SUCCESS_CODE, (String) res.get(20000)) :
-                new MyResponse(MyResponse.Fail_CODE, (String) res.get(18000));
+                new MyResponse(MyResponse.SUCCESS_CODE, (String) res.get(20000),(String) res.get(20000)) :
+                new MyResponse(MyResponse.Fail_CODE, (String) res.get(18000) ,(String) res.get(18000));
         return result;
     }
 
@@ -149,7 +149,7 @@ public class TkController {
         HashMap res = tkService.getTkDataWithChart(data);
         String flag = (String) res.get(18000);
         result = flag == null ?
-                new MyResponse(MyResponse.SUCCESS_CODE, res.get(20000)) :
+                new MyResponse(MyResponse.SUCCESS_CODE,"请求成功！", res.get(20000)) :
                 new MyResponse(MyResponse.Fail_CODE, (String) res.get(18000), null);
         return result;
     }
@@ -175,7 +175,7 @@ public class TkController {
         HashMap res = tkService.getTkDataWithTable(data, username);
         String flag = (String) res.get(18000);
         result = flag == null ?
-                new MyResponse(MyResponse.SUCCESS_CODE, res.get(20000)) :
+                new MyResponse(MyResponse.SUCCESS_CODE,"请求成功",res.get(20000)) :
                 new MyResponse(MyResponse.Fail_CODE, (String) res.get(18000), null);
         return result;
     }

@@ -5,10 +5,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.edusystem.entity.*;
 import com.edusystem.entity.Class;
 import com.edusystem.enums.GetEunm;
-import com.edusystem.mapper.ByqxMapper;
-import com.edusystem.mapper.ClassMapper;
-import com.edusystem.mapper.StudentMapper;
-import com.edusystem.mapper.SysadminMapper;
+import com.edusystem.mapper.*;
 import com.edusystem.service.StudentService;
 import com.edusystem.util.DateUtil;
 import com.edusystem.util.JWTUtils;
@@ -951,5 +948,33 @@ public class StudentServiceImpl implements StudentService {
                 throw new IllegalStateException("Unexpected value: " + loginrole);
         }
     }
+    @Autowired
+    TeachtaskMapper teachtaskMapper;
+    /**
+     * 找到教师教授的所有班级 并不止是自己做班主任的那个班级
+     * @param token
+     * @return
+     */
+    public ArrayList getClassesForEveryTsk( String token) {
+        ArrayList res = new ArrayList();
+        Set resSet = new HashSet();
+        DecodedJWT verify = JWTUtils.verify(token);
+        String username = verify.getClaim("username").asString();
+        String loginrole = verify.getClaim("loginrole").asString();
+        log.info("方法：获取当前用户角色可以查看的班级列表==》账号: userId=>{}", username);
+        log.info("方法：获取当前用户角色可以查看的班级列表==》角色: userrole=>{}", loginrole);
+
+        TeachtaskExample teachtaskExample = new TeachtaskExample();
+        TeachtaskExample.Criteria criteria = teachtaskExample.createCriteria();
+        criteria.andTeacherIdEqualTo(username);
+        criteria.andProfessionIdIsNotNull();
+        List<Teachtask> teachtasks = teachtaskMapper.selectByExample(teachtaskExample);
+        for(Teachtask t : teachtasks){
+            resSet.add(t.getClassId());
+        }
+        res.addAll(resSet);
+        return res;
+    }
 
 }
+

@@ -43,8 +43,8 @@ public class ClassPlanController {
         MyResponse result;
         HashMap res = classplanService.zdpk(data, request.getHeader("token"));
         result = res.get(20000) != null ?
-                new MyResponse(MyResponse.SUCCESS_CODE, res.get(20000)) :
-                new MyResponse(MyResponse.Fail_CODE,  res.get(18000));
+                new MyResponse(MyResponse.SUCCESS_CODE,"请求成功", res.get(20000)) :
+                new MyResponse(MyResponse.Fail_CODE,"请求失败",  res.get(18000));
         return result;
     }
 

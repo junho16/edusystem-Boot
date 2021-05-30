@@ -63,8 +63,8 @@ public class TipController {
         HashMap res = tipService.updateTipState(tipid, state);
         String flag = (String) res.get(20000);
         result = flag != null ?
-                new MyResponse(MyResponse.SUCCESS_CODE, (String) res.get(20000)) :
-                new MyResponse(MyResponse.Fail_CODE, (String) res.get(18000));
+                new MyResponse(MyResponse.SUCCESS_CODE, (String) res.get(20000),(String) res.get(20000)) :
+                new MyResponse(MyResponse.Fail_CODE, (String) res.get(18000),(String) res.get(18000));
         return result;
     }
 }

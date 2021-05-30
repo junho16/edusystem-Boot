@@ -31,6 +31,7 @@ public class RecommendTest {
     private KctjMapper kctjMapper;
     @Autowired
     private KctjSimilarityMapper kctjSimilarityMapper;
+
     /**
      * 添加测试数据
      */
@@ -41,10 +42,10 @@ public class RecommendTest {
         criteria.andStudentIdIsNotNull();
         List<Student> list = studentMapper.selectByExample(studentExample);
 
-        for(int i = 0 ; i < 10000 ; i++){
-            int stu = (int)(0+Math.random()*(list.size()-1 - 0 + 1));
-            int kcid = (int)(1+Math.random()*(1001 - 1 + 1));
-            if(kctjMapper.selectByPrimaryKey(kcid) == null){
+        for (int i = 0; i < 10000; i++) {
+            int stu = (int) (0 + Math.random() * (list.size() - 1 - 0 + 1));
+            int kcid = (int) (1 + Math.random() * (1001 - 1 + 1));
+            if (kctjMapper.selectByPrimaryKey(kcid) == null) {
                 continue;
             }
 
@@ -54,17 +55,17 @@ public class RecommendTest {
             criteria1.andStudentIdEqualTo(list.get(stu).getStudentId());
             criteria1.andKctjIdEqualTo(kcid);
             List<KctjActive> isexist = kctjActiveMapper.selectByExample(kctjActiveExample);
-            if(isexist.size() == 0 ){
+            if (isexist.size() == 0) {
                 KctjActive kctjActive = new KctjActive(
                         list.get(stu).getStudentId(),
                         kcid, (long) 1);
                 kctjActiveMapper.insertSelective(kctjActive);
-            }else{
+            } else {
                 KctjActive kctjActive = new KctjActive(
                         list.get(stu).getStudentId(),
                         kcid,
-                        isexist.get(0).getHits()+1 );
-                kctjActiveMapper.updateByExampleSelective(kctjActive,kctjActiveExample);
+                        isexist.get(0).getHits() + 1);
+                kctjActiveMapper.updateByExampleSelective(kctjActive, kctjActiveExample);
             }
         }
     }
@@ -96,11 +97,11 @@ public class RecommendTest {
             // 5.如果用户之间的相似度已经存在与数据库中就修改，不存在就添加
             KctjSimilarityExample kctjSimilarityExample = new KctjSimilarityExample();
             KctjSimilarityExample.Criteria criteria = kctjSimilarityExample.createCriteria();
-            criteria.andStuedntIdEqualTo(usim.getStuedntId() );
+            criteria.andStuedntIdEqualTo(usim.getStuedntId());
             criteria.andStudentRefIdEqualTo(usim.getStudentRefId());
             List<KctjSimilarity> kctjSimilaritys = kctjSimilarityMapper.selectByExample(kctjSimilarityExample);
 
-            if (kctjSimilaritys.size()==0) { // 新增
+            if (kctjSimilaritys.size() == 0) { // 新增
                 KctjSimilarity kctjSimilarity = new KctjSimilarity(
                         usim.getStuedntId(),
                         usim.getStudentRefId(),
@@ -116,7 +117,7 @@ public class RecommendTest {
                         usim.getStudentRefId(),
                         usim.getSimilarity()
                 );
-                int flag = kctjSimilarityMapper.updateByExampleSelective(kctjSimilarity,kctjSimilarityExample);
+                int flag = kctjSimilarityMapper.updateByExampleSelective(kctjSimilarity, kctjSimilarityExample);
                 if (flag == 1) {
                     System.out.println("修改数据成功");
                 }
@@ -145,7 +146,7 @@ public class RecommendTest {
         KctjSimilarityExample.Criteria criteria2 = kctjSimilarityExample2.createCriteria();
         criteria2.andStudentRefIdEqualTo(studentid);
         tmp = kctjSimilarityMapper.selectByExample(kctjSimilarityExample2);
-        for(KctjSimilarity k : tmp ){
+        for (KctjSimilarity k : tmp) {
             userSimilarityList.add(new KctjSimilarity(
                     k.getStudentRefId(),
                     k.getStuedntId(),
@@ -163,7 +164,7 @@ public class RecommendTest {
         List<String> userIds = MyRecommendUtil.getSimilarityBetweenUsers(studentid, userSimilarityList, 27);
 
         // 4.打印输出
-        System.out.println("与" + studentid + "号用户最相似的前"+"27"+"个用户为：");
+        System.out.println("与" + studentid + "号用户最相似的前" + "27" + "个用户为：");
         for (String userRefId : userIds) {
             System.out.println(userRefId);
         }
@@ -193,7 +194,7 @@ public class RecommendTest {
         KctjSimilarityExample.Criteria criteria2 = kctjSimilarityExample2.createCriteria();
         criteria2.andStudentRefIdEqualTo(studentid);
         tmp = kctjSimilarityMapper.selectByExample(kctjSimilarityExample2);
-        for(KctjSimilarity k : tmp ){
+        for (KctjSimilarity k : tmp) {
             userSimilarityList.add(new KctjSimilarity(
                     k.getStudentRefId(),
                     k.getStuedntId(),
@@ -222,9 +223,9 @@ public class RecommendTest {
 
             KctjActiveExample kctjActiveExample = new KctjActiveExample();
             KctjActiveExample.Criteria criteria3 = kctjActiveExample.createCriteria();
-            criteria3.andStudentIdEqualTo( userRefId );
+            criteria3.andStudentIdEqualTo(userRefId);
             List<KctjActive> kctjActives = kctjActiveMapper.selectByExample(kctjActiveExample);
-            kctjActives.sort(new Comparator<KctjActive>(){
+            kctjActives.sort(new Comparator<KctjActive>() {
                 @Override
                 public int compare(KctjActive o1, KctjActive o2) {
                     return (int) (o2.getHits() - o1.getHits());
@@ -232,17 +233,17 @@ public class RecommendTest {
             });
             //针对每一个人看的东西 要前3个
 //                System.out.println(kk.getKctjId()+" "+kk.getHits());
-            if( kctjActives.size() <= 3){
+            if (kctjActives.size() <= 3) {
                 for (KctjActive kkk : kctjActives) {
                     recommendateProducts.add(
                             kctjMapper.selectByPrimaryKey(kkk.getKctjId())
                     );
                 }
-            }else{
-                for (int i = 0 ;i < 3;i++){
-                     recommendateProducts.add(
+            } else {
+                for (int i = 0; i < 3; i++) {
+                    recommendateProducts.add(
                             kctjMapper.selectByPrimaryKey(kctjActives.get(i).getKctjId())
-                     );
+                    );
                 }
             }
         }

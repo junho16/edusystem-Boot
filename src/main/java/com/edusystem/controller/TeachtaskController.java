@@ -35,8 +35,8 @@ public class TeachtaskController {
         HashMap res = teachtaskService.createTeachtaskInfo(stuCreateData,token);
         String flag = (String) res.get(20000);
         result = flag!=null?
-                new MyResponse(MyResponse.SUCCESS_CODE,(String) res.get(20000)):
-                new MyResponse(MyResponse.Fail_CODE,(String) res.get(18000));
+                new MyResponse(MyResponse.SUCCESS_CODE,(String) res.get(20000),(String) res.get(20000)):
+                new MyResponse(MyResponse.Fail_CODE,(String) res.get(18000),(String) res.get(18000));
         return result;
     }
 
@@ -74,7 +74,7 @@ public class TeachtaskController {
             HashMap res = teachtaskService.getTeachtaskListWithRole((Integer)queryObj.get("page"),(Integer)queryObj.get("limit"),query,mytoken);
             result = new MyResponse(MyResponse.SUCCESS_CODE,"success!",res);
         }else{
-            result = new MyResponse(MyResponse.Fail_CODE,"获取教学任务列表失败。参数错误！或是缺失参数或后台接收参数错误！");
+            result = new MyResponse(MyResponse.Fail_CODE,"获取教学任务列表失败。参数错误！或是缺失参数或后台接收参数错误！","获取教学任务列表失败。参数错误！或是缺失参数或后台接收参数错误！");
         }
         return result;
     }
@@ -98,7 +98,7 @@ public class TeachtaskController {
             result = new MyResponse(MyResponse.SUCCESS_CODE,"success!",res);
         }catch (Exception e){
             log.error("方法：获取教师列表。内部错误");
-            result = new MyResponse(MyResponse.Fail_CODE,"方法：获取教师列表。内部错误");
+            result = new MyResponse(MyResponse.Fail_CODE,"方法：获取教师列表。内部错误","方法：获取教师列表。内部错误");
         }
         return result;
     }
@@ -123,7 +123,7 @@ public class TeachtaskController {
             else result = new MyResponse(MyResponse.Fail_CODE,"fail");
         }catch (Exception e){
             log.error("方法：更改教学任务 申请状态。内部错误");
-            result = new MyResponse(MyResponse.Fail_CODE,"方法：更改教学任务 申请状态。内部错误");
+            result = new MyResponse(MyResponse.Fail_CODE,"方法：更改教学任务 申请状态。内部错误","方法：更改教学任务 申请状态。内部错误");
         }
         return result;
     }

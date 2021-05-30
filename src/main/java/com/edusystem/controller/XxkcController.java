@@ -50,7 +50,7 @@ public class XxkcController {
             HashMap res = xxkcService.fetchXXKCList((Integer)queryObj.get("page"),(Integer)queryObj.get("limit"),query,mytoken);
             result = new MyResponse(MyResponse.SUCCESS_CODE,"success!",res);
         }else{
-            result = new MyResponse(MyResponse.Fail_CODE,"获取选修课程列表。参数错误！或是缺失参数或后台接收参数错误！");
+            result = new MyResponse(MyResponse.Fail_CODE,"获取选修课程列表。参数错误！或是缺失参数或后台接收参数错误！","获取选修课程列表。参数错误！或是缺失参数或后台接收参数错误！");
         }
         return result;
     }
@@ -79,7 +79,7 @@ public class XxkcController {
             HashMap res = xxkcService.fetchSZKCList((Integer)queryObj.get("page"),(Integer)queryObj.get("limit"),query,mytoken);
             result = new MyResponse(MyResponse.SUCCESS_CODE,"success!",res);
         }else{
-            result = new MyResponse(MyResponse.Fail_CODE,"获取校内素质选修课程列表。参数错误！或是缺失参数或后台接收参数错误！");
+            result = new MyResponse(MyResponse.Fail_CODE,"获取校内素质选修课程列表。参数错误！或是缺失参数或后台接收参数错误！","获取校内素质选修课程列表。参数错误！或是缺失参数或后台接收参数错误！");
         }
         return result;
     }
@@ -93,8 +93,8 @@ public class XxkcController {
         MyResponse result;
         Boolean res = xxkcService.updateXXKCInfo(crsUpdateData,token);
         result = res?
-                new MyResponse(MyResponse.SUCCESS_CODE,"update xxkc info success!"):
-                new MyResponse(MyResponse.Fail_CODE,"update xxkc info fail!");
+                new MyResponse(MyResponse.SUCCESS_CODE,"update xxkc info success!","update xxkc info success!"):
+                new MyResponse(MyResponse.Fail_CODE,"更新选修课程信息失败!","update xxkc info fail!");
         return result;
     }
 
@@ -107,8 +107,8 @@ public class XxkcController {
         HashMap res = xxkcService.createXXKCInfo(stuCreateData,token);
         String flag = (String) res.get(20000);
         result = flag!=null?
-                new MyResponse(MyResponse.SUCCESS_CODE,(String) res.get(20000)):
-                new MyResponse(MyResponse.Fail_CODE,(String) res.get(18000));
+                new MyResponse(MyResponse.SUCCESS_CODE,(String) res.get(20000),(String) res.get(20000)):
+                new MyResponse(MyResponse.Fail_CODE,(String) res.get(18000),(String) res.get(18000));
         return result;
     }
 
@@ -124,8 +124,8 @@ public class XxkcController {
         MyResponse result;
         boolean res = xxkcService.deleteXXKCInfo(courseId);
         result = res?
-                new MyResponse(MyResponse.SUCCESS_CODE,"delete xxkc info success!"):
-                new MyResponse(MyResponse.Fail_CODE,"delete xxkc info fail!");
+                new MyResponse(MyResponse.SUCCESS_CODE,"delete xxkc info success!","delete xxkc info success!"):
+                new MyResponse(MyResponse.Fail_CODE,"删除选修课程信息失败!","delete xxkc info fail!");
         return result;
     }
 
