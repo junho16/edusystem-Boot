@@ -106,8 +106,10 @@ public class MyRecommendUtil {
                     // 获取二级类目对应的点击次数
                     Long hits1 = userCategory2Map.get(it1Id);
                     Long hits2 = userRefCategory2Map.get(it2Id);
+
                     // 累加分子
                     molecule += hits1 * hits2;
+
                     // 累加分母中的两个向量的模
                     vector1 += Math.pow(hits1, 2);
                     vector2 += Math.pow(hits2, 2);
